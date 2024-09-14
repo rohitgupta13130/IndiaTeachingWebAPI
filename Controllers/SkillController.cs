@@ -13,23 +13,52 @@ namespace IndiaTeachingWebAPI.Controllers
     public class SkillController : ApiController
     {
         // GET: api/Skill
-        public IEnumerable<Skill> Get()
+        [HttpGet]
+        public HttpResponseMessage GetSkills()
         {
-            List<Skill> skills = new SkillDAL().GetSkillList(new SkillRequest());
-            return skills;
+            try
+            {
+                List<Skill> skills = new SkillDAL().GetSkillList(new SkillRequest());
+
+                return Request.CreateResponse(HttpStatusCode.OK, skills);
+            }
+            catch(Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
         }
 
         // GET: api/Skill/5
-        public string Get(int id)
+        [HttpGet]
+        public HttpResponseMessage GetSkill(int id)
         {
-            return "value";
+            try
+            {
+                Skill skill = new SkillDAL().GetSkill(new SkillRequest() { SkillId = id });
+                return Request.CreateResponse(HttpStatusCode.OK,skill);
+            }
+            catch(Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
         }
 
+        [HttpPost]
         // POST: api/Skill
-        public void Post([FromBody]string value)
+        public HttpResponseMessage SaveSkill([FromBody]Skill skill)
         {
+            try
+            {
+                int skillId  = new SkillDAL().SaveSkill(skill);
+                return Request.CreateResponse(HttpStatusCode.OK, skillId);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
         }
 
+        [HttpPut]
         // PUT: api/Skill/5
         public void Put(int id, [FromBody]string value)
         {

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.34601.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiaTeachingWebAPI", "IndiaTeachingWebAPI.csproj", "{B42E22BA-BE2C-43F3-BFE4-A7E43363FFCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiaTechingClassLibray", "..\IndiaTechingClassLibray\IndiaTechingClassLibray.csproj", "{EFCB8306-DDD0-4F97-8304-3D954545EE13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiaTechingClassLibray", "IndiaTechingClassLibray\IndiaTechingClassLibray.csproj", "{EFCB8306-DDD0-4F97-8304-3D954545EE13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

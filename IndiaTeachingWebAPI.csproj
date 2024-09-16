@@ -249,7 +249,7 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IndiaTechingClassLibray\IndiaTechingClassLibray.csproj">
+    <ProjectReference Include="IndiaTechingClassLibray\IndiaTechingClassLibray.csproj">
       <Project>{efcb8306-ddd0-4f97-8304-3d954545ee13}</Project>
       <Name>IndiaTechingClassLibray</Name>
     </ProjectReference>

@@ -44,10 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DAL\BatchesDAL.cs" />
     <Compile Include="DAL\LogsDAL.cs" />
     <Compile Include="DAL\SkillDAL.cs" />
+    <Compile Include="Models\Batches.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\BatchesRequest.cs" />
     <Compile Include="Request\SkillRequest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

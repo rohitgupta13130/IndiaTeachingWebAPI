@@ -67,13 +67,14 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPut]
         public HttpResponseMessage Put(int id, [FromBody] Batches batches)
         {
-            if (batches == null || batches.Id != id)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
-            }
+            
             try
             {
-                
+                if (batches == null || batches.Id != id)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                }
+
                 int batchId = new BatchesDAL().SaveBatches(batches);
                 return Request.CreateResponse(HttpStatusCode.OK, batchId);  
             }
@@ -88,6 +89,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // DELETE: api/Batches/5
         public void Delete(int id)
         {
+
         }
     }
 }

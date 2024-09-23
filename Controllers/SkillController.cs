@@ -60,8 +60,22 @@ namespace IndiaTeachingWebAPI.Controllers
 
         [HttpPut]
         // PUT: api/Skill/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(int id, [FromBody] Skill skill)
         {
+            if (skill == null || skill.SkillId != id)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+            }
+            try
+            {
+
+                int skillId = new SkillDAL().SaveSkill(skill);
+                return Request.CreateResponse(HttpStatusCode.OK, skill);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
         }
 
         // DELETE: api/Skill/5

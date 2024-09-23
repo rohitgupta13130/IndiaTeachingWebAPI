@@ -50,9 +50,11 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Batches
         public HttpResponseMessage SaveBatches([FromBody] Batches batches)
         {
+
             try
             {
-                int batchesId = new BatchesDAL().SaveBatches(batches);
+
+                int batchesId = new BatchesDAL().SaveBatches( batches);
                 return Request.CreateResponse(HttpStatusCode.OK, batchesId);
             }
             catch (Exception ex)
@@ -61,12 +63,27 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        [HttpPut]
-        // PUT: api/Batches/5
-        public void Put(int id, [FromBody] string value)
-        {
 
+        [HttpPut]
+        public HttpResponseMessage Put(int id, [FromBody] Batches batches)
+        {
+            if (batches == null || batches.Id != id)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+            }
+            try
+            {
+                
+                int batchId = new BatchesDAL().SaveBatches(batches);
+                return Request.CreateResponse(HttpStatusCode.OK, batchId);  
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
         }
+
+
 
         // DELETE: api/Batches/5
         public void Delete(int id)

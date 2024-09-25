@@ -19,7 +19,6 @@ namespace IndiaTeachingWebAPI.Controllers
         {
             try
             {
-
                 List<FeeBatches> feeBatches = new feeBatchesDAL().GetFeeBatchList(new FeeBatchesRequest());
                 return Request.CreateResponse(HttpStatusCode.OK, feeBatches);
             }

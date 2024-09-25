@@ -6,22 +6,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
-    public class NotesController : ApiController
+    public class TeacherController : ApiController
     {
-        // GET: api/Notes
 
+        //GET: api/Teacher
         [HttpGet]
-        public HttpResponseMessage GetNotes()
+        public HttpResponseMessage GetTeacher()
         {
             try
             {
-                List<Notes> notes = new NotesDAL().GetNotesList(new NotesRequest());
-                return Request.CreateResponse(HttpStatusCode.OK, notes);
+                List<Teacher> teachers = new TeacherDAL().GetTeacherList(new TeacherRequest());
+                return Request.CreateResponse(HttpStatusCode.OK, teachers);
             }
             catch (Exception ex)
             {
@@ -29,14 +28,15 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Get: api/Notes/2
+        //GET: api/Teacher/2
         [HttpGet]
-        public HttpResponseMessage GetNotes(int id)
+        public HttpResponseMessage GetTeacher(int id)
         {
             try
             {
-                Notes notes = new NotesDAL().GetNotes(new NotesRequest() { Id = id });
-                return Request.CreateResponse(HttpStatusCode.OK, id);
+                Teacher teacher = new TeacherDAL().GetTeacher(new TeacherRequest() { TeacherID = id });
+                return Request.CreateResponse(HttpStatusCode.OK, teacher);
+
             }
             catch (Exception ex)
             {
@@ -44,27 +44,20 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //post : api/notes
+
+        //POST : api/Teacher
         //[HttpPost]
-        //public HttpRequestMessage SaveNotes([FromBody] Notes notes , HttpPostedFileBase file)
+        //public HttpResponseMessage SaveTeacher([FromBody] Teacher teacher)
         //{
         //    try
         //    {
-        //        int notesId = new NotesDAL().SaveNotes(notes , file);
-        //        return Request.CreateResponse(HttpStatusCode.OK, notesId);
+        //        int teacherId = new TeacherDAL().SaveTeacherPost(teacher,);
+
         //    }
         //    catch (Exception ex)
         //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+
         //    }
         //}
-
-
-
-
-
-
-
-
     }
 }

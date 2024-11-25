@@ -79,8 +79,33 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
         // DELETE: api/Skill/5
-        public void Delete(int id)
+        [HttpDelete]
+        public HttpResponseMessage Delete(int id)
         {
+            try
+            {
+                if (id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                }
+
+                SkillRequest skillRequest = new SkillRequest { SkillId = id };
+                bool isDeleted = new SkillDAL().DeleteSkill(skillRequest);
+
+                if (isDeleted)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Skill deleted successfully.");
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Skill not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
+
     }
 }

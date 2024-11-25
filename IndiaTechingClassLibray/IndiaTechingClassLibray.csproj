@@ -58,6 +58,8 @@
     <Compile Include="DAL\StudentDAL.cs" />
     <Compile Include="DAL\SubjectDAL.cs" />
     <Compile Include="DAL\TeacherDAL.cs" />
+    <Compile Include="Enums\EnumCountry.cs" />
+    <Compile Include="Enums\EnumLevel.cs" />
     <Compile Include="Enums\EnumSection.cs" />
     <Compile Include="Models\Batches.cs" />
     <Compile Include="Models\Classes.cs" />

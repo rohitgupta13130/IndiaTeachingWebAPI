@@ -1,6 +1,8 @@
 ﻿using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,9 +79,32 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
         //Delete : api/Subject/2
-        public void Delete(int id)
+        [HttpDelete]
+        public HttpResponseMessage Delete(int id)
         {
+            try
+            {
+                if (id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                }
 
+                SubjectRequest subjectRequest = new SubjectRequest { ID = id };
+                bool isDeleted = new SubjectDAL().DeleteSubject(subjectRequest);
+
+                if (isDeleted)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Subject deleted successfully.");
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Subject not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
     }

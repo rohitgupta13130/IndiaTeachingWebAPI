@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using India_Teaching.Enums;
 
 namespace India_Teaching.DAL
 {
@@ -164,7 +165,8 @@ namespace India_Teaching.DAL
                             FirstName = sqlDataReader["FirstName"].ToString(),
                             LastName = sqlDataReader["LastName"].ToString(),
                             Class = sqlDataReader["Class"].ToString(),
-                            Country = sqlDataReader["Country"].ToString(),
+                            // Country = sqlDataReader["Country"].ToString(),
+                            Country = (EnumCountry)Convert.ToInt32(sqlDataReader["Country"]),
                             School = sqlDataReader["School"].ToString(),
                             FatherName = sqlDataReader["FatherName"].ToString(),
                             MotherName = sqlDataReader["MotherName"].ToString()

@@ -31,8 +31,8 @@ namespace India_Teaching.DAL
                     sqlCommand.Parameters.AddWithValue("@FirstName", argStudent.FirstName);
                     sqlCommand.Parameters.AddWithValue("@LastName", argStudent.LastName);
                     sqlCommand.Parameters.AddWithValue("@Class", Convert.ToInt32(argStudent.Class));
-                    sqlCommand.Parameters.AddWithValue("@Country", argStudent.Country ?? (object)DBNull.Value);
-                    //sqlCommand.Parameters.AddWithValue("@Country",argStudent.Country);
+                    //sqlCommand.Parameters.AddWithValue("@Country", argStudent.Country ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@Country", argStudent.Country);
                     sqlCommand.Parameters.AddWithValue("@School", argStudent.School ?? (object)DBNull.Value);
                     //sqlCommand.Parameters.AddWithValue("@School", argStudent.School);
                     sqlCommand.Parameters.AddWithValue("@FatherName", argStudent.FatherName ?? (object)DBNull.Value);
@@ -87,11 +87,9 @@ namespace India_Teaching.DAL
                             student.FirstName = sqlDataReader["FirstName"].ToString();
                             student.LastName = sqlDataReader["LastName"].ToString();
                             student.Class = sqlDataReader["Class"].ToString();
-                            //student.Country = ((EnumCountry)Convert.ToInt32(sqlDataReader["Country"])).ToString();
-                            student.Country = sqlDataReader["Country"] != DBNull.Value ? ((EnumCountry)Convert.ToInt32(sqlDataReader["Country"])).ToString() : null;
-                            //student.Country = sqlDataReader["Country"].ToString();
+                            //student.Country = (EnumCountry)Convert.ToInt32(sqlDataReader["Country"]);
+                            student.Country = sqlDataReader["Country"] != DBNull.Value ? (EnumCountry)Convert.ToInt32(sqlDataReader["Country"]) : EnumCountry.Null; 
                             student.School = sqlDataReader["School"] != DBNull.Value ? sqlDataReader["School"].ToString() : null;
-                            //student.School = sqlDataReader["School"].ToString();
                             student.FatherName = sqlDataReader["FatherName"] != DBNull.Value ? sqlDataReader["FatherName"].ToString() : null;
                             //student.FatherName = sqlDataReader["FatherName"].ToString();
                             student.MotherName = sqlDataReader["MotherName"].ToString();
@@ -140,11 +138,9 @@ namespace India_Teaching.DAL
                             student.FirstName = sqlDataReader["FirstName"].ToString();
                             student.LastName = sqlDataReader["LastName"].ToString();
                             student.Class = sqlDataReader["Class"].ToString();
-                            //student.Country = ((EnumCountry)Convert.ToInt32(sqlDataReader["Country"])).ToString();
-                            student.Country = sqlDataReader["Country"] != DBNull.Value ? ((EnumCountry)Convert.ToInt32(sqlDataReader["Country"])).ToString() : null;
-                            //student.Country = sqlDataReader["Country"].ToString();
+                            //student.Country = (EnumCountry)Convert.ToInt32(sqlDataReader["Country"]);
+                            student.Country = sqlDataReader["Country"] != DBNull.Value ? (EnumCountry)Convert.ToInt32(sqlDataReader["Country"]) : EnumCountry.Null; 
                             student.School = sqlDataReader["School"] != DBNull.Value ? sqlDataReader["School"].ToString() : null;
-                            //student.School = sqlDataReader["School"].ToString();
                             student.FatherName = sqlDataReader["FatherName"] != DBNull.Value ? sqlDataReader["FatherName"].ToString() : null;
                             //student.FatherName = sqlDataReader["FatherName"].ToString();
                             student.MotherName = sqlDataReader["MotherName"].ToString();

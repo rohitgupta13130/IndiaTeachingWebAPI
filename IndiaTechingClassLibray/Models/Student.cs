@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using India_Teaching.Enums;
 
 
 namespace India_Teaching.Models
@@ -25,7 +27,9 @@ namespace India_Teaching.Models
         [Required(ErrorMessage = "Class is required")]
         public string Class { get; set; }
 
-        public string Country { get; set; }
+
+        [DisplayName("Country")]
+        public EnumCountry Country { get; set; } = EnumCountry.Null;
 
         [StringLength(100, ErrorMessage = "School can't be longer than 100 characters")]
         [RegularExpression(@"^[a-zA-Z0-9]+(\s[a-zA-Z0-9]+)*$", ErrorMessage = "Special characters are not allowed, and spaces are only allowed between words")]

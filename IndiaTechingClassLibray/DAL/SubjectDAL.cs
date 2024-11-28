@@ -143,7 +143,7 @@ namespace India_Teaching.DAL
 
                 using (connection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString))
                 {
-                    sqlCommand = new SqlCommand("DeleteSkill", connection);
+                    sqlCommand = new SqlCommand("DeleteSubject", connection);
                     sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                     sqlCommand.Parameters.AddWithValue("@Id", argSubjectRequest.ID);
 

@@ -1,4 +1,5 @@
-﻿using India_Teaching.Models;
+﻿using India_Teaching.Enums;
+using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using System;
@@ -77,7 +78,8 @@ namespace India_Teaching.DAL
                             student.FirstName = sqlDataReader["FirstName"].ToString();
                             student.LastName = sqlDataReader["LastName"].ToString();
                             student.Class = sqlDataReader["Class"].ToString();
-                            student.Country = sqlDataReader["Country"].ToString();
+                            //student.Country = sqlDataReader["Country"].ToString();
+                            student.Country = (EnumCountry)Convert.ToInt32(sqlDataReader["Country"]);
                             student.School = sqlDataReader["School"].ToString();
                             student.FatherName = sqlDataReader["FatherName"].ToString();
                             student.MotherName = sqlDataReader["MotherName"].ToString();

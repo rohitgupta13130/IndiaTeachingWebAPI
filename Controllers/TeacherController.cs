@@ -1,11 +1,15 @@
 ﻿using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Models;
+using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace IndiaTeachingWebAPI.Controllers
@@ -45,19 +49,71 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
-        //POST : api/Teacher
-        //[HttpPost]
-        //public HttpResponseMessage SaveTeacher([FromBody] Teacher teacher)
-        //{
-        //    try
-        //    {
-        //        int teacherId = new TeacherDAL().SaveTeacherPost(teacher,);
+        [HttpPost]
+        // POST: api/Teacher
+        public HttpResponseMessage SaveTeacher(Teacher teacher, HttpPostedFileBase file1, HttpPostedFileBase file2)
+        {
+            try
+            {
+                int Id = new TeacherDAL().SaveTeacherPost(teacher, file1, file2);
+                return Request.CreateResponse(HttpStatusCode.OK, Id);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
 
-        //    }
-        //}
+        [HttpPut]
+        // PUT: api/Teacher/5
+        public HttpResponseMessage Put(int id, [FromBody] Teacher teacher,HttpPostedFileBase file1, HttpPostedFileBase file2)
+        {
+
+            try
+            {
+                if (teacher == null || teacher.TeacherID != id)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                }
+                int Id = new TeacherDAL().SaveTeacherPost(teacher, file1, file2);
+                return Request.CreateResponse(HttpStatusCode.OK, teacher);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
+
+
+
+
+        [HttpDelete]
+        public HttpResponseMessage Delete(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                }
+
+                TeacherRequest teacherRequest = new TeacherRequest { TeacherID = id };
+                bool isDeleted = new TeacherDAL().DeleteTeacher(teacherRequest);
+
+                if (isDeleted)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Teacher deleted successfully.");
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Teacher not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

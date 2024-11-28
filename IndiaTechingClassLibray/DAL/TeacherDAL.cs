@@ -34,10 +34,11 @@ namespace India_Teaching.DAL
                     sqlCommand.Parameters.AddWithValue("@MobileNumber", argTeacher.MobileNumber);
                     sqlCommand.Parameters.AddWithValue("@Address", argTeacher.Address);
                     sqlCommand.Parameters.AddWithValue("@Qualification", argTeacher.Qualification);
-                    sqlCommand.Parameters.AddWithValue("@Married", argTeacher.Married);
-                    sqlCommand.Parameters.AddWithValue("@ProfileLink", argTeacher.ProfileLink);
+                    sqlCommand.Parameters.AddWithValue("@Married", argTeacher.Married ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@ProfileLink", argTeacher.ProfileLink ?? (object)DBNull.Value);
                     sqlCommand.Parameters.AddWithValue("@VideoLink", argTeacher.VideoLink);
                     sqlCommand.Parameters.AddWithValue("@IsActive", argTeacher.IsActive);
+                    sqlCommand.Parameters.AddWithValue("@Share_Percentage", argTeacher.SharePercentage);
 
                     string selectedSkillIds = string.Empty;
                     foreach (int i in argTeacher.SelectedSkillIds)
@@ -87,15 +88,18 @@ namespace India_Teaching.DAL
                         while (sqlDataReader.Read())
                         {
                             teacher = new Teacher();
-                            teacher.TeacherID = Convert.ToInt32(sqlDataReader["TeacherId"]);
+                            teacher.TeacherID = Convert.ToInt32(sqlDataReader["TeacherID"]);
                             teacher.Fullname = sqlDataReader["Fullname"].ToString();
                             teacher.DateofBirth = Convert.ToDateTime(sqlDataReader["DateofBirth"]);
                             teacher.MobileNumber = sqlDataReader["MobileNumber"].ToString();
                             teacher.Address = sqlDataReader["Address"].ToString();
                             teacher.Qualification = sqlDataReader["Qualification"].ToString();
-                            teacher.Married = sqlDataReader["Married"].ToString();
-                            //teacher.ProfileLink = Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString();
-                            //teacher.VideoLink = Constants.Constants.VideoLinkPath + sqlDataReader["VideoLink"].ToString();
+                            //teacher.Married = ((EnumYesNo)Convert.ToInt32(sqlDataReader["Married"])).ToString();
+                            teacher.Married = Convert.ToString(sqlDataReader["Married"]);
+                            teacher.ProfileLink = Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString();
+                            //teacher.ProfileLink = sqlDataReader["ProfileLink"] != DBNull.Value ? Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString() : null;
+                            teacher.VideoLink = Constants.Constants.VideoLinkPath + sqlDataReader["VideoLink"].ToString();
+                            teacher.SharePercentage = sqlDataReader["Share_Percentage"] is int sharePercentage ? sharePercentage : default;
                         }
                     }
 
@@ -135,15 +139,18 @@ namespace India_Teaching.DAL
                         while (sqlDataReader.Read())
                         {
                             teacher = new Teacher();
-                            teacher.TeacherID = Convert.ToInt32(sqlDataReader["TeacherId"]);
+                            teacher.TeacherID = Convert.ToInt32(sqlDataReader["TeacherID"]);
                             teacher.Fullname = sqlDataReader["Fullname"].ToString();
                             teacher.DateofBirth = Convert.ToDateTime(sqlDataReader["DateofBirth"]);
                             teacher.MobileNumber = sqlDataReader["MobileNumber"].ToString();
                             teacher.Address = sqlDataReader["Address"].ToString();
                             teacher.Qualification = sqlDataReader["Qualification"].ToString();
-                            teacher.Married = sqlDataReader["Married"].ToString();
-                            //teacher.ProfileLink = Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString();
-                            //teacher.VideoLink = Constants.Constants.VideoLinkPath + sqlDataReader["VideoLink"].ToString();
+                            //teacher.Married = ((EnumYesNo)Convert.ToInt32(sqlDataReader["Married"])).ToString();
+                            teacher.Married = Convert.ToString(sqlDataReader["Married"]);
+                            teacher.ProfileLink = Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString();
+                            //teacher.ProfileLink = sqlDataReader["ProfileLink"] != DBNull.Value ? Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString() : null;
+                            teacher.VideoLink = Constants.Constants.VideoLinkPath + sqlDataReader["VideoLink"].ToString();
+                            teacher.SharePercentage = sqlDataReader["Share_Percentage"] is int sharePercentage ? sharePercentage : default;
 
                             teacherList.Add(teacher);
                         }

@@ -16,6 +16,7 @@ namespace India_Teaching.Request
         public string Married { get; set; }
         public string ProfileLink { get; set; }
         public string VideoLink { get; set; }
+        public int SharePercentage { get; set; }
 
     }
 }

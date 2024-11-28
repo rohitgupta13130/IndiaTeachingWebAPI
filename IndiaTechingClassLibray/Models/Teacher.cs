@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using IndiaTechingClassLibray.Models;
 
 
 namespace India_Teaching.Models
@@ -29,20 +30,27 @@ namespace India_Teaching.Models
         [DisplayName("Mobile Number")]
         [Required(ErrorMessage = "Mobile Number is required")]
         [Phone(ErrorMessage = "Please enter a valid mobile number")]
+        [StringLength(12, MinimumLength = 10, ErrorMessage = "Mobile Number must be exactly 10 digits")]
         public string MobileNumber { get; set; }
 
+
         [DisplayName("Address")]
+        [Required(ErrorMessage = "Address is required")]
         [StringLength(250, ErrorMessage = "Address can't be longer than 250 characters")]
+        [RegularExpression(@"^[a-zA-Z\-_@/]+$", ErrorMessage = "Address can only contain alphabets, hyphens (-), underscores (_), at signs (@), and forward slashes (/)")]
         public string Address { get; set; }
 
+
         [DisplayName("Qualification")]
+        [Required(ErrorMessage = "Qualification is Required")]
         [StringLength(200, ErrorMessage = "Qualification can't be longer than 200 characters")]
+        [RegularExpression(@"^[a-zA-Z\-_@/]+$", ErrorMessage = "Address can only contain alphabets, hyphens (-), underscores (_), at signs (@), and forward slashes (/)")]
         public string Qualification { get; set; }
 
         [DisplayName("Marital Status")]
-        [Required(ErrorMessage = "Marital Status is required")]
-        [StringLength(10, ErrorMessage = "Marital Status can't be longer than 10 characters")]
+
         public string Married { get; set; }
+
 
         [DisplayName("Profile Pic")]
         [StringLength(200, ErrorMessage = "Profile Pic link can't be longer than 200 characters")]
@@ -53,14 +61,13 @@ namespace India_Teaching.Models
         public string VideoLink { get; set; }
 
         [DisplayName("Skill Name")]
-        [Required(ErrorMessage = "Skill Id is required")]
         public int SkillId { get; set; }
-        //public List<SelectListItem> Skills { get; set; }
+      //  public List<SelectListItem> Skills { get; set; }
         public List<int> SelectedSkillIds { get; set; }
 
         public List<Notes> lstNotes { get; set; }
 
-        //public List<Skill> lstSkills { get; set; }
+        public List<Skill> lstSkills { get; set; }
 
         public string SkillNames { get; set; }
 
@@ -68,6 +75,9 @@ namespace India_Teaching.Models
 
         public List<string> SelectedIdsString { get; set; }
 
-        public  bool IsActive { get; set; }
+        public bool IsActive { get; set; }
+
+        public int SharePercentage { get; set; }
+
     }
 }

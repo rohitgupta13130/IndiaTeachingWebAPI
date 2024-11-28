@@ -76,12 +76,12 @@ namespace India_Teaching.DAL
                         while (sqlDataReader.Read())
                         {
                             batches = new Batches();
-                            //batches.Teacher = new Teacher();
-                            //batches.Subject = new Subject();
+                            batches.Teacher = new Teacher();
+                            batches.Subject = new Subject();
                             batches.Id = Convert.ToInt32(sqlDataReader["Id"]);
                             batches.BatchName = sqlDataReader["BatchName"].ToString();
-                            //batches.Teacher.Fullname = sqlDataReader["Fullname"].ToString();
-                            //batches.Subject.SubjectName = sqlDataReader["SubjectName"].ToString();
+                            batches.Teacher.Fullname = sqlDataReader["Fullname"].ToString();
+                            batches.Subject.SubjectName = sqlDataReader["SubjectName"].ToString();
                             batches.TeacherId = Convert.ToInt32(sqlDataReader["TeacherId"]);
                             batches.SubjectId = Convert.ToInt32(sqlDataReader["SubjectId"]);
                             batches.BatchStartTime = Convert.ToDateTime(sqlDataReader["BatchStartTime"]);
@@ -123,12 +123,12 @@ namespace India_Teaching.DAL
                         while (sqlDataReader.Read())
                         {
                             batches = new Batches();
-                            //batches.Teacher = new Teacher();
-                            //batches.Subject = new Subject();
+                            batches.Teacher = new Teacher();
+                            batches.Subject = new Subject();
                             batches.Id = Convert.ToInt32(sqlDataReader["Id"]);
                             batches.BatchName = sqlDataReader["BatchName"].ToString();
-                            //batches.Teacher.Fullname = sqlDataReader["Fullname"].ToString();
-                            //batches.Subject.SubjectName = sqlDataReader["SubjectName"].ToString();
+                            batches.Teacher.Fullname = sqlDataReader["Fullname"].ToString();
+                            batches.Subject.SubjectName = sqlDataReader["SubjectName"].ToString();
                             batches.TeacherId = Convert.ToInt32(sqlDataReader["TeacherId"]);
                             batches.SubjectId = Convert.ToInt32(sqlDataReader["SubjectId"]);
                             batches.BatchStartTime = Convert.ToDateTime(sqlDataReader["BatchStartTime"]);

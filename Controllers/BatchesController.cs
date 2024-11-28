@@ -1,6 +1,8 @@
 ﻿using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,9 +89,32 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         // DELETE: api/Batches/5
-        public void Delete(int id)
+        [HttpDelete]
+        public HttpResponseMessage Delete(int id)
         {
+            try
+            {
+                if (id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                }
 
+                BatchesRequest batchRequest = new BatchesRequest { Id = id };
+                bool isDeleted = new BatchesDAL().DeleteBatches(batchRequest);
+
+                if (isDeleted)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Batch deleted successfully.");
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Batch not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }

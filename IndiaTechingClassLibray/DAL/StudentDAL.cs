@@ -38,6 +38,7 @@ namespace India_Teaching.DAL
                     sqlCommand.Parameters.AddWithValue("@FatherName", argStudent.FatherName ?? (object)DBNull.Value);
                     //sqlCommand.Parameters.AddWithValue("@FatherName", argStudent.FatherName);
                     sqlCommand.Parameters.AddWithValue("@MotherName", argStudent.MotherName);
+                    sqlCommand.Parameters.AddWithValue("@EnrollmentDate", argStudent.Enrollmentdate);
                     sqlCommand.Parameters.AddWithValue("@IsActive", argStudent.IsActive);
                     sqlCommand.Parameters.AddWithValue("@Email", argStudent.Email);
 

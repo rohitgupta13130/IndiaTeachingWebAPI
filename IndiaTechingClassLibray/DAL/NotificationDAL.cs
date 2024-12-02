@@ -85,7 +85,7 @@ namespace India_Teaching.DAL
                             student.MotherName = sqlDataReader["MotherName"].ToString();
                             student.Enrollmentdate = Convert.ToDateTime(sqlDataReader["Enrollmentdate"]);
                             student.ClassName = sqlDataReader["Class"].ToString();
-                            //student.Email = sqlDataReader["Email"].ToString();
+                            student.Email = sqlDataReader["Email"].ToString();
 
                             studentList.Add(student);
                         }
@@ -127,7 +127,7 @@ namespace India_Teaching.DAL
                             notification.TeacherId = Convert.ToInt32(sqlDataReader["TeacherId"]);
                             notification.NotificationText = sqlDataReader["NotificationText"].ToString();
                             notification.CreatedDateTime = Convert.ToDateTime(sqlDataReader["CreatedDateTime"]);
-                            notification.BatchId= Convert.ToInt32(sqlDataReader["BatchId"]);
+                            notification.BatchId = Convert.ToInt32(sqlDataReader["BatchId"]);
                             notification.BatchName = sqlDataReader["BatchName"].ToString();
                             notification.TeacherName = sqlDataReader["Fullname"].ToString();
                         }

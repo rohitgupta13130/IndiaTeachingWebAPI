@@ -33,7 +33,7 @@ namespace India_Teaching.DAL
                     sqlCommand.Parameters.AddWithValue("@Id", argClasses.ClassId);
                     sqlCommand.Parameters.AddWithValue("@ClassName", argClasses.ClassName);
                     sqlCommand.Parameters.AddWithValue("@Section", argClasses.SectionId);
-              
+
 
                     SqlParameter outputParam = sqlCommand.Parameters.Add("@IdToReturn", System.Data.SqlDbType.Int);
                     outputParam.Direction = ParameterDirection.Output;
@@ -71,7 +71,7 @@ namespace India_Teaching.DAL
                     sqlDataReader = sqlCommand.ExecuteReader();
                     if (sqlDataReader.HasRows)
                     {
-                       
+
                         while (sqlDataReader.Read())
                         {
                             classes = new Classes();

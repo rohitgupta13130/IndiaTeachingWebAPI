@@ -10,6 +10,7 @@ using System.Web;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using India_Teaching.Enums;
+using IndiaTechingClassLibray.Request;
 
 namespace India_Teaching.DAL
 {
@@ -17,7 +18,7 @@ namespace India_Teaching.DAL
     {
         string _StudentbatchesDAL = "StudentbatchesDAL";
         public int SaveStudentbatches(Studentbatches argStudentbatches)
-        {
+          {
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -30,6 +31,7 @@ namespace India_Teaching.DAL
                     sqlCommand.Parameters.AddWithValue("@Id", argStudentbatches.Id);
                     sqlCommand.Parameters.AddWithValue("@StudentId", argStudentbatches.StudentId);
                     sqlCommand.Parameters.AddWithValue("@BatchId", argStudentbatches.BatchId);
+                    sqlCommand.Parameters.AddWithValue("@IsActive", argStudentbatches.IsActive);
                     SqlParameter outputParam = sqlCommand.Parameters.Add("@IdToReturn", SqlDbType.Int);
                     outputParam.Direction = ParameterDirection.Output;
                     connection.Open();
@@ -122,8 +124,8 @@ namespace India_Teaching.DAL
                             studentbatches.Id = Convert.ToInt32(sqlDataReader["Id"]);
                             studentbatches.BatchId = Convert.ToInt32(sqlDataReader["BatchId"]);
                             studentbatches.Student = new StudentDAL().GetStudent(new StudentRequest() { Id = Convert.ToInt32(sqlDataReader["StudentId"]) });
-                            studentbatches.Batches.BatchName = sqlDataReader["BatchName"].ToString();
                             studentbatches.Subject.SubjectName = sqlDataReader["SubjectName"].ToString();
+                            studentbatches.Batches.BatchName = sqlDataReader["BatchName"].ToString();
                             studentbatchesList.Add(studentbatches);
                         }
                     }
@@ -223,6 +225,36 @@ namespace India_Teaching.DAL
                 }
             }
             return rs;
+        }
+
+
+        public bool Delete(StudentbatchesRequest argStudentbatchesRequest)
+        {
+            bool isSuccess = false;
+            SqlConnection connection = null;
+            SqlCommand sqlCommand = null;
+            try
+            {
+                using (connection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString))
+                {
+                    sqlCommand = new SqlCommand("deletestudentbatches", connection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@Id", argStudentbatchesRequest.Id);
+
+                    connection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                    isSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                new LogsDAL().SaveLogs("Delete", _StudentbatchesDAL, "Studentbatches", ex.Message, DateTime.Now.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return isSuccess;
         }
     }
 }

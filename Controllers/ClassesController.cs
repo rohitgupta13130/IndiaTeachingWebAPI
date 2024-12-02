@@ -1,6 +1,7 @@
 ﻿using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
@@ -82,8 +83,32 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
         // DELETE: api/Delete/5
-        public void Delete(int id)
+        [HttpDelete]
+        public HttpResponseMessage Delete(int id)
         {
+            try
+            {
+                if (id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                }
+
+                ClassRequest classRequest = new ClassRequest { ClassId = id };
+                bool isDeleted = new ClassesDAL().DeleteClass(classRequest);
+
+                if (isDeleted)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Class deleted successfully.");
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Class not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
     }

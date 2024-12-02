@@ -13,7 +13,7 @@ namespace India_Teaching.Request
 
         public string ClassName { get; set; }
 
-       // [DisplayName("Section")]
+        // [DisplayName("Section")]
         //public EnumSection SectionId { get; set; }
     }
 }

@@ -65,7 +65,8 @@ namespace India_Teaching.DAL
                 {
                     sqlCommand = new SqlCommand("getfeebatches", connection);
                     sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                   // sqlCommand.Parameters.AddWithValue("@batchid", argBatchesRequest.batchId);
+                    sqlCommand.Parameters.AddWithValue("@batchid", argBatchesRequest.batchId);
+                    sqlCommand.Parameters.AddWithValue("@FeeId", argBatchesRequest.FeeId);
                     connection.Open();
                     sqlDataReader = sqlCommand.ExecuteReader();
                     if (sqlDataReader.HasRows)
@@ -75,14 +76,15 @@ namespace India_Teaching.DAL
                         {
 
                             feeBatches = new FeeBatches();
-                            feeBatches.Id = Convert.ToInt32(sqlDataReader["Id"]);
+                            feeBatches.Id = Convert.ToInt32(sqlDataReader["id"]);
                             feeBatches.FeeId = Convert.ToInt32(sqlDataReader["FeeId"]);
                             feeBatches.batchId = Convert.ToInt32(sqlDataReader["BatchId"]);
-                          
-
+                            feeBatches.BatchName = sqlDataReader["BatchName"].ToString();
+                            feeBatches.FeeAmount = Convert.ToInt32(sqlDataReader["FeeAmount"]);
                             feeBatchesList.Add(feeBatches);
                         }
                     }
+
                 }
             }
             catch (Exception ex)
@@ -109,7 +111,6 @@ namespace India_Teaching.DAL
                     sqlCommand = new SqlCommand("getfeebatches", connection);
                     sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
                     sqlCommand.Parameters.AddWithValue("@Id", argBatchesRequest.Id);
-
                     connection.Open();
                     sqlDataReader = sqlCommand.ExecuteReader();
                     if (sqlDataReader.HasRows)
@@ -117,10 +118,11 @@ namespace India_Teaching.DAL
                         while (sqlDataReader.Read())
                         {
                             feeBatches = new FeeBatches();
-                            feeBatches.Id = Convert.ToInt32(sqlDataReader["Id"]);
+                            feeBatches.Id = Convert.ToInt32(sqlDataReader["id"]);
                             feeBatches.FeeId = Convert.ToInt32(sqlDataReader["FeeId"]);
                             feeBatches.batchId = Convert.ToInt32(sqlDataReader["BatchId"]);
-
+                            feeBatches.BatchName = sqlDataReader["BatchName"].ToString();
+                            feeBatches.FeeAmount = Convert.ToInt32(sqlDataReader["FeeAmount"]);
                         }
                     }
                 }

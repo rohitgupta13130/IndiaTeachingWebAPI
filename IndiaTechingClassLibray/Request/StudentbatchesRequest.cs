@@ -17,15 +17,14 @@ namespace India_Teaching.Request
 
         public Subject Subject { get; set; }
 
-        //public List<SelectListItem> lstBatches { get; set; }
+     //   public List<SelectListItem> lstBatches { get; set; }
 
-        //public List<SelectListItem> lstStudent { get; set; }
+    //    public List<SelectListItem> lstStudent { get; set; }
 
         public int BatchId { get; set; }
 
         public int StudentId { get; set; }
 
         public string FirstName { get; set; }
-
     }
 }

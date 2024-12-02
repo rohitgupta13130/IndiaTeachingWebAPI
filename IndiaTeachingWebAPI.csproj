@@ -157,6 +157,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\BatchesController.cs" />
     <Compile Include="Controllers\ClassesController.cs" />
+    <Compile Include="Controllers\ExamController.cs" />
     <Compile Include="Controllers\feeBatchesController.cs" />
     <Compile Include="Controllers\FeesController.cs" />
     <Compile Include="Controllers\FeeTransactionController.cs" />

@@ -1,4 +1,5 @@
-﻿using IndiaTechingClassLibray.Models;
+﻿using India_Teaching.Enums;
+using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,9 @@ namespace IndiaTechingClassLibray.DAL
                     sqlCommand.Parameters.AddWithValue("@SkillId", argSkill.SkillId);
                     sqlCommand.Parameters.AddWithValue("@SkillName", argSkill.SkillName);
                     sqlCommand.Parameters.AddWithValue("@SkillLevel", argSkill.SkillLevel);
-                    sqlCommand.Parameters.AddWithValue("@IsCertificate", Convert.ToInt32(argSkill.Iscertificate));
+                    sqlCommand.Parameters.AddWithValue("@IsCertificate", argSkill.Iscertificate);
+                    //sqlCommand.Parameters.AddWithValue("@IsCertificate", argSkill.Iscertificate == null ? (object)DBNull.Value : argSkill.Iscertificate);
+
                     sqlCommand.Parameters.AddWithValue("@IsActive", argSkill.IsActive);
                     SqlParameter outputParam = new SqlParameter
                     {
@@ -88,8 +91,9 @@ namespace IndiaTechingClassLibray.DAL
                             skill = new Skill();
                             skill.SkillId = Convert.ToInt32(sqlDataReader["SkillId"]);
                             skill.SkillName = sqlDataReader["SkillName"].ToString();
-                            skill.SkillLevel = sqlDataReader["SkillLevel"].ToString();
-                            skill.Iscertificate = sqlDataReader["Iscertificate"].ToString();
+                            skill.SkillLevel = (EnumLevel)Convert.ToInt32(sqlDataReader["SkillLevel"]);
+                            skill.Iscertificate = Convert.ToString(sqlDataReader["Iscertificate"]);
+
                         }
                     }
                 }
@@ -129,8 +133,9 @@ namespace IndiaTechingClassLibray.DAL
                             skill = new Skill();
                             skill.SkillId = Convert.ToInt32(sqlDataReader["SkillId"]);
                             skill.SkillName = sqlDataReader["SkillName"].ToString();
-                            skill.SkillLevel = sqlDataReader["SkillLevel"].ToString();
-                            skill.Iscertificate = sqlDataReader["Iscertificate"].ToString();
+                            skill.SkillLevel = (EnumLevel)Convert.ToInt32(sqlDataReader["SkillLevel"]);
+                            skill.Iscertificate = Convert.ToString(sqlDataReader["Iscertificate"]);
+
 
                             skillList.Add(skill);
                         }

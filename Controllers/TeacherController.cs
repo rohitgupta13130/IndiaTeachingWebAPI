@@ -2,28 +2,29 @@
 using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
-    public class BatchesController : ApiController
+    public class TeacherController : ApiController
     {
 
-        // GET: api/Batches
+        //GET: api/Teacher
         [HttpGet]
-        public HttpResponseMessage GetBatches()
+        public HttpResponseMessage GetTeacher()
         {
             try
             {
-                List<Batches> batches = new BatchesDAL().GetBatchesList(new BatchesRequest());
-
-                return Request.CreateResponse(HttpStatusCode.OK, batches);
+                List<Teacher> teachers = new TeacherDAL().GetTeacherList(new TeacherRequest());
+                return Request.CreateResponse(HttpStatusCode.OK, teachers);
             }
             catch (Exception ex)
             {
@@ -31,15 +32,15 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
-        // GET: api/Batches/5
+        //GET: api/Teacher/2
         [HttpGet]
-        public HttpResponseMessage GetBatches(int id)
+        public HttpResponseMessage GetTeacher(int id)
         {
             try
             {
-                Batches batches = new BatchesDAL().GetBatches(new BatchesRequest() { Id = id });
-                return Request.CreateResponse(HttpStatusCode.OK, batches);
+                Teacher teacher = new TeacherDAL().GetTeacher(new TeacherRequest() { TeacherID = id });
+                return Request.CreateResponse(HttpStatusCode.OK, teacher);
+
             }
             catch (Exception ex)
             {
@@ -49,15 +50,13 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         [HttpPost]
-        // POST: api/Batches
-        public HttpResponseMessage SaveBatches([FromBody] Batches batches)
+        // POST: api/Teacher
+        public HttpResponseMessage SaveTeacher(Teacher teacher, HttpPostedFileBase file1, HttpPostedFileBase file2)
         {
-
             try
             {
-
-                int batchesId = new BatchesDAL().SaveBatches( batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchesId);
+                int Id = new TeacherDAL().SaveTeacherPost(teacher, file1, file2);
+                return Request.CreateResponse(HttpStatusCode.OK, Id);
             }
             catch (Exception ex)
             {
@@ -67,18 +66,18 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Batches batches)
+        // PUT: api/Teacher/5
+        public HttpResponseMessage Put(int id, [FromBody] Teacher teacher,HttpPostedFileBase file1, HttpPostedFileBase file2)
         {
-            
+
             try
             {
-                if (batches == null || batches.Id != id)
+                if (teacher == null || teacher.TeacherID != id)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
                 }
-
-                int batchId = new BatchesDAL().SaveBatches(batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchId);  
+                int Id = new TeacherDAL().SaveTeacherPost(teacher, file1, file2);
+                return Request.CreateResponse(HttpStatusCode.OK, teacher);
             }
             catch (Exception ex)
             {
@@ -88,7 +87,7 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
 
-        // DELETE: api/Batches/5
+
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -99,16 +98,16 @@ namespace IndiaTeachingWebAPI.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                BatchesRequest batchRequest = new BatchesRequest { Id = id };
-                bool isDeleted = new BatchesDAL().DeleteBatches(batchRequest);
+                TeacherRequest teacherRequest = new TeacherRequest { TeacherID = id };
+                bool isDeleted = new TeacherDAL().DeleteTeacher(teacherRequest);
 
                 if (isDeleted)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Batch deleted successfully.");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Teacher deleted successfully.");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Batch not found or could not be deleted.");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Teacher not found or could not be deleted.");
                 }
             }
             catch (Exception ex)

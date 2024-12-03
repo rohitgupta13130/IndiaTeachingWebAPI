@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using India_Teaching.Enums;
 
 namespace IndiaTechingClassLibray.Models
 {
@@ -11,21 +13,24 @@ namespace IndiaTechingClassLibray.Models
     {
         public List<Skill> SkillIndex { get; set; }
 
+        [DisplayName("Skill Id")]
         [Required(ErrorMessage = "Please Enter Correct Id")]
         public int SkillId { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Your Name")]
+        [DisplayName("Skill Name")]
+        [Required(ErrorMessage = "Please enter your skill name")]
         [StringLength(50, ErrorMessage = "Skill Name can't be longer than 50 characters")]
-        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Special characters are not allowed")]
+        [RegularExpression(@"^[a-zA-Z0-9]+(\s[a-zA-Z0-9]+)*$", ErrorMessage = "Special characters are not allowed, and spaces are only allowed between words")]
         public string SkillName { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Your Skill Level")]
-        [StringLength(50, ErrorMessage = "Skill Level can't be longer than 50 characters")]
-        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Special characters are not allowed")]
-        public string SkillLevel { get; set; }
 
-        [Required(ErrorMessage = "Please specify if the skill is certified")]
+        [DisplayName("Skill Level")]
+        [Required(ErrorMessage = "Please Select Your Skill Level")]
+        public EnumLevel SkillLevel { get; set; }
+
+        [DisplayName("Is Certificate")]
         public string Iscertificate { get; set; }
+
 
         public bool IsActive { get; set; }
     }

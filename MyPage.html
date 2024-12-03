@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#btnAll').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:59824/api/Skill',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#skill').empty();
+                        $('#skilldetail').empty();
+                        $.each(data, function (index, val) {
+                            $('#skill').append('<li>' + val.SkillName + " " + val.SkillLevel + " " + val.Iscertificate + '</li>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error: ' + error);
+                    }
+                });
+            });
+
+            $('#btnSingle').click(function () {
+                var id = $('#txtID').val();
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:59824/api/Skill/' + id,
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#skill').empty();
+                        $('#skilldetail').empty();
+                        $('#skill').append('<li>' + data.SkillName + " " + data.SkillLevel + " " + data.Iscertificate + '</li>');
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error: ' + error);
+                    }
+                });
+            });
+
+
+            
+            $('#btnSave').click(function () {
+                var skillData = {
+                    SkillName: $('#txtSkillName').val(),
+                    SkillLevel: $('#txtSkillLevel').val(),
+                    Iscertificate: $('#txtIscertificate').prop('checked') ? 1 : 0 
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:59824/api/Skill',
+                    data: JSON.stringify(skillData),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        alert('Skill saved with ID: ' + data);
+                        $('#txtSkillName').val('');
+                        $('#txtSkillLevel').val('');
+                        $('#txtIscertificate').prop('checked', false);
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error: ' + error);
+                    }
+                });
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <input id="btnAll" type="button" value="Get All SkillName" />
+    <br /><br />
+    <input id="txtID" type="text" placeholder="Enter Skill ID" />
+    <input id="btnSingle" type="button" value="Get Specific SkillName" />
+    <br />
+    <br /><br />
+    <!-- Form for POST request -->
+    <input id="txtSkillName" type="text" placeholder="Enter Skill Name" />
+    <input id="txtSkillLevel" type="text" placeholder="Enter Skill Level" />
+    <input id="txtIscertificate" type="checkbox" />
+    <input id="btnSave" type="button" value="Save Skill" />
+    <br />
+    <ul id="skill"></ul>
+    <div id="skilldetail"></div>
+</body>
+</html>

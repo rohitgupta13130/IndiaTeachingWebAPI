@@ -4,53 +4,57 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using India_Teaching.DAL;
+using India_Teaching.Models;
+using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
-using IndiaTechingClassLibray.Request;
 using IndiaTechingClassLibray.Models;
+using IndiaTechingClassLibray.Request;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
-    public class SkillController : ApiController
+    public class ExamController : ApiController
     {
-        // GET: api/Skill
+
+        // GET: api/Exam
         [HttpGet]
-        public HttpResponseMessage GetSkills()
+        public HttpResponseMessage GetExam()
         {
             try
             {
-                List<Skill> skills = new SkillDAL().GetSkillList(new SkillRequest());
+                List<Exam> exam = new ExamDAL().GetExamList(new ExamRequest());
 
-                return Request.CreateResponse(HttpStatusCode.OK, skills);
+                return Request.CreateResponse(HttpStatusCode.OK, exam);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
-        // GET: api/Skill/5
+        // GET: api/Exam/5
         [HttpGet]
-        public HttpResponseMessage GetSkill(int id)
+        public HttpResponseMessage GetExam(int id)
         {
             try
             {
-                Skill skill = new SkillDAL().GetSkill(new SkillRequest() { SkillId = id });
-                return Request.CreateResponse(HttpStatusCode.OK,skill);
+                Exam exam = new ExamDAL().GetExam(new ExamRequest() { Id = id });
+                return Request.CreateResponse(HttpStatusCode.OK, exam);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
         [HttpPost]
-        // POST: api/Skill
-        public HttpResponseMessage SaveSkill([FromBody]Skill skill)
+        // POST: api/Exam
+        public HttpResponseMessage SaveExam([FromBody] Exam exam)
         {
             try
             {
-                int skillId  = new SkillDAL().SaveSkill(skill);
-                return Request.CreateResponse(HttpStatusCode.OK, skillId);
+                int Id = new ExamDAL().SaveExam(exam);
+                return Request.CreateResponse(HttpStatusCode.OK, Id);
             }
             catch (Exception ex)
             {
@@ -59,18 +63,18 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
         [HttpPut]
-        // PUT: api/Skill/5
-        public HttpResponseMessage Put(int id, [FromBody] Skill skill)
+        // PUT: api/Exam/4
+        public HttpResponseMessage Put(int id, [FromBody] Exam exam)
         {
-            
+
             try
             {
-                if (skill == null || skill.SkillId != id)
+                if (exam == null || exam.Id != id)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
                 }
-                int skillId = new SkillDAL().SaveSkill(skill);
-                return Request.CreateResponse(HttpStatusCode.OK, skill);
+                int Id = new ExamDAL().SaveExam(exam);
+                return Request.CreateResponse(HttpStatusCode.OK, exam);
             }
             catch (Exception ex)
             {
@@ -78,7 +82,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // DELETE: api/Skill/5
+        // DELETE: api/Exam/5
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -89,16 +93,16 @@ namespace IndiaTeachingWebAPI.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                SkillRequest skillRequest = new SkillRequest { SkillId = id };
-                bool isDeleted = new SkillDAL().DeleteSkill(skillRequest);
+                ExamRequest examRequest = new ExamRequest { Id = id };
+                bool isDeleted = new ExamDAL().Delete(examRequest);
 
                 if (isDeleted)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Skill deleted successfully.");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Exam deleted successfully.");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Skill not found or could not be deleted.");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Exam not found or could not be deleted.");
                 }
             }
             catch (Exception ex)
@@ -106,6 +110,5 @@ namespace IndiaTeachingWebAPI.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
     }
 }

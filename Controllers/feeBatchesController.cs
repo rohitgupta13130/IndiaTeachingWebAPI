@@ -12,18 +12,17 @@ using System.Web.Http;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
-    public class BatchesController : ApiController
+    public class feeBatchesController : ApiController
     {
 
-        // GET: api/Batches
+        //GET: api/feeBatches
         [HttpGet]
-        public HttpResponseMessage GetBatches()
+        public HttpResponseMessage GetfeeBatches()
         {
             try
             {
-                List<Batches> batches = new BatchesDAL().GetBatchesList(new BatchesRequest());
-
-                return Request.CreateResponse(HttpStatusCode.OK, batches);
+                List<FeeBatches> feeBatches = new feeBatchesDAL().GetFeeBatchList(new FeeBatchesRequest());
+                return Request.CreateResponse(HttpStatusCode.OK, feeBatches);
             }
             catch (Exception ex)
             {
@@ -32,32 +31,32 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
-        // GET: api/Batches/5
+        //GET: api/feeBatches/2
         [HttpGet]
-        public HttpResponseMessage GetBatches(int id)
+        public HttpResponseMessage GetfeeBatches(int id)
         {
             try
             {
-                Batches batches = new BatchesDAL().GetBatches(new BatchesRequest() { Id = id });
-                return Request.CreateResponse(HttpStatusCode.OK, batches);
+
+                FeeBatches feeBatches = new feeBatchesDAL().GetFeeBatch(new FeeBatchesRequest() { Id = id });
+                return Request.CreateResponse(HttpStatusCode.OK, feeBatches);
             }
             catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+
             }
         }
 
-
+        //POST :api/feeBatches
         [HttpPost]
-        // POST: api/Batches
-        public HttpResponseMessage SaveBatches([FromBody] Batches batches)
+        public HttpResponseMessage SavefeeBatches([FromBody] FeeBatches feeBatches)
         {
-
             try
             {
+                int feeBatchId = new feeBatchesDAL().SaveFeeBatches(feeBatches);
+                return Request.CreateResponse(HttpStatusCode.OK, feeBatchId);
 
-                int batchesId = new BatchesDAL().SaveBatches( batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchesId);
             }
             catch (Exception ex)
             {
@@ -65,20 +64,21 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
+        //PUT : api/feeBatches/2
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Batches batches)
+        public HttpResponseMessage Put(int id, [FromBody] FeeBatches feeBatches)
         {
-            
+
             try
             {
-                if (batches == null || batches.Id != id)
+                if (feeBatches == null || feeBatches.Id != id)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Data or ID");
                 }
 
-                int batchId = new BatchesDAL().SaveBatches(batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchId);  
+                int feeBatchId = new feeBatchesDAL().SaveFeeBatches(feeBatches);
+                return Request.CreateResponse(HttpStatusCode.OK, feeBatches);
+
             }
             catch (Exception ex)
             {
@@ -87,8 +87,7 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
-
-        // DELETE: api/Batches/5
+        //DELETE : api/feeBatches/2
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -99,16 +98,16 @@ namespace IndiaTeachingWebAPI.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                BatchesRequest batchRequest = new BatchesRequest { Id = id };
-                bool isDeleted = new BatchesDAL().DeleteBatches(batchRequest);
+                FeeBatchesRequest feeBatchesRequest = new FeeBatchesRequest { Id = id };
+                bool isDeleted = new feeBatchesDAL().DeleteFeeBatches(feeBatchesRequest);
 
                 if (isDeleted)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Batch deleted successfully.");
+                    return Request.CreateResponse(HttpStatusCode.OK, "FeeBatches deleted successfully.");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Batch not found or could not be deleted.");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "FeeBatches not found or could not be deleted.");
                 }
             }
             catch (Exception ex)
@@ -116,5 +115,7 @@ namespace IndiaTeachingWebAPI.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+
     }
 }

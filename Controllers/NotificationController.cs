@@ -12,18 +12,19 @@ using System.Web.Http;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
-    public class BatchesController : ApiController
+    public class NotificationController : ApiController
     {
 
-        // GET: api/Batches
+
+        // GET: api/Notification
         [HttpGet]
-        public HttpResponseMessage GetBatches()
+        public HttpResponseMessage GetNotification()
         {
             try
             {
-                List<Batches> batches = new BatchesDAL().GetBatchesList(new BatchesRequest());
+                List<Notification> notifications = new NotificationDAL().GetNotificationList(new NotificationRequest());
 
-                return Request.CreateResponse(HttpStatusCode.OK, batches);
+                return Request.CreateResponse(HttpStatusCode.OK, notifications);
             }
             catch (Exception ex)
             {
@@ -31,33 +32,29 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
-        // GET: api/Batches/5
+        // GET: api/Notification/5
         [HttpGet]
-        public HttpResponseMessage GetBatches(int id)
+        public HttpResponseMessage GetNotification(int id)
         {
             try
             {
-                Batches batches = new BatchesDAL().GetBatches(new BatchesRequest() { Id = id });
-                return Request.CreateResponse(HttpStatusCode.OK, batches);
+                Notification notification = new NotificationDAL().GetNotification(new NotificationRequest() { Id = id });
+                return Request.CreateResponse(HttpStatusCode.OK, notification);
             }
             catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-
 
         [HttpPost]
-        // POST: api/Batches
-        public HttpResponseMessage SaveBatches([FromBody] Batches batches)
+        // POST: api/Notification
+        public HttpResponseMessage SaveNotification([FromBody] Notification notification)
         {
-
             try
             {
-
-                int batchesId = new BatchesDAL().SaveBatches( batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchesId);
+                int Id = new NotificationDAL().SaveNotification(notification);
+                return Request.CreateResponse(HttpStatusCode.OK, Id);
             }
             catch (Exception ex)
             {
@@ -65,20 +62,19 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Batches batches)
+        // PUT: api/Notification/5
+        public HttpResponseMessage Put(int id, [FromBody] Notification notification)
         {
-            
+
             try
             {
-                if (batches == null || batches.Id != id)
+                if (notification == null || notification.Id != id)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
                 }
-
-                int batchId = new BatchesDAL().SaveBatches(batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchId);  
+                int Id = new NotificationDAL().SaveNotification(notification);
+                return Request.CreateResponse(HttpStatusCode.OK, notification);
             }
             catch (Exception ex)
             {
@@ -86,9 +82,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
-
-        // DELETE: api/Batches/5
+        // DELETE: api/Notification/5
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -99,16 +93,16 @@ namespace IndiaTeachingWebAPI.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                BatchesRequest batchRequest = new BatchesRequest { Id = id };
-                bool isDeleted = new BatchesDAL().DeleteBatches(batchRequest);
+                NotificationRequest notificationRequest = new NotificationRequest { Id = id };
+                bool isDeleted = new NotificationDAL().DeleteNotification(notificationRequest);
 
                 if (isDeleted)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Batch deleted successfully.");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Notification deleted successfully.");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Batch not found or could not be deleted.");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Notification not found or could not be deleted.");
                 }
             }
             catch (Exception ex)

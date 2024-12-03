@@ -1,56 +1,59 @@
-﻿using System;
+﻿using India_Teaching.DAL;
+using India_Teaching.Models;
+using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using IndiaTechingClassLibray.DAL;
-using IndiaTechingClassLibray.Request;
-using IndiaTechingClassLibray.Models;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
-    public class SkillController : ApiController
+    public class ClassesController : ApiController
     {
-        // GET: api/Skill
+        // GET: api/Classes
         [HttpGet]
-        public HttpResponseMessage GetSkills()
+        public HttpResponseMessage GetClasses()
         {
             try
             {
-                List<Skill> skills = new SkillDAL().GetSkillList(new SkillRequest());
+                List<Classes> classes = new ClassesDAL().GetClassesList(new ClassRequest());
 
-                return Request.CreateResponse(HttpStatusCode.OK, skills);
+                return Request.CreateResponse(HttpStatusCode.OK, classes);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
-        // GET: api/Skill/5
+
+        // GET: api/Classes/5
         [HttpGet]
-        public HttpResponseMessage GetSkill(int id)
+        public HttpResponseMessage GetClasses(int id)
         {
             try
             {
-                Skill skill = new SkillDAL().GetSkill(new SkillRequest() { SkillId = id });
-                return Request.CreateResponse(HttpStatusCode.OK,skill);
+                Classes classes = new ClassesDAL().GetClasses(new ClassRequest() { ClassId = id });
+                return Request.CreateResponse(HttpStatusCode.OK, classes);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
         [HttpPost]
-        // POST: api/Skill
-        public HttpResponseMessage SaveSkill([FromBody]Skill skill)
+        // POST: api/Classes
+        public HttpResponseMessage SaveClasses([FromBody] Classes classes)
         {
             try
             {
-                int skillId  = new SkillDAL().SaveSkill(skill);
-                return Request.CreateResponse(HttpStatusCode.OK, skillId);
+                int classId = new ClassesDAL().SaveClass(classes);
+                return Request.CreateResponse(HttpStatusCode.OK, classId);
             }
             catch (Exception ex)
             {
@@ -58,19 +61,20 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
+
         [HttpPut]
-        // PUT: api/Skill/5
-        public HttpResponseMessage Put(int id, [FromBody] Skill skill)
+        // PUT: api/Classes/3
+        public HttpResponseMessage Put(int id, [FromBody] Classes classes)
         {
-            
+
             try
             {
-                if (skill == null || skill.SkillId != id)
+                if (classes == null || classes.ClassId != id)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
                 }
-                int skillId = new SkillDAL().SaveSkill(skill);
-                return Request.CreateResponse(HttpStatusCode.OK, skill);
+                int classId = new ClassesDAL().SaveClass(classes);
+                return Request.CreateResponse(HttpStatusCode.OK, classes);
             }
             catch (Exception ex)
             {
@@ -78,7 +82,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // DELETE: api/Skill/5
+        // DELETE: api/Delete/5
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -89,16 +93,16 @@ namespace IndiaTeachingWebAPI.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                SkillRequest skillRequest = new SkillRequest { SkillId = id };
-                bool isDeleted = new SkillDAL().DeleteSkill(skillRequest);
+                ClassRequest classRequest = new ClassRequest { ClassId = id };
+                bool isDeleted = new ClassesDAL().DeleteClass(classRequest);
 
                 if (isDeleted)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Skill deleted successfully.");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Class deleted successfully.");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Skill not found or could not be deleted.");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Class not found or could not be deleted.");
                 }
             }
             catch (Exception ex)

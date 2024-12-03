@@ -35,6 +35,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,14 +45,51 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Constants\Constants.cs" />
     <Compile Include="DAL\BatchesDAL.cs" />
+    <Compile Include="DAL\ClassesDAL.cs" />
+    <Compile Include="DAL\ExamDAL.cs" />
+    <Compile Include="DAL\feeBatchesDAL.cs" />
+    <Compile Include="DAL\FeesDALcs.cs" />
+    <Compile Include="DAL\FeeTransactionDAL.cs" />
     <Compile Include="DAL\LogsDAL.cs" />
+    <Compile Include="DAL\NotesDAL.cs" />
+    <Compile Include="DAL\NotificationDAL.cs" />
     <Compile Include="DAL\SkillDAL.cs" />
+    <Compile Include="DAL\StudentbatchesDAL.cs" />
+    <Compile Include="DAL\StudentDAL.cs" />
+    <Compile Include="DAL\SubjectDAL.cs" />
+    <Compile Include="DAL\TeacherDAL.cs" />
+    <Compile Include="Enums\EnumCountry.cs" />
+    <Compile Include="Enums\EnumLevel.cs" />
+    <Compile Include="Enums\EnumSection.cs" />
     <Compile Include="Models\Batches.cs" />
+    <Compile Include="Models\Classes.cs" />
+    <Compile Include="Models\Exam.cs" />
+    <Compile Include="Models\FeeBatches.cs" />
+    <Compile Include="Models\Fees.cs" />
+    <Compile Include="Models\FeeTransaction.cs" />
+    <Compile Include="Models\Notes.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Skill.cs" />
+    <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\Studentbatches.cs" />
+    <Compile Include="Models\Subject.cs" />
+    <Compile Include="Models\Teacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\BatchesRequest.cs" />
+    <Compile Include="Request\ClassRequest.cs" />
+    <Compile Include="Request\ExamRequest.cs" />
+    <Compile Include="Request\FeeBatchesRequest.cs" />
+    <Compile Include="Request\FeesRequest.cs" />
+    <Compile Include="Request\FeeTransactionRequest.cs" />
+    <Compile Include="Request\NotesRequest.cs" />
+    <Compile Include="Request\NotificationRequest.cs" />
     <Compile Include="Request\SkillRequest.cs" />
+    <Compile Include="Request\StudentbatchesRequest.cs" />
+    <Compile Include="Request\StudentRequest.cs" />
+    <Compile Include="Request\SubjectRequest.cs" />
+    <Compile Include="Request\TeacherRequest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

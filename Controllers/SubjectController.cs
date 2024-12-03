@@ -12,18 +12,16 @@ using System.Web.Http;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
-    public class BatchesController : ApiController
+    public class SubjectController : ApiController
     {
-
-        // GET: api/Batches
+        //GET : api/Subject
         [HttpGet]
-        public HttpResponseMessage GetBatches()
+        public HttpResponseMessage GetSubject()
         {
             try
             {
-                List<Batches> batches = new BatchesDAL().GetBatchesList(new BatchesRequest());
-
-                return Request.CreateResponse(HttpStatusCode.OK, batches);
+                List<Subject> subjects = new SubjectDAL().GetSubjectList(new SubjectRequest());
+                return Request.CreateResponse(HttpStatusCode.OK, subjects);
             }
             catch (Exception ex)
             {
@@ -31,15 +29,14 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
-        // GET: api/Batches/5
+        //Get : api/Subject/2
         [HttpGet]
-        public HttpResponseMessage GetBatches(int id)
+        public HttpResponseMessage GetSubject(int id)
         {
             try
             {
-                Batches batches = new BatchesDAL().GetBatches(new BatchesRequest() { Id = id });
-                return Request.CreateResponse(HttpStatusCode.OK, batches);
+                Subject subject = new SubjectDAL().GetSubject(new SubjectRequest() { ID = id });
+                return Request.CreateResponse(HttpStatusCode.OK, subject);
             }
             catch (Exception ex)
             {
@@ -47,17 +44,14 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
+        //post : api/Subject
         [HttpPost]
-        // POST: api/Batches
-        public HttpResponseMessage SaveBatches([FromBody] Batches batches)
+        public HttpResponseMessage SaveSubject([FromBody] Subject subject)
         {
-
             try
             {
-
-                int batchesId = new BatchesDAL().SaveBatches( batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchesId);
+                int subjectId = new SubjectDAL().SaveSubject(subject);
+                return Request.CreateResponse(HttpStatusCode.OK, subjectId);
             }
             catch (Exception ex)
             {
@@ -65,20 +59,18 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
+        //PUT : api/Subject/2
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Batches batches)
+        public HttpResponseMessage Put(int id, [FromBody] Subject subject)
         {
-            
             try
             {
-                if (batches == null || batches.Id != id)
+                if (subject == null || subject.ID != id)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or Id.");
                 }
-
-                int batchId = new BatchesDAL().SaveBatches(batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchId);  
+                int subjectId = new SubjectDAL().SaveSubject(subject);
+                return Request.CreateResponse(HttpStatusCode.OK, subject);
             }
             catch (Exception ex)
             {
@@ -86,9 +78,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
-
-        // DELETE: api/Batches/5
+        //Delete : api/Subject/2
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
@@ -99,16 +89,16 @@ namespace IndiaTeachingWebAPI.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                BatchesRequest batchRequest = new BatchesRequest { Id = id };
-                bool isDeleted = new BatchesDAL().DeleteBatches(batchRequest);
+                SubjectRequest subjectRequest = new SubjectRequest { ID = id };
+                bool isDeleted = new SubjectDAL().DeleteSubject(subjectRequest);
 
                 if (isDeleted)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Batch deleted successfully.");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Subject deleted successfully.");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Batch not found or could not be deleted.");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Subject not found or could not be deleted.");
                 }
             }
             catch (Exception ex)
@@ -116,5 +106,6 @@ namespace IndiaTeachingWebAPI.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
     }
 }

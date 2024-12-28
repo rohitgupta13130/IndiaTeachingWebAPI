@@ -52,6 +52,7 @@
     <Compile Include="DAL\feeBatchesDAL.cs" />
     <Compile Include="DAL\FeesDALcs.cs" />
     <Compile Include="DAL\FeeTransactionDAL.cs" />
+    <Compile Include="DAL\LoginDAL.cs" />
     <Compile Include="DAL\LogsDAL.cs" />
     <Compile Include="DAL\NotesDAL.cs" />
     <Compile Include="DAL\NotificationDAL.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="DAL\StudentDAL.cs" />
     <Compile Include="DAL\SubjectDAL.cs" />
     <Compile Include="DAL\TeacherDAL.cs" />
+    <Compile Include="DAL\UserTypesDAL.cs" />
     <Compile Include="Enums\EnumCountry.cs" />
     <Compile Include="Enums\EnumLevel.cs" />
     <Compile Include="Enums\EnumSection.cs" />
@@ -76,6 +78,8 @@
     <Compile Include="Models\Studentbatches.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\Teacher.cs" />
+    <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\UserTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\BatchesRequest.cs" />
     <Compile Include="Request\ClassRequest.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="Request\FeeBatchesRequest.cs" />
     <Compile Include="Request\FeesRequest.cs" />
     <Compile Include="Request\FeeTransactionRequest.cs" />
+    <Compile Include="Request\LoginRequest.cs" />
     <Compile Include="Request\NotesRequest.cs" />
     <Compile Include="Request\NotificationRequest.cs" />
     <Compile Include="Request\SkillRequest.cs" />
@@ -90,6 +95,7 @@
     <Compile Include="Request\StudentRequest.cs" />
     <Compile Include="Request\SubjectRequest.cs" />
     <Compile Include="Request\TeacherRequest.cs" />
+    <Compile Include="Request\UserTypesRequest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

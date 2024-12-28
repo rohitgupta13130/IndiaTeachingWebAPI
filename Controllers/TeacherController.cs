@@ -51,11 +51,11 @@ namespace IndiaTeachingWebAPI.Controllers
 
         [HttpPost]
         // POST: api/Teacher
-        public HttpResponseMessage SaveTeacher(Teacher teacher, HttpPostedFileBase file1, HttpPostedFileBase file2)
+        public HttpResponseMessage SaveTeacher([FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
         {
             try
             {
-                int Id = new TeacherDAL().SaveTeacherPost(teacher, file1, file2);
+                int Id = new TeacherDAL().SaveTeacherPost(teacher, file, videoFile);
                 return Request.CreateResponse(HttpStatusCode.OK, Id);
             }
             catch (Exception ex)
@@ -65,9 +65,10 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
+
         [HttpPut]
         // PUT: api/Teacher/5
-        public HttpResponseMessage Put(int id, [FromBody] Teacher teacher,HttpPostedFileBase file1, HttpPostedFileBase file2)
+        public HttpResponseMessage Put(int id, [FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
         {
 
             try
@@ -76,7 +77,7 @@ namespace IndiaTeachingWebAPI.Controllers
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
                 }
-                int Id = new TeacherDAL().SaveTeacherPost(teacher, file1, file2);
+                int Id = new TeacherDAL().SaveTeacherPost(teacher, file, videoFile);
                 return Request.CreateResponse(HttpStatusCode.OK, teacher);
             }
             catch (Exception ex)

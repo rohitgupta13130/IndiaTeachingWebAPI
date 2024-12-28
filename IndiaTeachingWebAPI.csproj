@@ -162,6 +162,7 @@
     <Compile Include="Controllers\FeesController.cs" />
     <Compile Include="Controllers\FeeTransactionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\SkillController.cs" />

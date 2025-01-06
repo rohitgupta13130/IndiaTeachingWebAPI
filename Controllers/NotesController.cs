@@ -1,4 +1,5 @@
-﻿using India_Teaching.DAL;
+﻿using India_Teaching.CustomAuthenticationFilter;
+using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
 using System;
@@ -11,6 +12,7 @@ using System.Web.Http;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
+    [CustomAuthenticationFilter]
     public class NotesController : ApiController
     {
         // GET: api/Notes

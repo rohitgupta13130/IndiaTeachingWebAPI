@@ -45,8 +45,8 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         [HttpPost]
-        [Route("api/Login/Verify")]
-        public HttpResponseMessage VerifyUser([FromBody] LoginRequest loginRequest)
+        //[Route("api/Login/Verify")]
+        public HttpResponseMessage LoginPost([FromBody] LoginRequest loginRequest)
         {
             try
             {
@@ -64,10 +64,12 @@ namespace IndiaTeachingWebAPI.Controllers
 
                     if (isUserValidated)
                     {
+                        var userId = user.UserId;
+
                         // Build the response object with session details
                         var responseContent = new
                         {
-                            UserId = user.UserId,
+                            userId = user.UserId,
                             UserRole = user.UserType,
                             UserSession = guid
                         };

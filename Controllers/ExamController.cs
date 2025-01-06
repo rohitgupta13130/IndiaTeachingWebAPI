@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using India_Teaching.CustomAuthenticationFilter;
 using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
@@ -13,6 +14,7 @@ using IndiaTechingClassLibray.Request;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
+    [CustomAuthenticationFilter]
     public class ExamController : ApiController
     {
 

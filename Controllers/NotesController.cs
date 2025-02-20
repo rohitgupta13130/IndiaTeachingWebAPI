@@ -38,7 +38,7 @@ namespace IndiaTeachingWebAPI.Controllers
             try
             {
                 Notes notes = new NotesDAL().GetNotes(new NotesRequest() { Id = id });
-                return Request.CreateResponse(HttpStatusCode.OK, id);
+                return Request.CreateResponse(HttpStatusCode.OK, notes);
             }
             catch (Exception ex)
             {
@@ -46,24 +46,23 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //post : api/notes
-        //[HttpPost]
-        //public HttpRequestMessage SaveNotes([FromBody] Notes notes , HttpPostedFileBase file)
-        //{
-        //    try
-        //    {
-        //        int notesId = new NotesDAL().SaveNotes(notes , file);
-        //        return Request.CreateResponse(HttpStatusCode.OK, notesId);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
-        //    }
-        //}
 
+        // POST: api/notes
+        [HttpPost]
+        public HttpResponseMessage SaveNotes([FromBody] Notes notes, HttpPostedFileBase file)
+        {
+            try
+            {
+                int notesId = new NotesDAL().SaveNotes(notes, file);
+                return Request.CreateResponse(HttpStatusCode.OK, notesId);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
 
-
-
+        
 
 
 

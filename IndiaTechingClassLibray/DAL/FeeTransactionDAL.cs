@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -146,7 +147,7 @@ namespace India_Teaching.DAL
             return feeTransactionList;
         }
 
-        public List<FeeTransaction> GetFeeTransactionForStudent(int argStudentId,int argFeeTransactionId)
+        public List<FeeTransaction> GetFeeTransactionForStudent(int argStudentId, int argFeeTransactionId)
         {
             List<FeeTransaction> feeTransactionList = null;
             FeeTransaction feeTransaction = null;
@@ -242,6 +243,8 @@ namespace India_Teaching.DAL
             }
             return feeTransactionList;
         }
+
+
+        
     }
 }
-       

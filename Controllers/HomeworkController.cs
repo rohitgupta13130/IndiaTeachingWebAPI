@@ -1,32 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using India_Teaching.CustomAuthenticationFilter;
-using India_Teaching.DAL;
 using India_Teaching.Models;
+using India_Teaching.DAL;
 using India_Teaching.Request;
-using IndiaTechingClassLibray.DAL;
-using IndiaTechingClassLibray.Models;
-using IndiaTechingClassLibray.Request;
+using India_Teaching.CustomAuthenticationFilter;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
     [CustomAuthenticationFilter]
-    public class ExamController : ApiController
+    public class HomeWorkController : ApiController
     {
-
-        // GET: api/Exam
+        // GET: api/HomeWork
         [HttpGet]
-        public HttpResponseMessage GetExam()
+        public HttpResponseMessage GetHomeWorks()
         {
             try
             {
-                List<Exam> exam = new ExamDAL().GetExamList(new ExamRequest());
-
-                return Request.CreateResponse(HttpStatusCode.OK, exam);
+                List<HomeWork> homeWorks = new HomeworkDAL().GetHomeWorkList(new HomeWorkRequest());
+                return Request.CreateResponse(HttpStatusCode.OK, homeWorks);
             }
             catch (Exception ex)
             {
@@ -34,14 +28,14 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // GET: api/Exam/5
+        // GET: api/HomeWork/5
         [HttpGet]
-        public HttpResponseMessage GetExam(int id)
+        public HttpResponseMessage GetHomeWork(int id)
         {
             try
             {
-                Exam exam = new ExamDAL().GetExam(new ExamRequest() { Id = id });
-                return Request.CreateResponse(HttpStatusCode.OK, exam);
+                HomeWork homeWork = new HomeworkDAL().GetHomeWork(new HomeWorkRequest { Id = id });
+                return Request.CreateResponse(HttpStatusCode.OK, homeWork);
             }
             catch (Exception ex)
             {
@@ -49,14 +43,14 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
+        // POST: api/HomeWork
         [HttpPost]
-        // POST: api/Exam
-        public HttpResponseMessage SaveExam([FromBody] Exam exam)
+        public HttpResponseMessage SaveHomeWork([FromBody] HomeWork homeWork)
         {
             try
             {
-                int Id = new ExamDAL().SaveExam(exam);
-                return Request.CreateResponse(HttpStatusCode.OK, Id);
+                int homeWorkId = new HomeworkDAL().SaveHomeWork(homeWork);
+                return Request.CreateResponse(HttpStatusCode.OK, homeWorkId);
             }
             catch (Exception ex)
             {
@@ -64,19 +58,19 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
+        // PUT: api/HomeWork/5
         [HttpPut]
-        // PUT: api/Exam/4
-        public HttpResponseMessage Put(int id, [FromBody] Exam exam)
+        public HttpResponseMessage UpdateHomeWork(int id, [FromBody] HomeWork homeWork)
         {
-
             try
             {
-                if (exam == null || exam.Id != id)
+                if (homeWork == null || homeWork.Id != id)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
                 }
-                int Id = new ExamDAL().SaveExam(exam);
-                return Request.CreateResponse(HttpStatusCode.OK, exam);
+
+                int homeWorkId = new HomeworkDAL().SaveHomeWork(homeWork);
+                return Request.CreateResponse(HttpStatusCode.OK, homeWork);
             }
             catch (Exception ex)
             {
@@ -84,9 +78,9 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // DELETE: api/Exam/5
+        // DELETE: api/HomeWork/5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage DeleteHomeWork(int id)
         {
             try
             {
@@ -95,16 +89,16 @@ namespace IndiaTeachingWebAPI.Controllers
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                ExamRequest examRequest = new ExamRequest { Id = id };
-                bool isDeleted = new ExamDAL().Delete(examRequest);
+                HomeWorkRequest homeWorkRequest = new HomeWorkRequest { Id = id };
+                bool isDeleted = new HomeworkDAL().Delete(homeWorkRequest);
 
                 if (isDeleted)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Exam deleted successfully.");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Homework deleted successfully.");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Exam not found or could not be deleted.");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Homework not found or could not be deleted.");
                 }
             }
             catch (Exception ex)

@@ -7,9 +7,11 @@ using System.Web.Http;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
 using IndiaTechingClassLibray.Models;
+using India_Teaching.CustomAuthenticationFilter;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
+    [CustomAuthenticationFilter]
     public class SkillController : ApiController
     {
         // GET: api/Skill

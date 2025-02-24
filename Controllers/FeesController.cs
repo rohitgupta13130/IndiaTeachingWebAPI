@@ -1,6 +1,9 @@
-﻿using India_Teaching.DAL;
+﻿using India_Teaching.CustomAuthenticationFilter;
+using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +13,7 @@ using System.Web.Http;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
+    [CustomAuthenticationFilter]
     public class FeesController : ApiController
     {
 
@@ -61,30 +65,55 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
+
         [HttpPut]
         // PUT: api/Fees/5
         public HttpResponseMessage Put(int id, [FromBody] Fees fees)
         {
-
             try
             {
                 if (fees == null || fees.Id != id)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
                 }
-                int feeId = new FeesDAL().SaveFees(fees);
+
+               int Id = new FeesDAL().SaveFees(fees); 
+
                 return Request.CreateResponse(HttpStatusCode.OK, fees);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        // DELETE: api/Skill/5
-        public void Delete(int id)
-        {
 
+        // DELETE: api/Fees/5
+        public HttpResponseMessage Delete(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                }
+
+                FeesRequest feesRequest = new FeesRequest { Id = id };
+                bool isDeleted = new FeesDAL().DeleteFees(feesRequest);
+
+                if (isDeleted)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, "Fees deleted successfully.");
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Fees not found or could not be deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }

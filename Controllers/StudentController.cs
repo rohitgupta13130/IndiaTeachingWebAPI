@@ -3,6 +3,7 @@ using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,17 @@ namespace IndiaTeachingWebAPI.Controllers
     {
         //Get : api/Student
         [HttpGet]
-        public HttpResponseMessage GetStudent()
+        public HttpResponseMessage GetStudent(string firstName = null)
         {
             try
             {
-                List<Student> students = new StudentDAL().GetStudentList(new StudentRequest());
+                StudentRequest studentRequest = new StudentRequest() { FirstName = firstName };
+                List<Student> students = new StudentDAL().GetStudentList(studentRequest);
+
+                if (students == null)
+                {
+                    students = new List<Student>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, students);
             }
             catch (Exception ex)

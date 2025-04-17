@@ -4,6 +4,7 @@ using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,16 @@ namespace IndiaTeachingWebAPI.Controllers
 
         // GET: api/Batches
         [HttpGet]
-        public HttpResponseMessage GetBatches()
+        public HttpResponseMessage GetBatches(string batchName = null)
         {
             try
             {
-                List<Batches> batches = new BatchesDAL().GetBatchesList(new BatchesRequest());
-
+                BatchesRequest batchesRequest = new BatchesRequest() { BatchName = batchName };
+                List<Batches> batches = new BatchesDAL().GetBatchesList(batchesRequest);
+                if (batches == null)
+                {
+                    batches = new List<Batches>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, batches);
             }
             catch (Exception ex)

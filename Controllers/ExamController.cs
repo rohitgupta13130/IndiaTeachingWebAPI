@@ -20,11 +20,17 @@ namespace IndiaTeachingWebAPI.Controllers
 
         // GET: api/Exam
         [HttpGet]
-        public HttpResponseMessage GetExam()
+        public HttpResponseMessage GetExam(string examName = null)
         {
             try
             {
-                List<Exam> exam = new ExamDAL().GetExamList(new ExamRequest());
+                ExamRequest examRequest = new ExamRequest() { ExamName = examName };
+                List<Exam> exam = new ExamDAL().GetExamList(examRequest);
+
+                if (exam == null)
+                {
+                    exam = new List<Exam>();
+                }
 
                 return Request.CreateResponse(HttpStatusCode.OK, exam);
             }

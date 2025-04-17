@@ -21,11 +21,16 @@ namespace IndiaTeachingWebAPI.Controllers
 
         //GET: api/Teacher
         [HttpGet]
-        public HttpResponseMessage GetTeacher()
+        public HttpResponseMessage GetTeacher(string teacherName = null)
         {
             try
             {
-                List<Teacher> teachers = new TeacherDAL().GetTeacherList(new TeacherRequest());
+                TeacherRequest teacherRequest = new TeacherRequest() { Fullname = teacherName };
+                List<Teacher> teachers = new TeacherDAL().GetTeacherList(teacherRequest);
+                if (teachers == null)
+                {
+                    teachers = new List<Teacher>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, teachers);
             }
             catch (Exception ex)

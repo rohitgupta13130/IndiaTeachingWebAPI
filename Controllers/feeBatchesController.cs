@@ -19,11 +19,16 @@ namespace IndiaTeachingWebAPI.Controllers
 
         //GET: api/feeBatches
         [HttpGet]
-        public HttpResponseMessage GetfeeBatches()
+        public HttpResponseMessage GetfeeBatches(int feeId = 0, int batchId = 0)
         {
             try
             {
-                List<FeeBatches> feeBatches = new feeBatchesDAL().GetFeeBatchList(new FeeBatchesRequest());
+                FeeBatchesRequest feeBatchesRequest = new FeeBatchesRequest() { FeeId = feeId, batchId = batchId };
+                List<FeeBatches> feeBatches = new feeBatchesDAL().GetFeeBatchList(feeBatchesRequest);
+                if (feeBatches == null)
+                {
+                    feeBatches = new List<FeeBatches>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, feeBatches);
             }
             catch (Exception ex)

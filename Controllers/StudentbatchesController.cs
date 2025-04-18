@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
@@ -18,11 +19,17 @@ namespace IndiaTeachingWebAPI.Controllers
     {
         //GET: api/Skill
         [HttpGet]
-        public HttpResponseMessage GetStudentbatches()
+        public HttpResponseMessage GetStudentbatches(string studentName = null, int batchId = 0)
         {
             try
             {
-                List<Studentbatches> studentbatches = new StudentbatchesDAL().GetStudentbatchesList(new StudentbatchesRequest());
+                StudentbatchesRequest studentBatchesRequest = new StudentbatchesRequest() {  FirstName =  studentName , BatchId = batchId };
+                List<Studentbatches> studentbatches = new StudentbatchesDAL().GetStudentbatchesList(studentBatchesRequest);
+                if (studentbatches == null)
+                {
+                    studentbatches = new List<Studentbatches>();
+                }
+
                 return Request.CreateResponse(HttpStatusCode.OK, studentbatches);
             }
             catch (Exception ex)

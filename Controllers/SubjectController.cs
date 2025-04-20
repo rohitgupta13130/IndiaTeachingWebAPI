@@ -18,11 +18,11 @@ namespace IndiaTeachingWebAPI.Controllers
     {
         //GET : api/Subject
         [HttpGet]
-        public HttpResponseMessage GetSubject(string subjectName = null)
+        public HttpResponseMessage GetSubject(string argSubjectName)
         {
             try
             {
-                SubjectRequest subjectRequest = new SubjectRequest() { SubjectName =subjectName };
+                SubjectRequest subjectRequest = new SubjectRequest() { SubjectName =argSubjectName };
                 List<Subject> subjects = new SubjectDAL().GetSubjectList(subjectRequest);
                 if (subjects == null)
                 {

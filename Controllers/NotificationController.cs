@@ -20,11 +20,11 @@ namespace IndiaTeachingWebAPI.Controllers
 
         // GET: api/Notification
         [HttpGet]
-        public HttpResponseMessage GetNotification(string notificationText = null)
+        public HttpResponseMessage GetNotification(int batchId = 0, int argTeacherId = 0)
         {
             try
             {
-                NotificationRequest notificationRequest = new NotificationRequest() { NotificationText = notificationText };
+                NotificationRequest notificationRequest = new NotificationRequest() { BatchId = batchId , TeacherId = argTeacherId  };
                 List<Notification> notifications = new NotificationDAL().GetNotificationList(notificationRequest);
 
                 if(notifications == null)

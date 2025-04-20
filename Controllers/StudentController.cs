@@ -19,11 +19,11 @@ namespace IndiaTeachingWebAPI.Controllers
     {
         //Get : api/Student
         [HttpGet]
-        public HttpResponseMessage GetStudent(string firstName = null)
+        public HttpResponseMessage GetStudent(string argStudentFirstName)
         {
             try
             {
-                StudentRequest studentRequest = new StudentRequest() { FirstName = firstName };
+                StudentRequest studentRequest = new StudentRequest() { FirstName = argStudentFirstName };
                 List<Student> students = new StudentDAL().GetStudentList(studentRequest);
 
                 if (students == null)

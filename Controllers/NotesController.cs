@@ -21,11 +21,11 @@ namespace IndiaTeachingWebAPI.Controllers
         // GET: api/Notes
 
         [HttpGet]
-        public HttpResponseMessage GetNotes(string notesTitle = null)
+        public HttpResponseMessage GetNotes(string argNotesName)
         {
             try
             {
-                NotesRequest notesRequest = new NotesRequest() { Title = notesTitle };
+                NotesRequest notesRequest = new NotesRequest() { Title = argNotesName };
                 List<Notes> notes = new NotesDAL().GetNotesList(notesRequest);
 
                 if (notes == null)

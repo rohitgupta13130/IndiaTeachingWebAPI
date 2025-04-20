@@ -16,11 +16,11 @@ namespace IndiaTeachingWebAPI.Controllers
     {
         // GET: api/Skill
         [HttpGet]
-        public HttpResponseMessage GetSkills(string skillName = null)
+        public HttpResponseMessage GetSkills(string argSkillName)
         {
             try
             {
-                SkillRequest skillRequest = new SkillRequest() { SkillName = skillName };
+                SkillRequest skillRequest = new SkillRequest() { SkillName = argSkillName };
                 List<Skill> skills = new SkillDAL().GetSkillList(skillRequest);
 
                 if (skills == null)

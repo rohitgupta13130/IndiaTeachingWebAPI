@@ -20,11 +20,11 @@ namespace IndiaTeachingWebAPI.Controllers
 
         // GET: api/Batches
         [HttpGet]
-        public HttpResponseMessage GetBatches(string batchName = null)
+        public HttpResponseMessage GetBatches(string argBatchesName)
         {
             try
             {
-                BatchesRequest batchesRequest = new BatchesRequest() { BatchName = batchName };
+                BatchesRequest batchesRequest = new BatchesRequest() { BatchName = argBatchesName };
                 List<Batches> batches = new BatchesDAL().GetBatchesList(batchesRequest);
                 if (batches == null)
                 {

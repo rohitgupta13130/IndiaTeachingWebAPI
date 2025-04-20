@@ -18,11 +18,11 @@ namespace IndiaTeachingWebAPI.Controllers
     {
         // GET: api/Classes
         [HttpGet]
-        public HttpResponseMessage GetClasses(string className = null)
+        public HttpResponseMessage GetClasses(string argClassName)
         {
             try
             {
-                ClassRequest classRequest = new ClassRequest() { ClassName = className };
+                ClassRequest classRequest = new ClassRequest() { ClassName = argClassName };
                 List<Classes> classes = new ClassesDAL().GetClassesList(classRequest);
                 if (classes == null)
                 {

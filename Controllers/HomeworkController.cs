@@ -15,11 +15,16 @@ namespace IndiaTeachingWebAPI.Controllers
     {
         // GET: api/HomeWork
         [HttpGet]
-        public HttpResponseMessage GetHomeWorks()
+        public HttpResponseMessage GetHomeWorks(string argHomework, int teacherId = 0)
         {
             try
             {
-                List<HomeWork> homeWorks = new HomeworkDAL().GetHomeWorkList(new HomeWorkRequest());
+                HomeWorkRequest homeWorkRequest = new HomeWorkRequest() { Homework = argHomework, TeacherId = teacherId };
+                List<HomeWork> homeWorks = new HomeworkDAL().GetHomeWorkList(homeWorkRequest);
+                if (homeWorks == null)
+                {
+                    homeWorks = new List<HomeWork>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, homeWorks);
             }
             catch (Exception ex)

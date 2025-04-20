@@ -17,13 +17,13 @@ namespace IndiaTeachingWebAPI.Controllers
     [CustomAuthenticationFilter]
     public class StudentbatchesController : ApiController
     {
-        //GET: api/Skill
+        //GET: api/Studentbatches
         [HttpGet]
-        public HttpResponseMessage GetStudentbatches(string studentName = null, int batchId = 0)
+        public HttpResponseMessage GetStudentbatches(string argStudentName, int batchId = 0)
         {
             try
             {
-                StudentbatchesRequest studentBatchesRequest = new StudentbatchesRequest() {  FirstName =  studentName , BatchId = batchId };
+                StudentbatchesRequest studentBatchesRequest = new StudentbatchesRequest() {  FirstName =  argStudentName , BatchId = batchId };
                 List<Studentbatches> studentbatches = new StudentbatchesDAL().GetStudentbatchesList(studentBatchesRequest);
                 if (studentbatches == null)
                 {
@@ -38,7 +38,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //GET: api/Student/2
+        //GET: api/Studentbatches/2
         [HttpGet]
         public HttpResponseMessage GetStudentbatches(int id)
         {

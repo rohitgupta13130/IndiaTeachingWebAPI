@@ -7,6 +7,7 @@ using India_Teaching.Models;
 using India_Teaching.DAL;
 using India_Teaching.Request;
 using India_Teaching.CustomAuthenticationFilter;
+using IndiaTechingClassLibray.DAL;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
@@ -14,6 +15,8 @@ namespace IndiaTeachingWebAPI.Controllers
     public class HomeWorkController : ApiController
     {
         // GET: api/HomeWork
+        string _HomeWorkController = "HomeWorkController";
+
         [HttpGet]
         public HttpResponseMessage GetHomeWorks(string argHomework, int teacherId = 0)
         {
@@ -29,6 +32,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetHomeWorks", _HomeWorkController, "HomeWork", ex.Message, DateTime.Now.ToString());
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

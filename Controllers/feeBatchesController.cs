@@ -18,6 +18,8 @@ namespace IndiaTeachingWebAPI.Controllers
     {
 
         //GET: api/feeBatches
+        string _FeeBatchesController = "FeeBatchesController";
+
         [HttpGet]
         public HttpResponseMessage GetfeeBatches(int feeId = 0, int batchId = 0)
         {
@@ -33,6 +35,8 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetfeeBatches", _FeeBatchesController, "FeeBatches", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

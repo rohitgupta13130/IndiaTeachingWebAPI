@@ -20,6 +20,8 @@ namespace IndiaTeachingWebAPI.Controllers
     {
 
         //GET: api/Teacher
+        string _TeacherController = "TeacherController";
+
         [HttpGet]
         public HttpResponseMessage GetTeacher(string argFullName, string argMobileNumber)
         {
@@ -35,6 +37,8 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetTeacher", _TeacherController, "Teacher", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

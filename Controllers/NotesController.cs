@@ -19,6 +19,7 @@ namespace IndiaTeachingWebAPI.Controllers
     public class NotesController : ApiController
     {
         // GET: api/Notes
+        string _NotesController = "NotesController";
 
         [HttpGet]
         public HttpResponseMessage GetNotes(string argNotesName)
@@ -36,6 +37,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetNotes", _NotesController, "Notes", ex.Message, DateTime.Now.ToString());
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

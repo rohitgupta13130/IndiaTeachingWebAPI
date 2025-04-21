@@ -15,6 +15,8 @@ namespace IndiaTeachingWebAPI.Controllers
     public class SkillController : ApiController
     {
         // GET: api/Skill
+        string _SkillController = "SkillController";
+
         [HttpGet]
         public HttpResponseMessage GetSkills(string argSkillName)
         {
@@ -32,7 +34,8 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
-               
+                new LogsDAL().SaveLogs("GetSkills", _SkillController, "Skill", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

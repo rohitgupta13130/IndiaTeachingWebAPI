@@ -18,6 +18,8 @@ namespace IndiaTeachingWebAPI.Controllers
     public class StudentController : ApiController
     {
         //Get : api/Student
+        string _StudentController = "StudentController";
+
         [HttpGet]
         public HttpResponseMessage GetStudent(string argStudentFirstName)
         {
@@ -34,6 +36,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetStudent", _StudentController, "Student", ex.Message, DateTime.Now.ToString());
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

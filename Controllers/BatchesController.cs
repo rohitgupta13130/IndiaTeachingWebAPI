@@ -19,6 +19,8 @@ namespace IndiaTeachingWebAPI.Controllers
     {
 
         // GET: api/Batches
+        string _BatchesController = "BatchesController";
+
         [HttpGet]
         public HttpResponseMessage GetBatches(string argBatchesName)
         {
@@ -34,6 +36,8 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetBatches", _BatchesController, "Batches", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

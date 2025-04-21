@@ -19,6 +19,8 @@ namespace IndiaTeachingWebAPI.Controllers
     {
 
         // GET: api/Exam
+        string _ExamController = "ExamController";
+
         [HttpGet]
         public HttpResponseMessage GetExam(string argExamName)
         {
@@ -36,6 +38,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetExam", _ExamController, "Exam", ex.Message, DateTime.Now.ToString());
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

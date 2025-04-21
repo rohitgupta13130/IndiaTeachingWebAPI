@@ -18,6 +18,8 @@ namespace IndiaTeachingWebAPI.Controllers
     public class StudentbatchesController : ApiController
     {
         //GET: api/Studentbatches
+        string _StudentbatchesController = "StudentbatchesController";
+
         [HttpGet]
         public HttpResponseMessage GetStudentbatches(string argStudentName, int batchId = 0)
         {
@@ -34,6 +36,8 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetStudnetbatches", _StudentbatchesController, "Studentbatches", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

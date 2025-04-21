@@ -17,6 +17,8 @@ namespace IndiaTeachingWebAPI.Controllers
     public class SubjectController : ApiController
     {
         //GET : api/Subject
+        string _SubjectController = "SubjectController";
+
         [HttpGet]
         public HttpResponseMessage GetSubject(string argSubjectName)
         {
@@ -32,6 +34,8 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetSubject", _SubjectController, "Subject", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

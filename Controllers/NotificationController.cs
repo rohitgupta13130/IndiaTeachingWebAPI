@@ -19,6 +19,8 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         // GET: api/Notification
+        string _NotificationController = "NotificationController";
+
         [HttpGet]
         public HttpResponseMessage GetNotification(int batchId = 0, int argTeacherId = 0)
         {
@@ -36,6 +38,7 @@ namespace IndiaTeachingWebAPI.Controllers
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetNotification", _NotificationController, "Notification", ex.Message, DateTime.Now.ToString());
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

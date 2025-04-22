@@ -19,17 +19,25 @@ namespace IndiaTeachingWebAPI.Controllers
     public class NotesController : ApiController
     {
         // GET: api/Notes
+        string _NotesController = "NotesController";
 
         [HttpGet]
-        public HttpResponseMessage GetNotes()
+        public HttpResponseMessage GetNotes(string argNotesName)
         {
             try
             {
-                List<Notes> notes = new NotesDAL().GetNotesList(new NotesRequest());
+                NotesRequest notesRequest = new NotesRequest() { Title = argNotesName };
+                List<Notes> notes = new NotesDAL().GetNotesList(notesRequest);
+
+                if (notes == null)
+                {
+                    notes = new List<Notes>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, notes);
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetNotes", _NotesController, "Notes", ex.Message, DateTime.Now.ToString());
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

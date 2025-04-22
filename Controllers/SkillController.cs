@@ -15,20 +15,32 @@ namespace IndiaTeachingWebAPI.Controllers
     public class SkillController : ApiController
     {
         // GET: api/Skill
+        string _SkillController = "SkillController";
+
         [HttpGet]
-        public HttpResponseMessage GetSkills()
+        public HttpResponseMessage GetSkills(string argSkillName)
         {
             try
             {
-                List<Skill> skills = new SkillDAL().GetSkillList(new SkillRequest());
+                SkillRequest skillRequest = new SkillRequest() { SkillName = argSkillName };
+                List<Skill> skills = new SkillDAL().GetSkillList(skillRequest);
+
+                if (skills == null)
+                {
+                    skills = new List<Skill>();
+                }
 
                 return Request.CreateResponse(HttpStatusCode.OK, skills);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetSkills", _SkillController, "Skill", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
+
+
 
         // GET: api/Skill/5
         [HttpGet]

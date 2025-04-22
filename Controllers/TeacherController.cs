@@ -20,16 +20,25 @@ namespace IndiaTeachingWebAPI.Controllers
     {
 
         //GET: api/Teacher
+        string _TeacherController = "TeacherController";
+
         [HttpGet]
-        public HttpResponseMessage GetTeacher()
+        public HttpResponseMessage GetTeacher(string argFullName, string argMobileNumber)
         {
             try
             {
-                List<Teacher> teachers = new TeacherDAL().GetTeacherList(new TeacherRequest());
+                TeacherRequest teacherRequest = new TeacherRequest() { Fullname = argFullName , MobileNumber = argMobileNumber};
+                List<Teacher> teachers = new TeacherDAL().GetTeacherList(teacherRequest);
+                if (teachers == null)
+                {
+                    teachers = new List<Teacher>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, teachers);
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetTeacher", _TeacherController, "Teacher", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

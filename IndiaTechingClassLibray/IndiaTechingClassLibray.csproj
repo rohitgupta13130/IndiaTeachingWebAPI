@@ -74,6 +74,7 @@
     <Compile Include="Models\Batches.cs" />
     <Compile Include="Models\BatchWithStudentsViewModel.cs" />
     <Compile Include="Models\Classes.cs" />
+    <Compile Include="Models\CommonBaseClass.cs" />
     <Compile Include="Models\Exam.cs" />
     <Compile Include="Models\FeeBatches.cs" />
     <Compile Include="Models\Fees.cs" />

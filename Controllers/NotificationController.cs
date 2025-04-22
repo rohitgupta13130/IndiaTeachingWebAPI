@@ -19,17 +19,26 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         // GET: api/Notification
+        string _NotificationController = "NotificationController";
+
         [HttpGet]
-        public HttpResponseMessage GetNotification()
+        public HttpResponseMessage GetNotification(int batchId = 0, int argTeacherId = 0)
         {
             try
             {
-                List<Notification> notifications = new NotificationDAL().GetNotificationList(new NotificationRequest());
+                NotificationRequest notificationRequest = new NotificationRequest() { BatchId = batchId , TeacherId = argTeacherId  };
+                List<Notification> notifications = new NotificationDAL().GetNotificationList(notificationRequest);
+
+                if(notifications == null)
+                {
+                    notifications = new List<Notification>();
+                }
 
                 return Request.CreateResponse(HttpStatusCode.OK, notifications);
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetNotification", _NotificationController, "Notification", ex.Message, DateTime.Now.ToString());
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

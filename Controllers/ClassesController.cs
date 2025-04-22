@@ -17,17 +17,25 @@ namespace IndiaTeachingWebAPI.Controllers
     public class ClassesController : ApiController
     {
         // GET: api/Classes
+        string _ClassesController = "ClassesController";
+
         [HttpGet]
-        public HttpResponseMessage GetClasses()
+        public HttpResponseMessage GetClasses(string argClassName)
         {
             try
             {
-                List<Classes> classes = new ClassesDAL().GetClassesList(new ClassRequest());
-
+                ClassRequest classRequest = new ClassRequest() { ClassName = argClassName };
+                List<Classes> classes = new ClassesDAL().GetClassesList(classRequest);
+                if (classes == null)
+                {
+                    classes = new List<Classes>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, classes);
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetClasses", _ClassesController, "Classes", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

@@ -19,17 +19,26 @@ namespace IndiaTeachingWebAPI.Controllers
     {
 
         // GET: api/Exam
+        string _ExamController = "ExamController";
+
         [HttpGet]
-        public HttpResponseMessage GetExam()
+        public HttpResponseMessage GetExam(string argExamName)
         {
             try
             {
-                List<Exam> exam = new ExamDAL().GetExamList(new ExamRequest());
+                ExamRequest examRequest = new ExamRequest() { ExamName = argExamName };
+                List<Exam> exam = new ExamDAL().GetExamList(examRequest);
+
+                if (exam == null)
+                {
+                    exam = new List<Exam>();
+                }
 
                 return Request.CreateResponse(HttpStatusCode.OK, exam);
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetExam", _ExamController, "Exam", ex.Message, DateTime.Now.ToString());
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

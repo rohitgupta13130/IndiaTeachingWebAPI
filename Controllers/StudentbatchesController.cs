@@ -10,28 +10,39 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
     [CustomAuthenticationFilter]
     public class StudentbatchesController : ApiController
     {
-        //GET: api/Skill
+        //GET: api/Studentbatches
+        string _StudentbatchesController = "StudentbatchesController";
+
         [HttpGet]
-        public HttpResponseMessage GetStudentbatches()
+        public HttpResponseMessage GetStudentbatches(string argStudentName, int batchId = 0)
         {
             try
             {
-                List<Studentbatches> studentbatches = new StudentbatchesDAL().GetStudentbatchesList(new StudentbatchesRequest());
+                StudentbatchesRequest studentBatchesRequest = new StudentbatchesRequest() {  FirstName =  argStudentName , BatchId = batchId };
+                List<Studentbatches> studentbatches = new StudentbatchesDAL().GetStudentbatchesList(studentBatchesRequest);
+                if (studentbatches == null)
+                {
+                    studentbatches = new List<Studentbatches>();
+                }
+
                 return Request.CreateResponse(HttpStatusCode.OK, studentbatches);
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetStudnetbatches", _StudentbatchesController, "Studentbatches", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
-        //GET: api/Student/2
+        //GET: api/Studentbatches/2
         [HttpGet]
         public HttpResponseMessage GetStudentbatches(int id)
         {

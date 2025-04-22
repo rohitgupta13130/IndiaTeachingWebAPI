@@ -17,16 +17,25 @@ namespace IndiaTeachingWebAPI.Controllers
     public class SubjectController : ApiController
     {
         //GET : api/Subject
+        string _SubjectController = "SubjectController";
+
         [HttpGet]
-        public HttpResponseMessage GetSubject()
+        public HttpResponseMessage GetSubject(string argSubjectName)
         {
             try
             {
-                List<Subject> subjects = new SubjectDAL().GetSubjectList(new SubjectRequest());
+                SubjectRequest subjectRequest = new SubjectRequest() { SubjectName =argSubjectName };
+                List<Subject> subjects = new SubjectDAL().GetSubjectList(subjectRequest);
+                if (subjects == null)
+                {
+                    subjects = new List<Subject>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, subjects);
             }
             catch (Exception ex)
             {
+                new LogsDAL().SaveLogs("GetSubject", _SubjectController, "Subject", ex.Message, DateTime.Now.ToString());
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

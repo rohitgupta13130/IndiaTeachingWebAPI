@@ -18,12 +18,11 @@ namespace IndiaTeachingWebAPI.Controllers
         string _SkillController = "SkillController";
 
         [HttpGet]
-        public HttpResponseMessage GetSkills(string argSkillName)
+        public HttpResponseMessage GetSkills([FromUri] SkillRequest skillRequest)
         {
             try
             {
-                SkillRequest skillRequest = new SkillRequest() { SkillName = argSkillName };
-                List<Skill> skills = new SkillDAL().GetSkillList(skillRequest);
+                List<Skill> skills = new SkillDAL().GetSkillList(skillRequest ?? new SkillRequest());
 
                 if (skills == null)
                 {
@@ -35,7 +34,6 @@ namespace IndiaTeachingWebAPI.Controllers
             catch (Exception ex)
             {
                 new LogsDAL().SaveLogs("GetSkills", _SkillController, "Skill", ex.Message, DateTime.Now.ToString());
-
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }

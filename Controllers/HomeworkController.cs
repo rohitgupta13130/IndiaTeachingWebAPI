@@ -18,12 +18,12 @@ namespace IndiaTeachingWebAPI.Controllers
         string _HomeWorkController = "HomeWorkController";
 
         [HttpGet]
-        public HttpResponseMessage GetHomeWorks(string argHomework, int teacherId = 0)
+        public HttpResponseMessage GetHomeWorks([FromUri] HomeWorkRequest homeWorkRequest)
         {
             try
             {
-                HomeWorkRequest homeWorkRequest = new HomeWorkRequest() { Homework = argHomework, TeacherId = teacherId };
-                List<HomeWork> homeWorks = new HomeworkDAL().GetHomeWorkList(homeWorkRequest);
+                
+                List<HomeWork> homeWorks = new HomeworkDAL().GetHomeWorkList(homeWorkRequest ?? new HomeWorkRequest());
                 if (homeWorks == null)
                 {
                     homeWorks = new List<HomeWork>();
@@ -37,13 +37,23 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // GET: api/HomeWork/5
+        // GET: api/HomeWork?Id=5
         [HttpGet]
-        public HttpResponseMessage GetHomeWork(int id)
+        [Route("api/HomeWork")]
+        public HttpResponseMessage GetHomeWork([FromUri] HomeWorkRequest homeWorkRequest)
         {
             try
             {
-                HomeWork homeWork = new HomeworkDAL().GetHomeWork(new HomeWorkRequest { Id = id });
+                if (homeWorkRequest == null || homeWorkRequest.Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Homework request");
+                }
+                HomeWork homeWork = new HomeworkDAL().GetHomeWork(homeWorkRequest);
+
+                if (homeWork == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "HomeWork not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, homeWork);
             }
             catch (Exception ex)
@@ -67,18 +77,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // PUT: api/HomeWork/5
+        // PUT: api/HomeWork?Id=5
         [HttpPut]
-        public HttpResponseMessage UpdateHomeWork(int id, [FromBody] HomeWork homeWork)
+        [Route("api/HomeWork")]
+        public HttpResponseMessage UpdateHomeWork([FromBody] HomeWork homeWork)
         {
             try
             {
-                if (homeWork == null || homeWork.Id != id)
+                if (homeWork == null || homeWork.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid homework data");
                 }
 
                 int homeWorkId = new HomeworkDAL().SaveHomeWork(homeWork);
+
+                if (homeWorkId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to Update Homework");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, homeWork);
             }
             catch (Exception ex)
@@ -87,18 +103,18 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // DELETE: api/HomeWork/5
+        // DELETE: api/Homework?Id=5
         [HttpDelete]
-        public HttpResponseMessage DeleteHomeWork(int id)
+        [Route("api/HomeWork")]
+        public HttpResponseMessage DeleteHomeWork([FromBody] HomeWorkRequest homeWorkRequest)
         {
             try
             {
-                if (id <= 0)
+                if (homeWorkRequest == null || homeWorkRequest.Id <=0)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                HomeWorkRequest homeWorkRequest = new HomeWorkRequest { Id = id };
                 bool isDeleted = new HomeworkDAL().Delete(homeWorkRequest);
 
                 if (isDeleted)

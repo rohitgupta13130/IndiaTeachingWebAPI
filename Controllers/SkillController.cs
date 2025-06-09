@@ -40,28 +40,43 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
 
-        // GET: api/Skill/5
+        // GET: api/Skill?SkillId=5
         [HttpGet]
-        public HttpResponseMessage GetSkill(int id)
+        [Route("api/Skill")]
+        public HttpResponseMessage GetSkill([FromUri] SkillRequest skillRequest)
         {
             try
             {
-                Skill skill = new SkillDAL().GetSkill(new SkillRequest() { SkillId = id });
-                return Request.CreateResponse(HttpStatusCode.OK,skill);
+                if (skillRequest == null || skillRequest.SkillId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid skill request.");
+                }
+
+                Skill skill = new SkillDAL().GetSkill(skillRequest);
+
+                if (skill == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Skill not found.");
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, skill);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs("GetSkill", _SkillController, "Skill", ex.Message, DateTime.Now.ToString());
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
+
+
         [HttpPost]
         // POST: api/Skill
-        public HttpResponseMessage SaveSkill([FromBody]Skill skill)
+        public HttpResponseMessage SaveSkill([FromBody] Skill skill)
         {
             try
             {
-                int skillId  = new SkillDAL().SaveSkill(skill);
+                int skillId = new SkillDAL().SaveSkill(skill);
                 return Request.CreateResponse(HttpStatusCode.OK, skillId);
             }
             catch (Exception ex)
@@ -70,38 +85,47 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
+
         [HttpPut]
-        // PUT: api/Skill/5
-        public HttpResponseMessage Put(int id, [FromBody] Skill skill)
+        [Route("api/Skill")]
+        public HttpResponseMessage Put([FromBody] Skill skill)
         {
-            
             try
             {
-                if (skill == null || skill.SkillId != id)
+                if (skill == null || skill.SkillId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid skill data.");
                 }
+
                 int skillId = new SkillDAL().SaveSkill(skill);
+
+                if (skillId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update skill.");
+                }
+
                 return Request.CreateResponse(HttpStatusCode.OK, skill);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs("PutSkill", _SkillController, "Skill", ex.Message, DateTime.Now.ToString());
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
-        // DELETE: api/Skill/5
+
+        // DELETE: api/Skill
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Skill")]
+        public HttpResponseMessage Delete([FromBody] SkillRequest skillRequest)
         {
             try
             {
-                if (id <= 0)
+                if (skillRequest == null || skillRequest.SkillId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid skill request.");
                 }
 
-                SkillRequest skillRequest = new SkillRequest { SkillId = id };
                 bool isDeleted = new SkillDAL().DeleteSkill(skillRequest);
 
                 if (isDeleted)
@@ -118,6 +142,7 @@ namespace IndiaTeachingWebAPI.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
 
     }
 }

@@ -22,12 +22,12 @@ namespace IndiaTeachingWebAPI.Controllers
         string _ExamController = "ExamController";
 
         [HttpGet]
-        public HttpResponseMessage GetExam(string argExamName)
+        public HttpResponseMessage GetExams([FromUri] ExamRequest examRequest)
         {
             try
             {
-                ExamRequest examRequest = new ExamRequest() { ExamName = argExamName };
-                List<Exam> exam = new ExamDAL().GetExamList(examRequest);
+                
+                List<Exam> exam = new ExamDAL().GetExamList(examRequest ?? new ExamRequest());
 
                 if (exam == null)
                 {
@@ -43,13 +43,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // GET: api/Exam/5
+        // GET: api/Exam?Id=5
         [HttpGet]
-        public HttpResponseMessage GetExam(int id)
+        [Route("api/Exam")]
+        public HttpResponseMessage GetExam([FromUri] ExamRequest examRequest)
         {
             try
             {
-                Exam exam = new ExamDAL().GetExam(new ExamRequest() { Id = id });
+
+                if (examRequest == null || examRequest.Id < 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid exam request.");
+                }
+
+                Exam exam = new ExamDAL().GetExam(examRequest);
+                if (exam == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Exam not found.");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, exam);
             }
             catch (Exception ex)
@@ -59,6 +70,7 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
         [HttpPost]
+      
         // POST: api/Exam
         public HttpResponseMessage SaveExam([FromBody] Exam exam)
         {
@@ -73,18 +85,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
+
         [HttpPut]
-        // PUT: api/Exam/4
-        public HttpResponseMessage Put(int id, [FromBody] Exam exam)
+        [Route("api/Exam")]
+        // PUT: api/Exam?Id=5
+        public HttpResponseMessage Put( [FromBody] Exam exam)
         {
 
             try
             {
-                if (exam == null || exam.Id != id)
+                if (exam == null || exam.Id <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid exam Request.");
                 }
                 int Id = new ExamDAL().SaveExam(exam);
+                if (Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update exam.");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, exam);
             }
             catch (Exception ex)
@@ -95,16 +113,17 @@ namespace IndiaTeachingWebAPI.Controllers
 
         // DELETE: api/Exam/5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Exam")]
+        public HttpResponseMessage Delete([FromBody] ExamRequest examRequest)
         {
             try
             {
-                if (id <= 0)
+                if (examRequest == null || examRequest.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Exam request.");
                 }
 
-                ExamRequest examRequest = new ExamRequest { Id = id };
+               
                 bool isDeleted = new ExamDAL().Delete(examRequest);
 
                 if (isDeleted)

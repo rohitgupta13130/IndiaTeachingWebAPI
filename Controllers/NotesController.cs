@@ -3,6 +3,7 @@ using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
 using Newtonsoft.Json;
 using System;
@@ -22,12 +23,12 @@ namespace IndiaTeachingWebAPI.Controllers
         string _NotesController = "NotesController";
 
         [HttpGet]
-        public HttpResponseMessage GetNotes(string argNotesName)
+        public HttpResponseMessage GetNotes([FromUri] NotesRequest notesRequest)
         {
             try
             {
-                NotesRequest notesRequest = new NotesRequest() { Title = argNotesName };
-                List<Notes> notes = new NotesDAL().GetNotesList(notesRequest);
+                
+                List<Notes> notes = new NotesDAL().GetNotesList(notesRequest ?? new NotesRequest());
 
                 if (notes == null)
                 {
@@ -42,13 +43,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Get: api/Notes/2
+        //Get: api/Notes?Id = 5
+       
         [HttpGet]
-        public HttpResponseMessage GetNotes(int id)
+        [Route("api/Notes")]
+        public HttpResponseMessage GetNote([FromUri] NotesRequest notesRequest)
         {
             try
             {
-                Notes notes = new NotesDAL().GetNotes(new NotesRequest() { Id = id });
+                if (notesRequest == null || notesRequest.Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Notest request");
+                }
+                Notes notes = new NotesDAL().GetNotes(notesRequest);
+
+                if (notes == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Notes not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, notes);
             }
             catch (Exception ex)

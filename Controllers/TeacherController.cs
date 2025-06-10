@@ -23,12 +23,12 @@ namespace IndiaTeachingWebAPI.Controllers
         string _TeacherController = "TeacherController";
 
         [HttpGet]
-        public HttpResponseMessage GetTeacher(string argFullName, string argMobileNumber)
+        public HttpResponseMessage GetTeachers([FromUri] TeacherRequest teacherRequest)
         {
             try
             {
-                TeacherRequest teacherRequest = new TeacherRequest() { Fullname = argFullName , MobileNumber = argMobileNumber};
-                List<Teacher> teachers = new TeacherDAL().GetTeacherList(teacherRequest);
+                
+                List<Teacher> teachers = new TeacherDAL().GetTeacherList(teacherRequest ?? new TeacherRequest());
                 if (teachers == null)
                 {
                     teachers = new List<Teacher>();
@@ -43,13 +43,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //GET: api/Teacher/2
+        //GET: api/Teacher?TeacherId=5
         [HttpGet]
-        public HttpResponseMessage GetTeacher(int id)
+        [Route("api/Teacher")]
+        public HttpResponseMessage GetTeacher([FromUri] TeacherRequest teacherRequest)
         {
             try
             {
-                Teacher teacher = new TeacherDAL().GetTeacher(new TeacherRequest() { TeacherID = id });
+                if (teacherRequest == null || teacherRequest.TeacherID <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Teacher request");
+                }
+
+                Teacher teacher = new TeacherDAL().GetTeacher(teacherRequest);
+
+                if (teacher == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Teacher not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, teacher);
 
             }
@@ -78,17 +89,23 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         [HttpPut]
-        // PUT: api/Teacher/5
+        [Route("api/Teacher")]
+        // PUT: api/Teacher?Id=5
         public HttpResponseMessage Put(int id, [FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
         {
 
             try
             {
-                if (teacher == null || teacher.TeacherID != id)
+                if (teacher == null || teacher.TeacherID <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid teacher data.");
                 }
                 int Id = new TeacherDAL().SaveTeacherPost(teacher, file, videoFile);
+
+                if (Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update teacher");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, teacher);
             }
             catch (Exception ex)
@@ -101,16 +118,17 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Teacher")]
+        public HttpResponseMessage Delete([FromBody] TeacherRequest teacherRequest)
         {
             try
             {
-                if (id <= 0)
+                if (teacherRequest == null || teacherRequest.TeacherID <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid teacher request.");
                 }
 
-                TeacherRequest teacherRequest = new TeacherRequest { TeacherID = id };
+               
                 bool isDeleted = new TeacherDAL().DeleteTeacher(teacherRequest);
 
                 if (isDeleted)

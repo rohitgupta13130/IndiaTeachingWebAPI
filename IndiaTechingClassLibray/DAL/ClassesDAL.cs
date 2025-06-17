@@ -16,8 +16,6 @@ namespace India_Teaching.DAL
     {
         string _ClassesDAL = "ClassesDAL";
 
-
-
         public int SaveClass(Classes argClasses)
         {
             int rs = 0;

@@ -22,12 +22,12 @@ namespace IndiaTeachingWebAPI.Controllers
         string _BatchesController = "BatchesController";
 
         [HttpGet]
-        public HttpResponseMessage GetBatches(string argBatchesName)
+        public HttpResponseMessage GetBatches([FromUri] BatchesRequest batchesRequest)
         {
             try
             {
-                BatchesRequest batchesRequest = new BatchesRequest() { BatchName = argBatchesName };
-                List<Batches> batches = new BatchesDAL().GetBatchesList(batchesRequest);
+               
+                List<Batches> batches = new BatchesDAL().GetBatchesList(batchesRequest ?? new BatchesRequest());
                 if (batches == null)
                 {
                     batches = new List<Batches>();
@@ -43,13 +43,22 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
-        // GET: api/Batches/5
+        // GET: api/Batches?Id=5
         [HttpGet]
-        public HttpResponseMessage GetBatches(int id)
+        [Route("api/Batches")]
+        public HttpResponseMessage GetBatch([FromUri] BatchesRequest batchesRequest)
         {
             try
             {
-                Batches batches = new BatchesDAL().GetBatches(new BatchesRequest() { Id = id });
+                if (batchesRequest == null || batchesRequest.Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid skill request.");
+                }
+                Batches batches = new BatchesDAL().GetBatches(batchesRequest);
+                if (batches == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Batches not found.");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, batches);
             }
             catch (Exception ex)
@@ -78,18 +87,23 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Batches batches)
+        [Route("api/Batches")]
+        public HttpResponseMessage Put( [FromBody] Batches batches)
         {
             
             try
             {
-                if (batches == null || batches.Id != id)
+                if (batches == null || batches.Id <=0)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
                 }
 
                 int batchId = new BatchesDAL().SaveBatches(batches);
-                return Request.CreateResponse(HttpStatusCode.OK, batchId);  
+                if (batchId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Falid to update batches.");
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, batches);  
             }
             catch (Exception ex)
             {
@@ -101,17 +115,18 @@ namespace IndiaTeachingWebAPI.Controllers
 
         // DELETE: api/Batches/5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Batches")]
+        public HttpResponseMessage Delete([FromBody] BatchesRequest batchesRequest)
         {
             try
             {
-                if (id <= 0)
+                if (batchesRequest == null || batchesRequest.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Batches request.");
                 }
 
-                BatchesRequest batchRequest = new BatchesRequest { Id = id };
-                bool isDeleted = new BatchesDAL().DeleteBatches(batchRequest);
+               
+                bool isDeleted = new BatchesDAL().DeleteBatches(batchesRequest);
 
                 if (isDeleted)
                 {

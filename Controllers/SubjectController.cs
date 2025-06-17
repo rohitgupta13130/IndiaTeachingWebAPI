@@ -20,12 +20,12 @@ namespace IndiaTeachingWebAPI.Controllers
         string _SubjectController = "SubjectController";
 
         [HttpGet]
-        public HttpResponseMessage GetSubject(string argSubjectName)
+        public HttpResponseMessage GetSubjects([FromUri] SubjectRequest subjectRequest)
         {
             try
             {
-                SubjectRequest subjectRequest = new SubjectRequest() { SubjectName =argSubjectName };
-                List<Subject> subjects = new SubjectDAL().GetSubjectList(subjectRequest);
+                
+                List<Subject> subjects = new SubjectDAL().GetSubjectList(subjectRequest ?? new SubjectRequest());
                 if (subjects == null)
                 {
                     subjects = new List<Subject>();
@@ -40,13 +40,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Get : api/Subject/2
+        //Get : api/Subject?Id=5
         [HttpGet]
-        public HttpResponseMessage GetSubject(int id)
+        [Route("api/Subject")]
+        public HttpResponseMessage GetSubject([FromUri] SubjectRequest subjectRequest)
         {
             try
             {
-                Subject subject = new SubjectDAL().GetSubject(new SubjectRequest() { ID = id });
+                if (subjectRequest == null || subjectRequest.ID <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Subject request.");
+                }
+                Subject subject = new SubjectDAL().GetSubject(subjectRequest);
+
+                if (subject == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Subject not found");
+                }
+
                 return Request.CreateResponse(HttpStatusCode.OK, subject);
             }
             catch (Exception ex)
@@ -72,15 +83,21 @@ namespace IndiaTeachingWebAPI.Controllers
 
         //PUT : api/Subject/2
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Subject subject)
+        [Route("api/Subject")]
+        public HttpResponseMessage Put([FromBody] Subject subject)
         {
             try
             {
-                if (subject == null || subject.ID != id)
+                if (subject == null || subject.ID <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or Id.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Subject data.");
                 }
                 int subjectId = new SubjectDAL().SaveSubject(subject);
+
+                if (subjectId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update subject.");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, subject);
             }
             catch (Exception ex)
@@ -89,18 +106,19 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Delete : api/Subject/2
+        //Delete : api/Subject?Id=5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Subject")]
+        public HttpResponseMessage Delete([FromBody] SubjectRequest subjectRequest)
         {
             try
             {
-                if (id <= 0)
+                if (subjectRequest == null || subjectRequest.ID <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Subject request.");
                 }
 
-                SubjectRequest subjectRequest = new SubjectRequest { ID = id };
+               
                 bool isDeleted = new SubjectDAL().DeleteSubject(subjectRequest);
 
                 if (isDeleted)

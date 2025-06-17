@@ -1,5 +1,6 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,6 +12,7 @@ namespace India_Teaching.DAL
 {
     public class FeesDAL
     {
+        string _feesDAL = "FeesDAL";
         public int SaveFees(Fees argFees)
         {
             int rs = 0;
@@ -37,7 +39,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveFees", _feesDAL, "Fees", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -79,7 +81,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetFees", _feesDAL, "Fees", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -122,7 +124,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveFeesList", _feesDAL, "Fees", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -154,7 +156,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("DeleteFees", _feesDAL, "Fees", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

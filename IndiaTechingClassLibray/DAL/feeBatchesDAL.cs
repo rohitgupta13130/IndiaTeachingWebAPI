@@ -1,5 +1,6 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,7 +13,7 @@ namespace India_Teaching.DAL
 {
     public class feeBatchesDAL
     {
-
+        string _feeBatchesDAL = "feeBatchesDAL";
         public int SaveFeeBatches(FeeBatches argFeeBatches)
         {
             int rs = 0;
@@ -40,7 +41,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveFeeBatches", _feeBatchesDAL, "FeeBatches", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -89,7 +90,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetFeeBatchList", _feeBatchesDAL, "FeeBatches", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -129,7 +130,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetFeeBatch", _feeBatchesDAL, "FeeBatches", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -160,7 +161,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("DeleteFeeBatches", _feeBatchesDAL, "FeeBatches", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -204,7 +205,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetFeeBatchesList", _feeBatchesDAL, "FeeBatches", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -243,7 +244,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetFeeBatches", _feeBatchesDAL, "FeeBatches", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

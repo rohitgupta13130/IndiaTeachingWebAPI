@@ -2,6 +2,7 @@
 using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,15 @@ namespace IndiaTeachingWebAPI.Controllers
 
         //GET : api/FeeTransaction
         [HttpGet]
-        public HttpResponseMessage GetFeeTransaction()
+        public HttpResponseMessage GetFeeTransactions([FromUri] FeeTransactionRequest feeTransactionRequest)
         {
             try
             {
-                List<FeeTransaction> feeTransactions = new FeeTransactionDAL().GetFeeTransactionList(new FeeTransactionRequest());
+                List<FeeTransaction> feeTransactions = new FeeTransactionDAL().GetFeeTransactionList(feeTransactionRequest ?? new FeeTransactionRequest());
+                if (feeTransactions == null)
+                {
+                    feeTransactions = new List<FeeTransaction>();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, feeTransactions);
             }
             catch (Exception ex)
@@ -30,13 +35,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //GET : api/FeeTransaction /2
+        //GET : api/FeeTransaction?Id=5
+     
         [HttpGet]
-        public HttpResponseMessage GetFeeTransaction(int id)
+        [Route("api/FeeTransaction")]
+        public HttpResponseMessage GetFeeTransaction([FromUri] FeeTransactionRequest feeTransactionRequest)
         {
             try
             {
-                FeeTransaction feeTransaction = new FeeTransactionDAL().GetFeeTransaction(new FeeTransactionRequest() { FeetransactionId = id });
+                if (feeTransactionRequest == null || feeTransactionRequest.FeetransactionId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid FeeTransaction Request");
+                }
+                FeeTransaction feeTransaction = new FeeTransactionDAL().GetFeeTransaction(feeTransactionRequest);
+
+                if (feeTransaction == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "FeeTransaction not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, feeTransaction);
             }
             catch (Exception ex)
@@ -61,18 +77,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //PUT: api/FeeTransaction / 2
+        //PUT: api/FeeTranaction?Id=5
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] FeeTransaction feeTransaction)
+        [Route("api/FeeTransaction")]
+        public HttpResponseMessage Put( [FromBody] FeeTransaction feeTransaction)
         {
             try
             {
-                if (feeTransaction == null || feeTransaction.FeetransactionId != id)
+                if (feeTransaction == null || feeTransaction.FeetransactionId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or Id");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid feetransaction data");
                 }
 
                 int feeTransactionId = new FeeTransactionDAL().SaveFeeTransaction(feeTransaction);
+
+                if (feeTransactionId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update FeeTrascation");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, feeTransaction);
             }
             catch (Exception ex)

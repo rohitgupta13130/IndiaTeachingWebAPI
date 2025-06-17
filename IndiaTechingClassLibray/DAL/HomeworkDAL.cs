@@ -7,12 +7,13 @@ using System.Linq;
 using System.Web;
 using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
 
 namespace India_Teaching.DAL
 {
     public class HomeworkDAL
     {
-
+        string _howeWorkDAL = "HomeWorkDAL";
 
         public int SaveHomeWork(HomeWork argHomeWork)
         {
@@ -42,7 +43,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveHomeWork", _howeWorkDAL, "HomeWork", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -88,7 +89,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetHomeWork", _howeWorkDAL, "HomeWork", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -135,7 +136,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetHomeWorkList", _howeWorkDAL, "HomeWork", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -165,7 +166,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-                
+                new LogsDAL().SaveLogs("Delete", _howeWorkDAL, "HomeWork", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

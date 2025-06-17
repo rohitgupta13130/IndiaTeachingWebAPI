@@ -14,7 +14,7 @@ namespace India_Teaching.DAL
 {
     public class NotificationDAL
     {
-
+        string _notificationDAL = "NotificationDAL";
         public int SaveNotification(Notification argNotification)
         {
             int rs = 0;
@@ -42,7 +42,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveNotification", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -94,7 +94,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-                new LogsDAL().SaveLogs("GetStudentListForNotify", "NotificationDAL", "DAL", ex.Message, DateTime.Now.ToString());
+                new LogsDAL().SaveLogs("GetStudentListForNotify", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -136,7 +136,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetNotification", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -183,7 +183,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetNotificationList", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -218,7 +218,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-                
+                new LogsDAL().SaveLogs("DeleteNotification", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

@@ -187,7 +187,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetFeeTransactionForStudent", _FeeTransacionDAL, "FeeTransaction", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -235,7 +235,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetDataForReceipts", _FeeTransacionDAL, "FeeTransaction", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

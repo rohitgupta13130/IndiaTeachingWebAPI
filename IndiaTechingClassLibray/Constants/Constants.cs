@@ -12,6 +12,7 @@ namespace India_Teaching.Constants
         public static string NotesFilePath = "/UploadedFiles/";
         public static string Invoices = "/Invoices";
 
-      
+
+
     }
 }

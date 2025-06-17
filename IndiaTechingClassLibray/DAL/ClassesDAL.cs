@@ -45,7 +45,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveClasses", _ClassesDAL, "Classes", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -124,7 +124,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-                new LogsDAL().SaveLogs("GetClasses", _ClassesDAL, "Classes", ex.Message, DateTime.Now.ToString());
+                new LogsDAL().SaveLogs("GetClassesList", _ClassesDAL, "Classes", ex.Message, DateTime.Now.ToString());
             }
             return classeslst;
         }
@@ -157,7 +157,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-                
+                new LogsDAL().SaveLogs("DeleteClass", _ClassesDAL, "Classes", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

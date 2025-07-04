@@ -8,6 +8,7 @@ using India_Teaching.DAL;
 using India_Teaching.Request;
 using India_Teaching.CustomAuthenticationFilter;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
@@ -20,6 +21,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetHomeWorks([FromUri] HomeWorkRequest homeWorkRequest)
         {
+            Log.Information("Entered GetHomeWorks method");
             try
             {
                 
@@ -42,6 +44,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/HomeWork")]
         public HttpResponseMessage GetHomeWork([FromUri] HomeWorkRequest homeWorkRequest)
         {
+            Log.Information("Entered GetHomeWork method");
             try
             {
                 if (homeWorkRequest == null || homeWorkRequest.Id <= 0)
@@ -66,6 +69,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveHomeWork([FromBody] HomeWork homeWork)
         {
+            Log.Information("Entered SaveHomeWork method");
             try
             {
                 int homeWorkId = new HomeworkDAL().SaveHomeWork(homeWork);
@@ -82,6 +86,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/HomeWork")]
         public HttpResponseMessage UpdateHomeWork([FromBody] HomeWork homeWork)
         {
+            Log.Information("Entered UpdateHomeWork method");
             try
             {
                 if (homeWork == null || homeWork.Id <=0)
@@ -108,6 +113,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/HomeWork")]
         public HttpResponseMessage DeleteHomeWork([FromBody] HomeWorkRequest homeWorkRequest)
         {
+            Log.Information("Entered DeleteHomeWork method");
             try
             {
                 if (homeWorkRequest == null || homeWorkRequest.Id <=0)

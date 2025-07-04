@@ -11,6 +11,7 @@ using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
@@ -24,6 +25,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetExams([FromUri] ExamRequest examRequest)
         {
+            Log.Information("Entered GetExams method");
             try
             {
                 
@@ -48,6 +50,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Exam")]
         public HttpResponseMessage GetExam([FromUri] ExamRequest examRequest)
         {
+            Log.Information("Entered GetExam method");
             try
             {
 
@@ -74,6 +77,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Exam
         public HttpResponseMessage SaveExam([FromBody] Exam exam)
         {
+            Log.Information("Entered SaveExam method");
             try
             {
                 int Id = new ExamDAL().SaveExam(exam);
@@ -91,7 +95,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // PUT: api/Exam?Id=5
         public HttpResponseMessage Put( [FromBody] Exam exam)
         {
-
+            Log.Information("Entered Put method");
             try
             {
                 if (exam == null || exam.Id <= 0)
@@ -116,6 +120,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Exam")]
         public HttpResponseMessage Delete([FromBody] ExamRequest examRequest)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (examRequest == null || examRequest.Id <=0)

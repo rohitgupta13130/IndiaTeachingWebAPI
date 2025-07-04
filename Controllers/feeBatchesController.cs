@@ -4,6 +4,7 @@ using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetfeeBatches([FromUri] FeeBatchesRequest feeBatchesRequest)
         {
+            Log.Information("Entered GetfeeBatches method");
             try
             {
                
@@ -47,6 +49,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/feeBatches")]
         public HttpResponseMessage GetfeeBatche([FromUri] FeeBatchesRequest feeBatchesRequest)
         {
+            Log.Information("Entered GetfeeBatche method");
             try
             {
                 if (feeBatchesRequest == null || feeBatchesRequest.Id <= 0)
@@ -71,6 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SavefeeBatches([FromBody] FeeBatches feeBatches)
         {
+            Log.Information("Entered SavefeeBatches method");
             try
             {
                 int feeBatchId = new feeBatchesDAL().SaveFeeBatches(feeBatches);
@@ -88,7 +92,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/feeBatches")]
         public HttpResponseMessage Put([FromBody] FeeBatches feeBatches)
         {
-
+            Log.Information("Entered Put method");
             try
             {
                 if (feeBatches == null || feeBatches.Id <=0)
@@ -116,6 +120,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/feeBatches")]
         public HttpResponseMessage Delete([FromBody] FeeBatchesRequest feeBatchesRequest)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (feeBatchesRequest == null || feeBatchesRequest.Id <= 0)

@@ -5,6 +5,7 @@ using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetTeachers([FromUri] TeacherRequest teacherRequest)
         {
+            Log.Information("Entered GetTeachers method with parameters: {@TeacherRequest}", teacherRequest);
             try
             {
                 
@@ -48,6 +50,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Teacher")]
         public HttpResponseMessage GetTeacher([FromUri] TeacherRequest teacherRequest)
         {
+            Log.Information("Entered GetTeacher method with parameters: {@TeacherRequest}", teacherRequest);
             try
             {
                 if (teacherRequest == null || teacherRequest.TeacherID <= 0)
@@ -75,6 +78,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Teacher
         public HttpResponseMessage SaveTeacher([FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
         {
+            Log.Information("Entered SaveTeacher method");
             try
             {
                 int Id = new TeacherDAL().SaveTeacherPost(teacher, file, videoFile);
@@ -93,7 +97,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // PUT: api/Teacher?Id=5
         public HttpResponseMessage Put(int id, [FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
         {
-
+            Log.Information("Entered Put method");
             try
             {
                 if (teacher == null || teacher.TeacherID <=0)
@@ -121,6 +125,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Teacher")]
         public HttpResponseMessage Delete([FromBody] TeacherRequest teacherRequest)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (teacherRequest == null || teacherRequest.TeacherID <=0)

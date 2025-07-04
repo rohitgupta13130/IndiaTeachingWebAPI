@@ -3,6 +3,7 @@ using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetFeeTransactions([FromUri] FeeTransactionRequest feeTransactionRequest)
         {
+            Log.Information("Entered GetFeeTransactions method");
             try
             {
                 List<FeeTransaction> feeTransactions = new FeeTransactionDAL().GetFeeTransactionList(feeTransactionRequest ?? new FeeTransactionRequest());
@@ -41,6 +43,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/FeeTransaction")]
         public HttpResponseMessage GetFeeTransaction([FromUri] FeeTransactionRequest feeTransactionRequest)
         {
+            Log.Information("Entered GetFeeTransaction method");
             try
             {
                 if (feeTransactionRequest == null || feeTransactionRequest.FeetransactionId <= 0)
@@ -66,6 +69,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveFeeTransaction([FromBody] FeeTransaction feeTransaction)
         {
+            Log.Information("Entered SaveFeeTransaction method");
             try
             {
                 int feeTransactionId = new FeeTransactionDAL().SaveFeeTransaction(feeTransaction);
@@ -82,6 +86,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/FeeTransaction")]
         public HttpResponseMessage Put( [FromBody] FeeTransaction feeTransaction)
         {
+            Log.Information("Entered Put method");
             try
             {
                 if (feeTransaction == null || feeTransaction.FeetransactionId <= 0)

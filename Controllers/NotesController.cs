@@ -6,6 +6,7 @@ using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetNotes([FromUri] NotesRequest notesRequest)
         {
+            Log.Information("Entered GetNotes method");
             try
             {
                 
@@ -49,6 +51,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Notes")]
         public HttpResponseMessage GetNote([FromUri] NotesRequest notesRequest)
         {
+            Log.Information("Entered GetNote method");
             try
             {
                 if (notesRequest == null || notesRequest.Id <= 0)
@@ -74,6 +77,7 @@ namespace IndiaTeachingWebAPI.Controllers
        [HttpPost]
         public HttpResponseMessage SaveNotes([FromBody] Notes notes, HttpPostedFileBase file)
         {
+            Log.Information("Entered SaveNotes method");
             try
             {
                 int notesId = new NotesDAL().SaveNotes(notes, file);
@@ -110,6 +114,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (id <= 0)

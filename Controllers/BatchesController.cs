@@ -5,6 +5,7 @@ using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
 using Microsoft.Ajax.Utilities;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetBatches([FromUri] BatchesRequest batchesRequest)
         {
+
+            Log.Information("Entered GetBatches method");
+
             try
             {
                
@@ -48,6 +52,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Batches")]
         public HttpResponseMessage GetBatch([FromUri] BatchesRequest batchesRequest)
         {
+            Log.Information("Entered GetBatch method");
             try
             {
                 if (batchesRequest == null || batchesRequest.Id <= 0)
@@ -73,6 +78,7 @@ namespace IndiaTeachingWebAPI.Controllers
         public HttpResponseMessage SaveBatches([FromBody] Batches batches)
         {
 
+            Log.Information("Entered SaveBatches method");
             try
             {
 
@@ -90,7 +96,8 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Batches")]
         public HttpResponseMessage Put( [FromBody] Batches batches)
         {
-            
+
+            Log.Information("Entered GetBatch method");
             try
             {
                 if (batches == null || batches.Id <=0)
@@ -118,6 +125,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Batches")]
         public HttpResponseMessage Delete([FromBody] BatchesRequest batchesRequest)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (batchesRequest == null || batchesRequest.Id <=0)

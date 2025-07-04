@@ -4,6 +4,7 @@ using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetSubjects([FromUri] SubjectRequest subjectRequest)
         {
+            Log.Information("Entered GetSubjects method");
             try
             {
                 
@@ -45,6 +47,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Subject")]
         public HttpResponseMessage GetSubject([FromUri] SubjectRequest subjectRequest)
         {
+            Log.Information("Entered GetSubject method");
             try
             {
                 if (subjectRequest == null || subjectRequest.ID <= 0)
@@ -70,6 +73,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveSubject([FromBody] Subject subject)
         {
+            Log.Information("Entered SaveSubject method");
             try
             {
                 int subjectId = new SubjectDAL().SaveSubject(subject);
@@ -86,6 +90,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Subject")]
         public HttpResponseMessage Put([FromBody] Subject subject)
         {
+            Log.Information("Entered Put method");
             try
             {
                 if (subject == null || subject.ID <=0)
@@ -111,6 +116,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Subject")]
         public HttpResponseMessage Delete([FromBody] SubjectRequest subjectRequest)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (subjectRequest == null || subjectRequest.ID <=0)

@@ -5,6 +5,7 @@ using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetStudents([FromUri] StudentRequest studentRequest)
         {
+            Log.Information("Entered GetStudents method");
             try
             {
                 
@@ -46,6 +48,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Student")]
         public HttpResponseMessage GetStudent([FromUri] StudentRequest studentRequest)
         {
+            Log.Information("Entered GetStudent method");
             try
             {
                 if (studentRequest == null || studentRequest.Id <= 0)
@@ -71,6 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveStudent([FromBody] Student student)
         {
+            Log.Information("Entered SaveStudent method");
             try
             {
                 int studentId = new StudentDAL().SaveStudent(student);
@@ -87,6 +91,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Student")]
         public HttpResponseMessage Put([FromBody] Student student)
         {
+            Log.Information("Entered Put method");
             try
             {
                 if (student == null || student.Id <=0)
@@ -113,6 +118,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Student")]
         public HttpResponseMessage Delete([FromBody] StudentRequest studentRequest)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (studentRequest == null || studentRequest.Id <= 0)

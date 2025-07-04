@@ -4,6 +4,7 @@ using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetStudentbatches([FromUri] StudentbatchesRequest studentbatchesRequest)
         {
+            Log.Information("Entered GetStudentbatches method");
             try
             {
                 
@@ -47,6 +49,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Studentbatches")]
         public HttpResponseMessage GetStudentbatch([FromUri] StudentbatchesRequest studentbatchesRequest)
         {
+            Log.Information("Entered GetStudentbatch method");
             try
             {
                 if (studentbatchesRequest == null || studentbatchesRequest.Id <= 0)
@@ -72,6 +75,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveStudentbatches([FromBody] Studentbatches studentbatches)
         {
+            Log.Information("Entered SaveStudentbatches method");
             try
             {
                 int studentbatchId = new StudentbatchesDAL().SaveStudentbatches(studentbatches);
@@ -88,6 +92,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Studentbatches")]
         public HttpResponseMessage Put([FromBody] Studentbatches studentbatches)
         {
+            Log.Information("Entered Put method");
             try
             {
                 if (studentbatches == null || studentbatches.Id <=0)
@@ -115,6 +120,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Studentbatches")]
         public HttpResponseMessage Delete([FromBody] StudentbatchesRequest studentbatchesRequest)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (studentbatchesRequest == null || studentbatchesRequest.Id <=0)

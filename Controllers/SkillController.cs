@@ -8,6 +8,7 @@ using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
 using IndiaTechingClassLibray.Models;
 using India_Teaching.CustomAuthenticationFilter;
+using Serilog;
 
 namespace IndiaTeachingWebAPI.Controllers
 {
@@ -20,6 +21,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetSkills([FromUri] SkillRequest skillRequest)
         {
+            Log.Information("Entered GetSkills method");
             try
             {
                 List<Skill> skills = new SkillDAL().GetSkillList(skillRequest ?? new SkillRequest());
@@ -45,6 +47,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Skill")]
         public HttpResponseMessage GetSkill([FromUri] SkillRequest skillRequest)
         {
+            Log.Information("Entered GetSkill method");
             try
             {
                 if (skillRequest == null || skillRequest.SkillId <= 0)
@@ -74,6 +77,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Skill
         public HttpResponseMessage SaveSkill([FromBody] Skill skill)
         {
+            Log.Information("Entered SaveSkill method");
             try
             {
                 int skillId = new SkillDAL().SaveSkill(skill);
@@ -90,6 +94,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Skill")]
         public HttpResponseMessage Put([FromBody] Skill skill)
         {
+            Log.Information("Entered Put method");
             try
             {
                 if (skill == null || skill.SkillId <= 0)
@@ -119,6 +124,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Skill")]
         public HttpResponseMessage Delete([FromBody] SkillRequest skillRequest)
         {
+            Log.Information("Entered Delete method");
             try
             {
                 if (skillRequest == null || skillRequest.SkillId <= 0)

@@ -26,7 +26,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetTeachers([FromUri] TeacherRequest teacherRequest)
         {
-            Log.Information("Entered GetTeachers method with parameters: {@TeacherRequest}", teacherRequest);
+            Log.Information("Entered GetTeachers method in TeacherController");
             try
             {
                 
@@ -50,7 +50,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Teacher")]
         public HttpResponseMessage GetTeacher([FromUri] TeacherRequest teacherRequest)
         {
-            Log.Information("Entered GetTeacher method with parameters: {@TeacherRequest}", teacherRequest);
+            Log.Information("Entered GetTeacher method in TeacherController");
             try
             {
                 if (teacherRequest == null || teacherRequest.TeacherID <= 0)
@@ -78,7 +78,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Teacher
         public HttpResponseMessage SaveTeacher([FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
         {
-            Log.Information("Entered SaveTeacher method");
+            Log.Information("Entered SaveTeacher method in TeacherController");
             try
             {
                 int Id = new TeacherDAL().SaveTeacherPost(teacher, file, videoFile);
@@ -97,7 +97,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // PUT: api/Teacher?Id=5
         public HttpResponseMessage Put(int id, [FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in TeacherController");
             try
             {
                 if (teacher == null || teacher.TeacherID <=0)
@@ -125,7 +125,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Teacher")]
         public HttpResponseMessage Delete([FromBody] TeacherRequest teacherRequest)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in TeacherController");
             try
             {
                 if (teacherRequest == null || teacherRequest.TeacherID <=0)

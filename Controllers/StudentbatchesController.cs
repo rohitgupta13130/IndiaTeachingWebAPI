@@ -24,7 +24,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetStudentbatches([FromUri] StudentbatchesRequest studentbatchesRequest)
         {
-            Log.Information("Entered GetStudentbatches method");
+            Log.Information("Entered GetStudentbatches method in StudentbatchesController");
             try
             {
                 
@@ -49,7 +49,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Studentbatches")]
         public HttpResponseMessage GetStudentbatch([FromUri] StudentbatchesRequest studentbatchesRequest)
         {
-            Log.Information("Entered GetStudentbatch method");
+            Log.Information("Entered GetStudentbatch method in StudentbatchesController");
             try
             {
                 if (studentbatchesRequest == null || studentbatchesRequest.Id <= 0)
@@ -75,7 +75,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveStudentbatches([FromBody] Studentbatches studentbatches)
         {
-            Log.Information("Entered SaveStudentbatches method");
+            Log.Information("Entered SaveStudentbatches method in StudentbatchesController");
             try
             {
                 int studentbatchId = new StudentbatchesDAL().SaveStudentbatches(studentbatches);
@@ -92,7 +92,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Studentbatches")]
         public HttpResponseMessage Put([FromBody] Studentbatches studentbatches)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in StudentbatchesController");
             try
             {
                 if (studentbatches == null || studentbatches.Id <=0)
@@ -120,7 +120,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Studentbatches")]
         public HttpResponseMessage Delete([FromBody] StudentbatchesRequest studentbatchesRequest)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in StudentbatchesController");
             try
             {
                 if (studentbatchesRequest == null || studentbatchesRequest.Id <=0)

@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,6 +16,8 @@ namespace India_Teaching.DAL
         string _UserTypesDAL = "UserTypesDAL";
         public List<UserTypes> GetUsers(UserTypesRequest argUserTypesRequest)
         {
+            Log.Information("Entered Getusers method in UserTypesDAL.");
+
             List<UserTypes> lst = null;
             UserTypes userTypes = null;
             SqlConnection connection = null;

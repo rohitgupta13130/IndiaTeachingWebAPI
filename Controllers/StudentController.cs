@@ -24,7 +24,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetStudents([FromUri] StudentRequest studentRequest)
         {
-            Log.Information("Entered GetStudents method");
+            Log.Information("Entered GetStudents method in StudentController");
             try
             {
                 
@@ -48,7 +48,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Student")]
         public HttpResponseMessage GetStudent([FromUri] StudentRequest studentRequest)
         {
-            Log.Information("Entered GetStudent method");
+            Log.Information("Entered GetStudent method in StudentController");
             try
             {
                 if (studentRequest == null || studentRequest.Id <= 0)
@@ -74,7 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveStudent([FromBody] Student student)
         {
-            Log.Information("Entered SaveStudent method");
+            Log.Information("Entered SaveStudent method StudentController");
             try
             {
                 int studentId = new StudentDAL().SaveStudent(student);
@@ -91,7 +91,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Student")]
         public HttpResponseMessage Put([FromBody] Student student)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in StudentController");
             try
             {
                 if (student == null || student.Id <=0)
@@ -118,7 +118,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Student")]
         public HttpResponseMessage Delete([FromBody] StudentRequest studentRequest)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in StudentController");
             try
             {
                 if (studentRequest == null || studentRequest.Id <= 0)

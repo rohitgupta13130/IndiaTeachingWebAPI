@@ -24,7 +24,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetFees()
         {
-            Log.Information("Entered GetFees method");
+            Log.Information("Entered GetFees method in FeesController");
             try
             {
                 List<Fees> skills = new FeesDAL().GetFeesList(new FeesRequest());
@@ -41,7 +41,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetFees(int id)
         {
-            Log.Information("Entered GetFees method");
+            Log.Information("Entered GetFees method in FeesController");
             try
             {
                 Fees fees = new FeesDAL().GetFees(new FeesRequest() { Id = id });
@@ -57,7 +57,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Fees
         public HttpResponseMessage SaveFees([FromBody] Fees fees)
         {
-            Log.Information("Entered SaveFees method");
+            Log.Information("Entered SaveFees method in FeesController");
             try
             {
                 int feesId = new FeesDAL().SaveFees(fees);
@@ -74,7 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // PUT: api/Fees/5
         public HttpResponseMessage Put(int id, [FromBody] Fees fees)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in FeesController");
             try
             {
                 if (fees == null || fees.Id != id)
@@ -96,7 +96,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // DELETE: api/Fees/5
         public HttpResponseMessage Delete(int id)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in FeesController");
             try
             {
                 if (id <= 0)

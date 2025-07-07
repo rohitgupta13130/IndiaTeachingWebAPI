@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,6 +17,7 @@ namespace India_Teaching.DAL
         string _feeBatchesDAL = "feeBatchesDAL";
         public int SaveFeeBatches(FeeBatches argFeeBatches)
         {
+            Log.Information("Entered SaveFeeBatches method in feeBatchesDAL.");
             int rs = 0;
             SqlConnection sqlConnection = null;
             SqlCommand sqlCommand = null;
@@ -55,6 +57,8 @@ namespace India_Teaching.DAL
 
         public List<FeeBatches> GetFeeBatchList(FeeBatchesRequest argBatchesRequest)
         {
+            Log.Information("Entered GetFeeBatchList method in feeBatchesDAL.");
+
             List<FeeBatches> feeBatchesList = null;
             FeeBatches feeBatches = null;
             SqlConnection connection = null;
@@ -101,6 +105,8 @@ namespace India_Teaching.DAL
 
         public FeeBatches GetFeeBatch(FeeBatchesRequest argBatchesRequest)
         {
+            Log.Information("Entered GetFeeBatch method in feeBatchesDAL.");
+
             FeeBatches feeBatches = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -141,6 +147,8 @@ namespace India_Teaching.DAL
 
         public bool DeleteFeeBatches(FeeBatchesRequest argFeeBatchesRequest)
         {
+            Log.Information("Entered DeleteFeeBatches method in feeBatchesDAL.");
+
             bool isSuccess = false;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -174,6 +182,8 @@ namespace India_Teaching.DAL
 
         public List<FeeBatches> GetFeeBatchesList(FeeBatchesRequest argBatchesRequest)
         {
+            Log.Information("Entered GetFeeBatchesList method in feeBatchesDAL.");
+
             List<FeeBatches> feeBatchesList = null;
             FeeBatches feeBatches = null;
             SqlConnection connection = null;
@@ -216,6 +226,8 @@ namespace India_Teaching.DAL
 
         public FeeBatches GetFeeBatches(FeeBatchesRequest argBatchesRequest)
         {
+            Log.Information("Entered GetFeeBatches method in feeBatchesDAL.");
+
             FeeBatches feeBatches = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;

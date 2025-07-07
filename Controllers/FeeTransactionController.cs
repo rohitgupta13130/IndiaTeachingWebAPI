@@ -21,7 +21,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetFeeTransactions([FromUri] FeeTransactionRequest feeTransactionRequest)
         {
-            Log.Information("Entered GetFeeTransactions method");
+            Log.Information("Entered GetFeeTransactions method in FeeTranscationController");
             try
             {
                 List<FeeTransaction> feeTransactions = new FeeTransactionDAL().GetFeeTransactionList(feeTransactionRequest ?? new FeeTransactionRequest());
@@ -43,7 +43,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/FeeTransaction")]
         public HttpResponseMessage GetFeeTransaction([FromUri] FeeTransactionRequest feeTransactionRequest)
         {
-            Log.Information("Entered GetFeeTransaction method");
+            Log.Information("Entered GetFeeTransaction method in FeeTransactionController");
             try
             {
                 if (feeTransactionRequest == null || feeTransactionRequest.FeetransactionId <= 0)
@@ -69,7 +69,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveFeeTransaction([FromBody] FeeTransaction feeTransaction)
         {
-            Log.Information("Entered SaveFeeTransaction method");
+            Log.Information("Entered SaveFeeTransaction method in FeeTransactionController");
             try
             {
                 int feeTransactionId = new FeeTransactionDAL().SaveFeeTransaction(feeTransaction);
@@ -86,7 +86,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/FeeTransaction")]
         public HttpResponseMessage Put( [FromBody] FeeTransaction feeTransaction)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in FeeTransactionController");
             try
             {
                 if (feeTransaction == null || feeTransaction.FeetransactionId <= 0)

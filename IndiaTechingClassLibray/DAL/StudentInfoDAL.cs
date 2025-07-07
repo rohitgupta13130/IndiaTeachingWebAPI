@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,6 +17,8 @@ namespace India_Teaching.DAL
         string _StudentInfoDAL = "StudentInfoDAL";
         public int SaveStudentInfo(StudentInfo argStudentInfo)
         {
+            Log.Information("Entered SaveStudentInfo method in StudentInfoDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -58,6 +61,8 @@ namespace India_Teaching.DAL
 
         public StudentInfo GetStudentInfo(StudentInfoRequest argStudentInfoRequest)
         {
+            Log.Information("Entered GetStudentInfo method in StudentInfoDAL.");
+
             StudentInfo studentInfo = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -102,6 +107,8 @@ namespace India_Teaching.DAL
 
         public List<StudentInfo> GetStudentInfoList(StudentInfoRequest argStudentInfoRequest)
         {
+            Log.Information("Entered GetStudentInfoList method in StudentInfoDAL.");
+
             List<StudentInfo> studentInfoList = null;
             StudentInfo studentInfo = null;
             SqlConnection connection = null;

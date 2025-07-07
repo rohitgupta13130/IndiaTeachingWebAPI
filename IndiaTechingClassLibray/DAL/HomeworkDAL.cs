@@ -8,6 +8,7 @@ using System.Web;
 using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 
 namespace India_Teaching.DAL
 {
@@ -17,6 +18,8 @@ namespace India_Teaching.DAL
 
         public int SaveHomeWork(HomeWork argHomeWork)
         {
+            Log.Information("Entered SaveFeeTransaction method in HomeworkDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -55,6 +58,8 @@ namespace India_Teaching.DAL
 
         public HomeWork GetHomeWork(HomeWorkRequest argHomeWorkRequest)
         {
+            Log.Information("Entered GetHomeWork method in HomeworkDAL.");
+
             HomeWork homeWork = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -100,6 +105,8 @@ namespace India_Teaching.DAL
 
         public List<HomeWork> GetHomeWorkList(HomeWorkRequest argHomeWorkRequest)
         {
+            Log.Information("Entered GetHomeWorkList method in HomeworkDAL.");
+
             List<HomeWork> homeWorkList = null;
             HomeWork homeWork = null;
             SqlConnection connection = null;
@@ -148,6 +155,8 @@ namespace India_Teaching.DAL
 
         public bool Delete(HomeWorkRequest argHoWorkRequest)
         {
+            Log.Information("Entered Delete method in HomeworkDAL.");
+
             bool isSuccess = false;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;

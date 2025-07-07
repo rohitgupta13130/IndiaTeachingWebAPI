@@ -25,7 +25,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetExams([FromUri] ExamRequest examRequest)
         {
-            Log.Information("Entered GetExams method");
+            Log.Information("Entered GetExams method in ExamController");
             try
             {
                 
@@ -50,7 +50,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Exam")]
         public HttpResponseMessage GetExam([FromUri] ExamRequest examRequest)
         {
-            Log.Information("Entered GetExam method");
+            Log.Information("Entered GetExam method in ExamController");
             try
             {
 
@@ -77,7 +77,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Exam
         public HttpResponseMessage SaveExam([FromBody] Exam exam)
         {
-            Log.Information("Entered SaveExam method");
+            Log.Information("Entered SaveExam method in ExamController");
             try
             {
                 int Id = new ExamDAL().SaveExam(exam);
@@ -95,7 +95,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // PUT: api/Exam?Id=5
         public HttpResponseMessage Put( [FromBody] Exam exam)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in ExamController ");
             try
             {
                 if (exam == null || exam.Id <= 0)
@@ -120,7 +120,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Exam")]
         public HttpResponseMessage Delete([FromBody] ExamRequest examRequest)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in ExamController");
             try
             {
                 if (examRequest == null || examRequest.Id <=0)

@@ -21,7 +21,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetHomeWorks([FromUri] HomeWorkRequest homeWorkRequest)
         {
-            Log.Information("Entered GetHomeWorks method");
+            Log.Information("Entered GetHomeWorks method in HomeworkController");
             try
             {
                 
@@ -44,7 +44,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/HomeWork")]
         public HttpResponseMessage GetHomeWork([FromUri] HomeWorkRequest homeWorkRequest)
         {
-            Log.Information("Entered GetHomeWork method");
+            Log.Information("Entered GetHomeWork method in HomeWorkController");
             try
             {
                 if (homeWorkRequest == null || homeWorkRequest.Id <= 0)
@@ -69,7 +69,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveHomeWork([FromBody] HomeWork homeWork)
         {
-            Log.Information("Entered SaveHomeWork method");
+            Log.Information("Entered SaveHomeWork method in HomeworkController");
             try
             {
                 int homeWorkId = new HomeworkDAL().SaveHomeWork(homeWork);
@@ -86,7 +86,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/HomeWork")]
         public HttpResponseMessage UpdateHomeWork([FromBody] HomeWork homeWork)
         {
-            Log.Information("Entered UpdateHomeWork method");
+            Log.Information("Entered (UpdateHomeWork) method in HomeWorkController");
             try
             {
                 if (homeWork == null || homeWork.Id <=0)
@@ -113,7 +113,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/HomeWork")]
         public HttpResponseMessage DeleteHomeWork([FromBody] HomeWorkRequest homeWorkRequest)
         {
-            Log.Information("Entered DeleteHomeWork method");
+            Log.Information("Entered DeleteHomeWork method in HomeworkController");
             try
             {
                 if (homeWorkRequest == null || homeWorkRequest.Id <=0)

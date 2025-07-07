@@ -26,7 +26,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetNotes([FromUri] NotesRequest notesRequest)
         {
-            Log.Information("Entered GetNotes method");
+            Log.Information("Entered GetNotes method in NotesController");
             try
             {
                 
@@ -51,7 +51,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Notes")]
         public HttpResponseMessage GetNote([FromUri] NotesRequest notesRequest)
         {
-            Log.Information("Entered GetNote method");
+            Log.Information("Entered GetNote method in NotesController");
             try
             {
                 if (notesRequest == null || notesRequest.Id <= 0)
@@ -77,7 +77,7 @@ namespace IndiaTeachingWebAPI.Controllers
        [HttpPost]
         public HttpResponseMessage SaveNotes([FromBody] Notes notes, HttpPostedFileBase file)
         {
-            Log.Information("Entered SaveNotes method");
+            Log.Information("Entered SaveNotes method in NotesController");
             try
             {
                 int notesId = new NotesDAL().SaveNotes(notes, file);
@@ -114,7 +114,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in NotesController");
             try
             {
                 if (id <= 0)

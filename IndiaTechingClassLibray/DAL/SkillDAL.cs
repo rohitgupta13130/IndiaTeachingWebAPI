@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Enums;
 using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,6 +19,8 @@ namespace IndiaTechingClassLibray.DAL
 
         public int SaveSkill(Skill argSkill)
         {
+            Log.Information("Entered SaveSkill method in SkillDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -69,6 +72,8 @@ namespace IndiaTechingClassLibray.DAL
 
         public Skill GetSkill(SkillRequest argSkillRequest)
         {
+            Log.Information("Entered GetSkill method in SkillDAL.");
+
             Skill skill = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -111,6 +116,8 @@ namespace IndiaTechingClassLibray.DAL
 
         public List<Skill> GetSkillList(SkillRequest argSkillRequest)
         {
+            Log.Information("Entered SaveSkillList method in SkillDAL.");
+
             List<Skill> skillList = null;
             Skill skill = null;
             SqlConnection connection = null;
@@ -155,6 +162,8 @@ namespace IndiaTechingClassLibray.DAL
 
         public bool DeleteSkill(SkillRequest argSkillRequest)
         {
+            Log.Information("Entered DeleteSkill method in SkillDAL.");
+
             bool isSuccess = false;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;

@@ -14,10 +14,18 @@ namespace IndiaTeachingWebAPI
     {
         protected void Application_Start()
         {
+            var logDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            if (!System.IO.Directory.Exists(logDirectory))
+            {
+                System.IO.Directory.CreateDirectory(logDirectory);
+            }
+
+            var logFilePath = System.IO.Path.Combine(logDirectory, "log.txt");
+
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug() // Change to Information for production
-                .WriteTo.File(AppDomain.CurrentDomain.BaseDirectory + "\\Logs\\log-.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
+               .MinimumLevel.Debug()
+               .WriteTo.File(logFilePath, rollingInterval: RollingInterval.Day)
+               .CreateLogger();
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

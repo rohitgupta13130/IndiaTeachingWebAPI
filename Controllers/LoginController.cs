@@ -19,7 +19,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage Login()
         {
-            Log.Information("Entered Login method");
+            Log.Information("Entered Login method in LoginController");
             try
             {
                 List<UserTypes> userTypes = new UserTypesDAL().GetUsers(new UserTypesRequest());
@@ -50,7 +50,7 @@ namespace IndiaTeachingWebAPI.Controllers
         //[Route("api/Login/Verify")]
         public HttpResponseMessage LoginPost([FromBody] LoginRequest loginRequest)
         {
-            Log.Information("Entered LoginPost method");
+            Log.Information("Entered LoginPost method in LoginController");
             try
             {
                 if (loginRequest == null || string.IsNullOrEmpty(loginRequest.UserName) || string.IsNullOrEmpty(loginRequest.UserPassword))

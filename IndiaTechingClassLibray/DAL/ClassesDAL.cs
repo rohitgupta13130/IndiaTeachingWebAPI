@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using India_Teaching.Enums;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 
 namespace India_Teaching.DAL
 {
@@ -18,6 +19,8 @@ namespace India_Teaching.DAL
 
         public int SaveClass(Classes argClasses)
         {
+            Log.Information("Entered SaveClass method in ClassesDAL.");
+
             int rs = 0;
             SqlConnection sqlConnection = null;
             SqlCommand sqlCommand = null;
@@ -54,6 +57,7 @@ namespace India_Teaching.DAL
 
         public Classes GetClasses(ClassRequest argClassRequest)
         {
+            Log.Information("Entered GetClass method in ClassesDAL.");
             Classes classes = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -91,6 +95,8 @@ namespace India_Teaching.DAL
 
         public List<Classes> GetClassesList(ClassRequest argClassRequest)
         {
+            Log.Information("Entered GetClassesList method in ClassesDAL.");
+
             List<Classes> classeslst = null;
             Classes classes = null;
             SqlConnection connection = null;
@@ -131,6 +137,7 @@ namespace India_Teaching.DAL
 
         public bool DeleteClass(ClassRequest argClassRequest)
         {
+            Log.Information("Entered DeleteClass method in ClassesDAL.");
 
             bool isSuccess = false;
             SqlConnection connection = null;

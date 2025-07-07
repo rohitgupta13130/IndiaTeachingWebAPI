@@ -21,7 +21,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetSkills([FromUri] SkillRequest skillRequest)
         {
-            Log.Information("Entered GetSkills method");
+            Log.Information("Entered GetSkills method in SkillController");
             try
             {
                 List<Skill> skills = new SkillDAL().GetSkillList(skillRequest ?? new SkillRequest());
@@ -47,7 +47,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Skill")]
         public HttpResponseMessage GetSkill([FromUri] SkillRequest skillRequest)
         {
-            Log.Information("Entered GetSkill method");
+            Log.Information("Entered GetSkill method in SkillController");
             try
             {
                 if (skillRequest == null || skillRequest.SkillId <= 0)
@@ -77,7 +77,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Skill
         public HttpResponseMessage SaveSkill([FromBody] Skill skill)
         {
-            Log.Information("Entered SaveSkill method");
+            Log.Information("Entered SaveSkill method in SkillController");
             try
             {
                 int skillId = new SkillDAL().SaveSkill(skill);
@@ -94,7 +94,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Skill")]
         public HttpResponseMessage Put([FromBody] Skill skill)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in SkillController");
             try
             {
                 if (skill == null || skill.SkillId <= 0)

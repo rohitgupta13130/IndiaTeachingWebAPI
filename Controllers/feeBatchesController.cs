@@ -24,7 +24,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetfeeBatches([FromUri] FeeBatchesRequest feeBatchesRequest)
         {
-            Log.Information("Entered GetfeeBatches method");
+            Log.Information("Entered GetfeeBatches method in feeBatchesController");
             try
             {
                
@@ -49,7 +49,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/feeBatches")]
         public HttpResponseMessage GetfeeBatche([FromUri] FeeBatchesRequest feeBatchesRequest)
         {
-            Log.Information("Entered GetfeeBatche method");
+            Log.Information("Entered GetfeeBatche method in feeBatchesController");
             try
             {
                 if (feeBatchesRequest == null || feeBatchesRequest.Id <= 0)
@@ -74,7 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SavefeeBatches([FromBody] FeeBatches feeBatches)
         {
-            Log.Information("Entered SavefeeBatches method");
+            Log.Information("Entered SavefeeBatches method feeBatchesController");
             try
             {
                 int feeBatchId = new feeBatchesDAL().SaveFeeBatches(feeBatches);
@@ -92,7 +92,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/feeBatches")]
         public HttpResponseMessage Put([FromBody] FeeBatches feeBatches)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in feeBatchesController");
             try
             {
                 if (feeBatches == null || feeBatches.Id <=0)
@@ -120,7 +120,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/feeBatches")]
         public HttpResponseMessage Delete([FromBody] FeeBatchesRequest feeBatchesRequest)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in feeBatchesController");
             try
             {
                 if (feeBatchesRequest == null || feeBatchesRequest.Id <= 0)

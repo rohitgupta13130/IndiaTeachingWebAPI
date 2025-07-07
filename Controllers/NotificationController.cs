@@ -25,7 +25,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetNotifications([FromUri] NotificationRequest notificationRequest)
         {
-            Log.Information("Entered GetNotifications method");
+            Log.Information("Entered GetNotifications method in NotificationController");
             try
             {
                
@@ -50,7 +50,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Notification")]
         public HttpResponseMessage GetNotification([FromUri] NotificationRequest notificationRequest)
         {
-            Log.Information("Entered GetNotification method");
+            Log.Information("Entered GetNotification method in NotificationController");
             try
             {
                 if (notificationRequest == null || notificationRequest.Id <= 0)
@@ -76,7 +76,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Notification
         public HttpResponseMessage SaveNotification([FromBody] Notification notification)
         {
-            Log.Information("Entered SaveNotification method");
+            Log.Information("Entered SaveNotification method in NotificationController");
             try
             {
                 int Id = new NotificationDAL().SaveNotification(notification);
@@ -93,7 +93,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // PUT: api/Notification?Id=5
         public HttpResponseMessage Put([FromBody] Notification notification)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in NotificationController");
             try
             {
                 if (notification == null || notification.Id <=0)
@@ -119,7 +119,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Notification")]
         public HttpResponseMessage Delete([FromBody] NotificationRequest notificationRequest)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in NotificationController");
             try
             {
                 if (notificationRequest == null || notificationRequest.Id <=0)

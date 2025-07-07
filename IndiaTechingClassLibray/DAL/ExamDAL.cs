@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,6 +17,7 @@ namespace India_Teaching.DAL
         string _ExamDAL = "ExamDAL";
         public int SaveExam(Exam argExam)
         {
+            Log.Information("Entered SaveExam method in ExamDAL.");
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -56,6 +58,7 @@ namespace India_Teaching.DAL
 
         public Exam GetExam(ExamRequest argExamRequest)
         {
+            Log.Information("Entered GetExam method in ExamDAL.");
             Exam exam = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -104,6 +107,8 @@ namespace India_Teaching.DAL
         public List<Exam> GetExamList(ExamRequest argExamRequest)
 
         {
+            Log.Information("Entered GetExamList method in ExamDAL.");
+
             List<Exam> examList = null;
             Exam exam = null;
             SqlConnection connection = null;
@@ -155,6 +160,8 @@ namespace India_Teaching.DAL
 
         public bool Delete(ExamRequest argExamRequest)
         {
+            Log.Information("Entered Delete method in ExamDAL.");
+
             bool isSuccess = false;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;

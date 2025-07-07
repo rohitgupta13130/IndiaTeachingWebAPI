@@ -23,7 +23,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetClasses([FromUri] ClassRequest classRequest)
         {
-            Log.Information("Entered GetClasses method");
+            Log.Information("Entered GetClasses method in ClassesController");
 
             try
             {
@@ -49,7 +49,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Classes")]
         public HttpResponseMessage GetClasse([FromUri] ClassRequest classRequest)
         {
-            Log.Information("Entered GetClasse method");
+            Log.Information("Entered GetClasses method in ClassesController");
             try
             {
                 if (classRequest == null || classRequest.ClassId <= 0)
@@ -74,7 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Classes
         public HttpResponseMessage SaveClasses([FromBody] Classes classes)
         {
-            Log.Information("Entered SaveClasses method");
+            Log.Information("Entered SaveClasses method in ClassesController");
             try
             {
                 int classId = new ClassesDAL().SaveClass(classes);
@@ -92,7 +92,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // PUT: api/Classes?ClassId=5
         public HttpResponseMessage Put( [FromBody] Classes classes)
         {
-            Log.Information("Entered Put method");
+            Log.Information("Entered (Update) method in ClassesController");
             try
             {
                 if (classes == null || classes.ClassId <=0)
@@ -118,7 +118,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [Route("api/Classes")]
         public HttpResponseMessage Delete([FromBody] ClassRequest classRequest)
         {
-            Log.Information("Entered Delete method");
+            Log.Information("Entered Delete method in ClassesController");
             try
             {
                 if (classRequest == null|| classRequest.ClassId <=0)

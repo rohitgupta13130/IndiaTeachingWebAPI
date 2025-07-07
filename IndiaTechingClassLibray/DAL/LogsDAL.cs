@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,6 +14,8 @@ namespace IndiaTechingClassLibray.DAL
     {
         public int SaveLogs(string methodName, string className, string folderName, string errorMessage, string createdDate)
         {
+            Log.Information("Entered SaveLogs method in LogsDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;

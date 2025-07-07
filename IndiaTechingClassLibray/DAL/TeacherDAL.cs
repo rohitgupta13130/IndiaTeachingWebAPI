@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using Microsoft.SqlServer;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Models;
+using Serilog;
 
 namespace India_Teaching.DAL
 {
@@ -19,6 +20,8 @@ namespace India_Teaching.DAL
         string _TeacherDAL = "TeacherDAL";
         public int SaveTeacherPost(Teacher argTeacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
         {
+            Log.Information("Entered SaveTeacherPost method in TeacherDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -70,6 +73,8 @@ namespace India_Teaching.DAL
         }
         public Teacher GetTeacher(TeacherRequest argTeacherRequest)
         {
+            Log.Information("Entered GetTeacher method in TeacherDAL.");
+
             Teacher teacher = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -117,6 +122,8 @@ namespace India_Teaching.DAL
         }
         public List<Teacher> GetTeacherList(TeacherRequest argTeacherRequest)
         {
+            Log.Information("Entered GetTeacherList method in TeacherDAL.");
+
             List<Teacher> teacherList = null;
             Teacher teacher = null;
             SqlConnection connection = null;
@@ -169,6 +176,8 @@ namespace India_Teaching.DAL
         }
         public List<Skill> GetSkillsByTeacherId(int argTeacherId)
         {
+            Log.Information("Entered GetSkillsByTeacherId method in TeacherDAL.");
+
             List<Skill> skills = null;
             Skill skill = null;
             SqlConnection connection = null;
@@ -205,6 +214,8 @@ namespace India_Teaching.DAL
 
         public List<int> GetTeacherBySearch(string teacherSearch)
         {
+            Log.Information("Entered GetTeacherBySearch method in TeacherDAL.");
+
             List<int> teacherIds = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -255,6 +266,7 @@ namespace India_Teaching.DAL
 
         public bool DeleteTeacher(TeacherRequest argTeacherRequest)
         {
+            Log.Information("Entered DeleteTeacher method in TeacherDAL.");
 
             bool isSuccess = false;
             SqlConnection connection = null;

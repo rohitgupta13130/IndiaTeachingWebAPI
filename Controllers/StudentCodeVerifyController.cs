@@ -19,7 +19,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetStudentCodeVerify()
         {
-            Log.Information("Entered GetStudentCodeVerify method");
+            Log.Information("Entered GetStudentCodeVerify method in StudentCodeVerifyController");
             try
             {
                 List<StudentCodeVerify> studentCodeVerify = new StudentCodeVerifyDAL().GetStudentCodeVerifyList(new StudentCodeVerifyRequest());
@@ -37,7 +37,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetStudentCodeVerify(int id)
         {
-            Log.Information("Entered GetStudentCodeVerify method");
+            Log.Information("Entered GetStudentCodeVerify method in StudentCodeVerifyController");
             try
             {
                 StudentCodeVerify studentCodeVerify = new StudentCodeVerifyDAL().GetStudentCodeVerify(new StudentCodeVerifyRequest() { Id = id });
@@ -54,7 +54,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveStudentCodeVerify([FromBody] StudentCodeVerify studentCodeVerify)
         {
-            Log.Information("Entered SaveStudentCodeVerfiy method");
+            Log.Information("Entered SaveStudentCodeVerfiy method in StudentCodeVerifyController");
             try
             {
                 int id = new StudentCodeVerifyDAL().SaveStudentCodeVerify(studentCodeVerify);
@@ -72,7 +72,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPut]
         public HttpResponseMessage UpdateStudentCodeVerify(int id,[FromBody] StudentCodeVerify studentCodeVerify)
         {
-            Log.Information("Entered UpdateStudentCodeVerify method");
+            Log.Information("Entered UpdateStudentCodeVerify method in StudentCodeVerifyController");
             try
             {
                 if (studentCodeVerify == null || studentCodeVerify.Id != id)

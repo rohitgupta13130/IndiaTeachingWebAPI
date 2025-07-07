@@ -20,7 +20,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetStudentInfo()
         {
-            Log.Information("Entered GetStudentInfo method");
+            Log.Information("Entered GetStudentInfo method in StudentInfoController");
             try
             {
                 List<StudentInfo> studentInfo = new StudentInfoDAL().GetStudentInfoList(new StudentInfoRequest());
@@ -38,7 +38,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpGet]
         public HttpResponseMessage GetStudentInfo(int id)
         {
-            Log.Information("Entered GetStudentInfo method");
+            Log.Information("Entered GetStudentInfo method in StudentInfoController");
             try
             {
 
@@ -57,7 +57,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveStudentInfo([FromBody] StudentInfo studentInfo)
         {
-            Log.Information("Entered SaveStudentInfo method");
+            Log.Information("Entered SaveStudentInfo method in StudentInfoController");
             try
             {
 
@@ -76,7 +76,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPut]
         public HttpResponseMessage UpdateStudentInfo(int id, [FromBody] StudentInfo studentInfo)
         {
-            Log.Information("Entered UpdateStudentInfo method");
+            Log.Information("Entered UpdateStudentInfo method in StudentInfoController");
             try
             {
                 if (studentInfo == null || studentInfo.Id != id)

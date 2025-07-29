@@ -1,5 +1,6 @@
 ﻿using India_Teaching.Models;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,6 +16,8 @@ namespace India_Teaching.DAL
 
         public List<UserAccess> GetUserAccess(int argUserType)
         {
+            Log.Information("Entered GetUserAccess method in UserTypesDAL.");
+
             List<UserAccess> lst = null;
             UserAccess userAccess = null;
             SqlConnection connection = null;

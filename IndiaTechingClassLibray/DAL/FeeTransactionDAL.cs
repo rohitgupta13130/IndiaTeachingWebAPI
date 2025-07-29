@@ -2,6 +2,7 @@
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,6 +18,8 @@ namespace India_Teaching.DAL
         string _FeeTransacionDAL = "FeeTransactionDAL";
         public int SaveFeeTransaction(FeeTransaction argFeeTransaction)
         {
+            Log.Information("Entered SaveFeeTransaction method in FeeTransactionDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -57,6 +60,8 @@ namespace India_Teaching.DAL
         }
         public FeeTransaction GetFeeTransaction(FeeTransactionRequest argFeeTransactionRequest)
         {
+            Log.Information("Entered GetFeeTransaction method in FeeTransactionDAL.");
+
             FeeTransaction feeTransaction = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -100,6 +105,8 @@ namespace India_Teaching.DAL
         }
         public List<FeeTransaction> GetFeeTransactionList(FeeTransactionRequest argFeeTransactionRequest)
         {
+            Log.Information("Entered GetFeeTransactionList method in FeeTransactionDAL.");
+
             List<FeeTransaction> feeTransactionList = null;
             FeeTransaction feeTransaction = null;
             SqlConnection connection = null;
@@ -149,6 +156,8 @@ namespace India_Teaching.DAL
 
         public List<FeeTransaction> GetFeeTransactionForStudent(int argStudentId, int argFeeTransactionId)
         {
+            Log.Information("Entered GetFeeTransactionForStudent method in FeeTransactionDAL.");
+
             List<FeeTransaction> feeTransactionList = null;
             FeeTransaction feeTransaction = null;
             SqlConnection connection = null;
@@ -187,7 +196,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetFeeTransactionForStudent", _FeeTransacionDAL, "FeeTransaction", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -198,6 +207,8 @@ namespace India_Teaching.DAL
 
         public List<FeeTransaction> GetDataForReceipts()
         {
+            Log.Information("Entered GetDataForReceipts method in FeeTransactionDAL.");
+
             List<FeeTransaction> feeTransactionList = null;
             FeeTransaction feeTransaction = null;
             SqlConnection connection = null;
@@ -235,7 +246,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetDataForReceipts", _FeeTransacionDAL, "FeeTransaction", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

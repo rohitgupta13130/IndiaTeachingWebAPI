@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,6 +16,8 @@ namespace India_Teaching.DAL
         string _YearsDAL = "YearsDAL";
         public List<Years> GetYears(YearsRequest argYearsRequest)
         {
+            Log.Information("Entered GetYears method in TeacherDAL.");
+
             List<Years> yearlist = null;
             Years years = null;
             SqlConnection connection = null;

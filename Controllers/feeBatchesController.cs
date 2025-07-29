@@ -4,6 +4,7 @@ using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,13 @@ namespace IndiaTeachingWebAPI.Controllers
         string _FeeBatchesController = "FeeBatchesController";
 
         [HttpGet]
-        public HttpResponseMessage GetfeeBatches(int feeId = 0, int batchId = 0)
+        public HttpResponseMessage GetfeeBatches([FromUri] FeeBatchesRequest feeBatchesRequest)
         {
+            Log.Information("Entered GetfeeBatches method in feeBatchesController");
             try
             {
-                FeeBatchesRequest feeBatchesRequest = new FeeBatchesRequest() { FeeId = feeId, batchId = batchId };
-                List<FeeBatches> feeBatches = new feeBatchesDAL().GetFeeBatchList(feeBatchesRequest);
+               
+                List<FeeBatches> feeBatches = new feeBatchesDAL().GetFeeBatchList(feeBatchesRequest?? new FeeBatchesRequest());
                 if (feeBatches == null)
                 {
                     feeBatches = new List<FeeBatches>();
@@ -42,14 +44,23 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
-        //GET: api/feeBatches/2
+        //GET: api/feeBatches?Id=5
         [HttpGet]
-        public HttpResponseMessage GetfeeBatches(int id)
+        [Route("api/feeBatches")]
+        public HttpResponseMessage GetfeeBatche([FromUri] FeeBatchesRequest feeBatchesRequest)
         {
+            Log.Information("Entered GetfeeBatche method in feeBatchesController");
             try
             {
-
-                FeeBatches feeBatches = new feeBatchesDAL().GetFeeBatch(new FeeBatchesRequest() { Id = id });
+                if (feeBatchesRequest == null || feeBatchesRequest.Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid feebatches request");
+                }
+                FeeBatches feeBatches = new feeBatchesDAL().GetFeeBatch(feeBatchesRequest);
+                if (feeBatches == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Feebatches not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, feeBatches);
             }
             catch (Exception ex)
@@ -63,6 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SavefeeBatches([FromBody] FeeBatches feeBatches)
         {
+            Log.Information("Entered SavefeeBatches method feeBatchesController");
             try
             {
                 int feeBatchId = new feeBatchesDAL().SaveFeeBatches(feeBatches);
@@ -75,19 +87,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //PUT : api/feeBatches/2
+        //PUT : api/feeBatches?Id=5
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] FeeBatches feeBatches)
+        [Route("api/feeBatches")]
+        public HttpResponseMessage Put([FromBody] FeeBatches feeBatches)
         {
-
+            Log.Information("Entered (Update) method in feeBatchesController");
             try
             {
-                if (feeBatches == null || feeBatches.Id != id)
+                if (feeBatches == null || feeBatches.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Data or ID");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid feebatches data");
                 }
 
                 int feeBatchId = new feeBatchesDAL().SaveFeeBatches(feeBatches);
+                if (feeBatchId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update feebatches");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, feeBatches);
 
             }
@@ -98,18 +115,20 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
-        //DELETE : api/feeBatches/2
+        //DELETE : api/feeBatches?Id=5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/feeBatches")]
+        public HttpResponseMessage Delete([FromBody] FeeBatchesRequest feeBatchesRequest)
         {
+            Log.Information("Entered Delete method in feeBatchesController");
             try
             {
-                if (id <= 0)
+                if (feeBatchesRequest == null || feeBatchesRequest.Id <= 0)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
                 }
 
-                FeeBatchesRequest feeBatchesRequest = new FeeBatchesRequest { Id = id };
+              
                 bool isDeleted = new feeBatchesDAL().DeleteFeeBatches(feeBatchesRequest);
 
                 if (isDeleted)

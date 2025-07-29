@@ -1,6 +1,7 @@
 using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,6 +19,8 @@ namespace India_Teaching.DAL
         string _BatchesDAL = "BatchesDAL";
         public int SaveBatches(Batches argBatches)
         {
+            Log.Information("Entered SaveBatches method in BatchesDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -56,6 +59,8 @@ namespace India_Teaching.DAL
 
         public Batches GetBatches(BatchesRequest argBatchesRequest)
         {
+            Log.Information("Entered GetBatches method in BatchesDAL.");
+
             Batches batches = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -103,6 +108,8 @@ namespace India_Teaching.DAL
 
         public List<Batches> GetBatchesList(BatchesRequest argBatchesRequest)
         {
+            Log.Information("Entered GetBatchesList method in BatchesDAL.");
+
             List<Batches> batchesList = null;
             Batches batches = null;
             SqlConnection connection = null;
@@ -151,7 +158,7 @@ namespace India_Teaching.DAL
 
         public bool DeleteBatches(BatchesRequest argBatchesRequest)
         {
-
+            Log.Information("Entered Delete method in BatchesDAL.");
             bool isSuccess = false;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;

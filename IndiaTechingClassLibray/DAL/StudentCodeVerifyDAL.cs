@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,6 +17,8 @@ namespace India_Teaching.DAL
         string _StudentCodeVerifyDAL = "StudentCodeVerifyDAL";
         public int SaveStudentCodeVerify(StudentCodeVerify argStudentCodeVerify)
         {
+            Log.Information("Entered GetStudentCodeVerify method in StudentCodeVerifyDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -53,6 +56,8 @@ namespace India_Teaching.DAL
 
         public StudentCodeVerify GetStudentCodeVerify(StudentCodeVerifyRequest argStudentCodeVerifyRequest)
         {
+            Log.Information("Entered GetStudentCodeVerify method in StudentCodeVerifyDAL.");
+
             StudentCodeVerify studentCodeVerify = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -95,6 +100,8 @@ namespace India_Teaching.DAL
 
         public List<StudentCodeVerify> GetStudentCodeVerifyList(StudentCodeVerifyRequest argCodeVerifyRequest)
         {
+            Log.Information("Entered GetStudentCodeVerifyList method in StudentCodeVerifyDAL.");
+
             List<StudentCodeVerify> studentCodeVerifyList = null;
             StudentCodeVerify studentCodeVerify = null;
             SqlConnection connection = null;

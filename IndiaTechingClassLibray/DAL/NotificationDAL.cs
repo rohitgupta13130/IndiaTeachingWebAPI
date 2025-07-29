@@ -2,6 +2,7 @@
 using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,9 +15,11 @@ namespace India_Teaching.DAL
 {
     public class NotificationDAL
     {
-
+        string _notificationDAL = "NotificationDAL";
         public int SaveNotification(Notification argNotification)
         {
+            Log.Information("Entered SaveNotification method in NotificationDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -42,7 +45,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveNotification", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -53,6 +56,8 @@ namespace India_Teaching.DAL
 
         public List<Student> GetStudentListForNotify(int argBatchId, int argTeacherId)
         {
+            Log.Information("Entered GetStudentListNotify method in NotificationDAL.");
+
             List<Student> studentList = null;
             Student student = null;
             SqlConnection connection = null;
@@ -94,7 +99,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-                new LogsDAL().SaveLogs("GetStudentListForNotify", "NotificationDAL", "DAL", ex.Message, DateTime.Now.ToString());
+                new LogsDAL().SaveLogs("GetStudentListForNotify", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -105,6 +110,8 @@ namespace India_Teaching.DAL
 
         public Notification GetNotification(NotificationRequest argNotificationRequest)
         {
+            Log.Information("Entered GetNotification method in NotificationDAL.");
+
             Notification notification = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -136,7 +143,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetNotification", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -147,6 +154,8 @@ namespace India_Teaching.DAL
 
         public List<Notification> GetNotificationList(NotificationRequest argNotificationRequest)
         {
+            Log.Information("Entered GetNotificationList method in NotificationDAL.");
+
             List<Notification> lstnotification = null;
             Notification notification = null;
             SqlConnection connection = null;
@@ -183,7 +192,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetNotificationList", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -194,6 +203,7 @@ namespace India_Teaching.DAL
 
         public bool DeleteNotification(NotificationRequest argNotificationRequest)
         {
+            Log.Information("Entered DeleteNotification method in NotificationDAL.");
 
             bool isSuccess = false;
             SqlConnection connection = null;
@@ -218,7 +228,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-                
+                new LogsDAL().SaveLogs("DeleteNotification", _notificationDAL, "Notification", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

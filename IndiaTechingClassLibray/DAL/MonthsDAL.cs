@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,6 +16,8 @@ namespace India_Teaching.DAL
         string _MonthsDAL = "MonthsDAL";
         public List<Months> GetMonths(MonthsRequest argMonthsRequest)
         {
+            Log.Information("Entered GetMonths method in MonthsDAL.");
+
             List<Months> monthslist = null;
             Months months = null;
             SqlConnection connection = null;

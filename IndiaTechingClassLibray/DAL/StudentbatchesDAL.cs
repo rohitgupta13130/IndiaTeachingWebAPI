@@ -11,6 +11,7 @@ using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using India_Teaching.Enums;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 
 namespace India_Teaching.DAL
 {
@@ -18,7 +19,9 @@ namespace India_Teaching.DAL
     {
         string _StudentbatchesDAL = "StudentbatchesDAL";
         public int SaveStudentbatches(Studentbatches argStudentbatches)
-          {
+        {
+            Log.Information("Entered SaveStudentbatches method in StudentbatchesDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -52,6 +55,8 @@ namespace India_Teaching.DAL
         }
         public Studentbatches GetStudentbatches(StudentbatchesRequest argStudentbatchesRequest)
         {
+            Log.Information("Entered GetStudentbatches method in StudentbatchesDAL.");
+
             Studentbatches studentbatches = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -96,6 +101,8 @@ namespace India_Teaching.DAL
 
         public List<Studentbatches> GetStudentbatchesList(StudentbatchesRequest argStudentbatchesRequest)
         {
+            Log.Information("Entered GetStudentbatchesList method in StudentbatchesDAL.");
+
             List<Studentbatches> studentbatchesList = null;
             Studentbatches studentbatches = null;
             SqlConnection connection = null;
@@ -144,6 +151,8 @@ namespace India_Teaching.DAL
 
         public List<Student> GetStudentsBySearch(string searchTerm)
         {
+            Log.Information("Entered GetStudentBySearch method in StudentbatchesDAL.");
+
             List<Student> studentList = new List<Student>();
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -191,6 +200,8 @@ namespace India_Teaching.DAL
 
         public int EnrollStudentInBatch(int batchId, int studentId)
         {
+            Log.Information("Entered EnrollStudentInBatch method in StudentbatchesDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -230,6 +241,8 @@ namespace India_Teaching.DAL
 
         public bool Delete(StudentbatchesRequest argStudentbatchesRequest)
         {
+            Log.Information("Entered Delete method in StudentbatchesDAL.");
+
             bool isSuccess = false;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;

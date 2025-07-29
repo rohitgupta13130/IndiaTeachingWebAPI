@@ -1,6 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,6 +17,8 @@ namespace India_Teaching.DAL
         string _LoginDAL = "LoginDAL";
         public Users GetUsers(LoginRequest argUsers)
         {
+            Log.Information("Entered GetUsers method in LoginDAL.");
+
             Users users = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -53,6 +56,8 @@ namespace India_Teaching.DAL
 
         public bool SaveUserSession(int argUserId, Guid argGuid)
         {
+            Log.Information("Entered GetUserSession method in LoginDAL.");
+
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
             try
@@ -79,6 +84,8 @@ namespace India_Teaching.DAL
 
         public bool IsAuthenticated(int argUserId,Guid guid)
         {
+            Log.Information("Entered IsAuthenticated method in LoginDAL.");
+
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
             SqlDataReader sqlDataReader = null;

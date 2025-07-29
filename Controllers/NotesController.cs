@@ -3,8 +3,10 @@ using India_Teaching.DAL;
 using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +24,13 @@ namespace IndiaTeachingWebAPI.Controllers
         string _NotesController = "NotesController";
 
         [HttpGet]
-        public HttpResponseMessage GetNotes(string argNotesName)
+        public HttpResponseMessage GetNotes([FromUri] NotesRequest notesRequest)
         {
+            Log.Information("Entered GetNotes method in NotesController");
             try
             {
-                NotesRequest notesRequest = new NotesRequest() { Title = argNotesName };
-                List<Notes> notes = new NotesDAL().GetNotesList(notesRequest);
+                
+                List<Notes> notes = new NotesDAL().GetNotesList(notesRequest ?? new NotesRequest());
 
                 if (notes == null)
                 {
@@ -42,13 +45,25 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Get: api/Notes/2
+        //Get: api/Notes?Id = 5
+       
         [HttpGet]
-        public HttpResponseMessage GetNotes(int id)
+        [Route("api/Notes")]
+        public HttpResponseMessage GetNote([FromUri] NotesRequest notesRequest)
         {
+            Log.Information("Entered GetNote method in NotesController");
             try
             {
-                Notes notes = new NotesDAL().GetNotes(new NotesRequest() { Id = id });
+                if (notesRequest == null || notesRequest.Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Notest request");
+                }
+                Notes notes = new NotesDAL().GetNotes(notesRequest);
+
+                if (notes == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Notes not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, notes);
             }
             catch (Exception ex)
@@ -62,6 +77,7 @@ namespace IndiaTeachingWebAPI.Controllers
        [HttpPost]
         public HttpResponseMessage SaveNotes([FromBody] Notes notes, HttpPostedFileBase file)
         {
+            Log.Information("Entered SaveNotes method in NotesController");
             try
             {
                 int notesId = new NotesDAL().SaveNotes(notes, file);
@@ -98,6 +114,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
+            Log.Information("Entered Delete method in NotesController");
             try
             {
                 if (id <= 0)

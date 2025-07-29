@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 
 namespace India_Teaching.DAL
 {
@@ -16,6 +17,8 @@ namespace India_Teaching.DAL
         string _SubjectDAL = "SubjectDAL";
         public int SaveSubject(Subject argSubject)
         {
+            Log.Information("Entered SaveSubject method in SubjectDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -51,6 +54,8 @@ namespace India_Teaching.DAL
 
         public Subject GetSubject(SubjectRequest argSubjectRequest)
         {
+            Log.Information("Entered GetSubject method in SubjectDAL.");
+
             Subject subject = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -90,6 +95,8 @@ namespace India_Teaching.DAL
 
         public List<Subject> GetSubjectList(SubjectRequest argSubjectRequest)
         {
+            Log.Information("Entered GetSubjectList method in SubjectDAL.");
+
             List<Subject> subjectList = null;
             Subject subject = null;
             SqlConnection connection = null;
@@ -131,8 +138,9 @@ namespace India_Teaching.DAL
 
         
 
-            public bool DeleteSubject(SubjectRequest argSubjectRequest)
+        public bool DeleteSubject(SubjectRequest argSubjectRequest)
         {
+            Log.Information("Entered DeleteSubject method in SubjectDAL.");
 
             bool isSuccess = false;
             SqlConnection connection = null;

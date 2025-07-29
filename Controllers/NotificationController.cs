@@ -4,6 +4,7 @@ using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,13 @@ namespace IndiaTeachingWebAPI.Controllers
         string _NotificationController = "NotificationController";
 
         [HttpGet]
-        public HttpResponseMessage GetNotification(int batchId = 0, int argTeacherId = 0)
+        public HttpResponseMessage GetNotifications([FromUri] NotificationRequest notificationRequest)
         {
+            Log.Information("Entered GetNotifications method in NotificationController");
             try
             {
-                NotificationRequest notificationRequest = new NotificationRequest() { BatchId = batchId , TeacherId = argTeacherId  };
-                List<Notification> notifications = new NotificationDAL().GetNotificationList(notificationRequest);
+               
+                List<Notification> notifications = new NotificationDAL().GetNotificationList(notificationRequest ?? new NotificationRequest());
 
                 if(notifications == null)
                 {
@@ -43,13 +45,25 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // GET: api/Notification/5
+        // GET: api/Notification?Id=5
         [HttpGet]
-        public HttpResponseMessage GetNotification(int id)
+        [Route("api/Notification")]
+        public HttpResponseMessage GetNotification([FromUri] NotificationRequest notificationRequest)
         {
+            Log.Information("Entered GetNotification method in NotificationController");
             try
             {
-                Notification notification = new NotificationDAL().GetNotification(new NotificationRequest() { Id = id });
+                if (notificationRequest == null || notificationRequest.Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Notification request");
+                }
+
+                Notification notification = new NotificationDAL().GetNotification(notificationRequest);
+
+                if (notification == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Notification not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, notification);
             }
             catch (Exception ex)
@@ -62,6 +76,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Notification
         public HttpResponseMessage SaveNotification([FromBody] Notification notification)
         {
+            Log.Information("Entered SaveNotification method in NotificationController");
             try
             {
                 int Id = new NotificationDAL().SaveNotification(notification);
@@ -74,17 +89,23 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
         [HttpPut]
-        // PUT: api/Notification/5
-        public HttpResponseMessage Put(int id, [FromBody] Notification notification)
+        [Route("api/Notification")]
+        // PUT: api/Notification?Id=5
+        public HttpResponseMessage Put([FromBody] Notification notification)
         {
-
+            Log.Information("Entered (Update) method in NotificationController");
             try
             {
-                if (notification == null || notification.Id != id)
+                if (notification == null || notification.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid notification data.");
                 }
                 int Id = new NotificationDAL().SaveNotification(notification);
+
+                if (Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update notification");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, notification);
             }
             catch (Exception ex)
@@ -93,18 +114,20 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // DELETE: api/Notification/5
+        // DELETE: api/Notification?Id=5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Notification")]
+        public HttpResponseMessage Delete([FromBody] NotificationRequest notificationRequest)
         {
+            Log.Information("Entered Delete method in NotificationController");
             try
             {
-                if (id <= 0)
+                if (notificationRequest == null || notificationRequest.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Notification request.");
                 }
 
-                NotificationRequest notificationRequest = new NotificationRequest { Id = id };
+                
                 bool isDeleted = new NotificationDAL().DeleteNotification(notificationRequest);
 
                 if (isDeleted)

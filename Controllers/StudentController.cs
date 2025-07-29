@@ -5,6 +5,7 @@ using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Models;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,13 @@ namespace IndiaTeachingWebAPI.Controllers
         string _StudentController = "StudentController";
 
         [HttpGet]
-        public HttpResponseMessage GetStudent(string argStudentFirstName)
+        public HttpResponseMessage GetStudents([FromUri] StudentRequest studentRequest)
         {
+            Log.Information("Entered GetStudents method in StudentController");
             try
             {
-                StudentRequest studentRequest = new StudentRequest() { FirstName = argStudentFirstName };
-                List<Student> students = new StudentDAL().GetStudentList(studentRequest);
+                
+                List<Student> students = new StudentDAL().GetStudentList(studentRequest ?? new StudentRequest());
 
                 if (students == null)
                 {
@@ -41,13 +43,25 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Get : api/Student/2
+        //Get : api/Student?Id=5
         [HttpGet]
-        public HttpResponseMessage GetStudent(int id)
+        [Route("api/Student")]
+        public HttpResponseMessage GetStudent([FromUri] StudentRequest studentRequest)
         {
+            Log.Information("Entered GetStudent method in StudentController");
             try
             {
-                Student student = new StudentDAL().GetStudent(new StudentRequest() { Id = id });
+                if (studentRequest == null || studentRequest.Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Student request");
+                }
+
+                Student student = new StudentDAL().GetStudent(studentRequest);
+
+                if (student == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Student not Found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, student);
             }
             catch (Exception ex)
@@ -60,6 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveStudent([FromBody] Student student)
         {
+            Log.Information("Entered SaveStudent method StudentController");
             try
             {
                 int studentId = new StudentDAL().SaveStudent(student);
@@ -71,17 +86,24 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //PUT : api/Student/5
+        //PUT : api/Student?Id=5
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Student student)
+        [Route("api/Student")]
+        public HttpResponseMessage Put([FromBody] Student student)
         {
+            Log.Information("Entered (Update) method in StudentController");
             try
             {
-                if (student == null || student.Id != id)
+                if (student == null || student.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Data or ID");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Student Data");
                 }
                 int studentId = new StudentDAL().SaveStudent(student);
+
+                if (studentId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failde to update student");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, student);
             }
             catch (Exception ex)
@@ -91,18 +113,20 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        // DELETE: api/Student/5
+        // DELETE: api/Student?Id=5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Student")]
+        public HttpResponseMessage Delete([FromBody] StudentRequest studentRequest)
         {
+            Log.Information("Entered Delete method in StudentController");
             try
             {
-                if (id <= 0)
+                if (studentRequest == null || studentRequest.Id <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Student request.");
                 }
 
-                StudentRequest studentRequest = new StudentRequest { Id = id };
+               
                 bool isDeleted = new StudentDAL().DeleteStudent(studentRequest);
 
                 if (isDeleted)

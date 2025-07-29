@@ -4,6 +4,7 @@ using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,13 @@ namespace IndiaTeachingWebAPI.Controllers
         string _StudentbatchesController = "StudentbatchesController";
 
         [HttpGet]
-        public HttpResponseMessage GetStudentbatches(string argStudentName, int batchId = 0)
+        public HttpResponseMessage GetStudentbatches([FromUri] StudentbatchesRequest studentbatchesRequest)
         {
+            Log.Information("Entered GetStudentbatches method in StudentbatchesController");
             try
             {
-                StudentbatchesRequest studentBatchesRequest = new StudentbatchesRequest() {  FirstName =  argStudentName , BatchId = batchId };
-                List<Studentbatches> studentbatches = new StudentbatchesDAL().GetStudentbatchesList(studentBatchesRequest);
+                
+                List<Studentbatches> studentbatches = new StudentbatchesDAL().GetStudentbatchesList(studentbatchesRequest ?? new StudentbatchesRequest());
                 if (studentbatches == null)
                 {
                     studentbatches = new List<Studentbatches>();
@@ -42,13 +44,25 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //GET: api/Studentbatches/2
+        //GET: api/Studentbatches?Id=5
         [HttpGet]
-        public HttpResponseMessage GetStudentbatches(int id)
+        [Route("api/Studentbatches")]
+        public HttpResponseMessage GetStudentbatch([FromUri] StudentbatchesRequest studentbatchesRequest)
         {
+            Log.Information("Entered GetStudentbatch method in StudentbatchesController");
             try
             {
-                Studentbatches studentbatches = new StudentbatchesDAL().GetStudentbatches(new StudentbatchesRequest() { Id = id });
+                if (studentbatchesRequest == null || studentbatchesRequest.Id <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Studentbatches request");
+                }
+
+                Studentbatches studentbatches = new StudentbatchesDAL().GetStudentbatches(studentbatchesRequest);
+
+                if (studentbatches == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Studentbatches not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, studentbatches);
             }
             catch (Exception ex)
@@ -61,6 +75,7 @@ namespace IndiaTeachingWebAPI.Controllers
         [HttpPost]
         public HttpResponseMessage SaveStudentbatches([FromBody] Studentbatches studentbatches)
         {
+            Log.Information("Entered SaveStudentbatches method in StudentbatchesController");
             try
             {
                 int studentbatchId = new StudentbatchesDAL().SaveStudentbatches(studentbatches);
@@ -72,18 +87,25 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //PUT: api/Studentbatches/2
+        //PUT: api/Studentbatches?Id=5
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Studentbatches studentbatches)
+        [Route("api/Studentbatches")]
+        public HttpResponseMessage Put([FromBody] Studentbatches studentbatches)
         {
+            Log.Information("Entered (Update) method in StudentbatchesController");
             try
             {
-                if (studentbatches == null || studentbatches.Id != id)
+                if (studentbatches == null || studentbatches.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid studentbatches data .");
                 }
 
                 int studentbatcheId = new StudentbatchesDAL().SaveStudentbatches(studentbatches);
+
+                if (studentbatcheId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update studentbatches");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, studentbatches);
 
             }
@@ -93,18 +115,20 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Delete : api/Studentbatches/6
+        //Delete : api/Studentbatches?Id=5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Studentbatches")]
+        public HttpResponseMessage Delete([FromBody] StudentbatchesRequest studentbatchesRequest)
         {
+            Log.Information("Entered Delete method in StudentbatchesController");
             try
             {
-                if (id <= 0)
+                if (studentbatchesRequest == null || studentbatchesRequest.Id <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid studentbatches request.");
                 }
 
-                StudentbatchesRequest studentbatchesRequest = new StudentbatchesRequest { Id = id };
+                
                 bool isDeleted = new StudentbatchesDAL().Delete(studentbatchesRequest);
 
                 if (isDeleted)

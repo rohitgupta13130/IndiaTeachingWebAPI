@@ -4,6 +4,7 @@ using India_Teaching.Models;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
 using IndiaTechingClassLibray.Request;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +21,14 @@ namespace IndiaTeachingWebAPI.Controllers
         string _ClassesController = "ClassesController";
 
         [HttpGet]
-        public HttpResponseMessage GetClasses(string argClassName)
+        public HttpResponseMessage GetClasses([FromUri] ClassRequest classRequest)
         {
+            Log.Information("Entered GetClasses method in ClassesController");
+
             try
             {
-                ClassRequest classRequest = new ClassRequest() { ClassName = argClassName };
-                List<Classes> classes = new ClassesDAL().GetClassesList(classRequest);
+               
+                List<Classes> classes = new ClassesDAL().GetClassesList(classRequest ?? new ClassRequest());
                 if (classes == null)
                 {
                     classes = new List<Classes>();
@@ -41,13 +44,24 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
-        // GET: api/Classes/5
+        // GET: api/Classes?ClassId=5
         [HttpGet]
-        public HttpResponseMessage GetClasses(int id)
+        [Route("api/Classes")]
+        public HttpResponseMessage GetClasse([FromUri] ClassRequest classRequest)
         {
+            Log.Information("Entered GetClasses method in ClassesController");
             try
             {
-                Classes classes = new ClassesDAL().GetClasses(new ClassRequest() { ClassId = id });
+                if (classRequest == null || classRequest.ClassId <= 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid class request");
+                }
+
+                Classes classes = new ClassesDAL().GetClasses(classRequest);
+                if (classes == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Class not found");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, classes);
             }
             catch (Exception ex)
@@ -60,6 +74,7 @@ namespace IndiaTeachingWebAPI.Controllers
         // POST: api/Classes
         public HttpResponseMessage SaveClasses([FromBody] Classes classes)
         {
+            Log.Information("Entered SaveClasses method in ClassesController");
             try
             {
                 int classId = new ClassesDAL().SaveClass(classes);
@@ -73,17 +88,23 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         [HttpPut]
-        // PUT: api/Classes/3
-        public HttpResponseMessage Put(int id, [FromBody] Classes classes)
+        [Route("api/Classes")]
+        // PUT: api/Classes?ClassId=5
+        public HttpResponseMessage Put( [FromBody] Classes classes)
         {
-
+            Log.Information("Entered (Update) method in ClassesController");
             try
             {
-                if (classes == null || classes.ClassId != id)
+                if (classes == null || classes.ClassId <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data or ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid class data.");
                 }
                 int classId = new ClassesDAL().SaveClass(classes);
+
+                if (classId <= 0)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update class.");
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, classes);
             }
             catch (Exception ex)
@@ -94,16 +115,18 @@ namespace IndiaTeachingWebAPI.Controllers
 
         // DELETE: api/Delete/5
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        [Route("api/Classes")]
+        public HttpResponseMessage Delete([FromBody] ClassRequest classRequest)
         {
+            Log.Information("Entered Delete method in ClassesController");
             try
             {
-                if (id <= 0)
+                if (classRequest == null|| classRequest.ClassId <=0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid ID.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Class Request.");
                 }
 
-                ClassRequest classRequest = new ClassRequest { ClassId = id };
+               
                 bool isDeleted = new ClassesDAL().DeleteClass(classRequest);
 
                 if (isDeleted)

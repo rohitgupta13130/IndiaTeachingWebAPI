@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using India_Teaching.Request;
 using IndiaTechingClassLibray.DAL;
+using Serilog;
 
 namespace India_Teaching.DAL
 {
@@ -16,6 +17,8 @@ namespace India_Teaching.DAL
         string _NotesDAL = "NotesDAL";
         public int SaveNotes(Notes argNotes, HttpPostedFileBase file)
         {
+            Log.Information("Entered SaveNotes method in NotesDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -53,6 +56,8 @@ namespace India_Teaching.DAL
 
         public Notes GetNotes(NotesRequest argNotesRequest)
         {
+            Log.Information("Entered GetNotes method in NotesDAL.");
+
             Notes notes = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -94,6 +99,8 @@ namespace India_Teaching.DAL
 
         public List<Notes> GetNotesList(NotesRequest argNotesRequest)
         {
+            Log.Information("Entered SaveNotesList method in NotesDAL.");
+
             List<Notes> notesList = null;
             Notes notes = null;
             SqlConnection connection = null;
@@ -142,6 +149,7 @@ namespace India_Teaching.DAL
 
         public bool DeleteNotes(NotesRequest argNotesRequest)
         {
+            Log.Information("Entered DeleteNotes method in NotesDAL.");
 
             bool isSuccess = false;
             SqlConnection connection = null;

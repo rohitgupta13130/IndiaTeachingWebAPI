@@ -7,15 +7,19 @@ using System.Linq;
 using System.Web;
 using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
+using Serilog;
 
 namespace India_Teaching.DAL
 {
     public class HomeworkDAL
     {
-
+        string _howeWorkDAL = "HomeWorkDAL";
 
         public int SaveHomeWork(HomeWork argHomeWork)
         {
+            Log.Information("Entered SaveFeeTransaction method in HomeworkDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -42,7 +46,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveHomeWork", _howeWorkDAL, "HomeWork", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -54,6 +58,8 @@ namespace India_Teaching.DAL
 
         public HomeWork GetHomeWork(HomeWorkRequest argHomeWorkRequest)
         {
+            Log.Information("Entered GetHomeWork method in HomeworkDAL.");
+
             HomeWork homeWork = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -88,7 +94,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetHomeWork", _howeWorkDAL, "HomeWork", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -99,6 +105,8 @@ namespace India_Teaching.DAL
 
         public List<HomeWork> GetHomeWorkList(HomeWorkRequest argHomeWorkRequest)
         {
+            Log.Information("Entered GetHomeWorkList method in HomeworkDAL.");
+
             List<HomeWork> homeWorkList = null;
             HomeWork homeWork = null;
             SqlConnection connection = null;
@@ -135,7 +143,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetHomeWorkList", _howeWorkDAL, "HomeWork", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -147,6 +155,8 @@ namespace India_Teaching.DAL
 
         public bool Delete(HomeWorkRequest argHoWorkRequest)
         {
+            Log.Information("Entered Delete method in HomeworkDAL.");
+
             bool isSuccess = false;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -165,7 +175,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-                
+                new LogsDAL().SaveLogs("Delete", _howeWorkDAL, "HomeWork", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

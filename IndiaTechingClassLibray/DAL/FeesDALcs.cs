@@ -1,5 +1,7 @@
 ﻿using India_Teaching.Models;
 using India_Teaching.Request;
+using IndiaTechingClassLibray.DAL;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,8 +13,11 @@ namespace India_Teaching.DAL
 {
     public class FeesDAL
     {
+        string _feesDAL = "FeesDAL";
         public int SaveFees(Fees argFees)
         {
+            Log.Information("Entered SaveFees method in FeesDAL.");
+
             int rs = 0;
             SqlConnection connection = null;
             SqlCommand sqlcommand = null;
@@ -37,7 +42,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveFees", _feesDAL, "Fees", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -50,6 +55,8 @@ namespace India_Teaching.DAL
 
         public Fees GetFees(FeesRequest argFeesRequest)
         {
+            Log.Information("Entered GetFees method in FeesDAL.");
+
             Fees fees = null;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -79,7 +86,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("GetFees", _feesDAL, "Fees", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -91,6 +98,8 @@ namespace India_Teaching.DAL
 
         public List<Fees> GetFeesList(FeesRequest argFeesRequest)
         {
+            Log.Information("Entered GetFeesList method in FeesDAL.");
+
             List<Fees> feesList = null;
             Fees fees = null;
             SqlConnection connection = null;
@@ -122,7 +131,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("SaveFeesList", _feesDAL, "Fees", ex.Message, DateTime.Now.ToString());
             }
             finally
             {
@@ -134,6 +143,8 @@ namespace India_Teaching.DAL
 
         public bool DeleteFees(FeesRequest argFeesRequest)
         {
+            Log.Information("Entered DeleteFees method in FeesDAL.");
+
             bool isSuccess = false;
             SqlConnection connection = null;
             SqlCommand sqlCommand = null;
@@ -154,7 +165,7 @@ namespace India_Teaching.DAL
             }
             catch (Exception ex)
             {
-
+                new LogsDAL().SaveLogs("DeleteFees", _feesDAL, "Fees", ex.Message, DateTime.Now.ToString());
             }
             finally
             {

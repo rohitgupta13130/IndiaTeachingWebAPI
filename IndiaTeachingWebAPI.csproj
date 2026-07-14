@@ -275,6 +275,8 @@
     <Folder Include="DAL\" />
     <Folder Include="Logs\" />
     <Folder Include="Models\" />
+    <Folder Include="Uploads\ProfileImages\" />
+    <Folder Include="Uploads\Videos\" />
     <Folder Include="Views\Batches\" />
     <Folder Include="Views\Homework\" />
   </ItemGroup>

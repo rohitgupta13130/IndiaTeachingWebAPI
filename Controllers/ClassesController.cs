@@ -44,29 +44,44 @@ namespace IndiaTeachingWebAPI.Controllers
         }
 
 
-        // GET: api/Classes?ClassId=5
+        // GET: api/Classes/5
         [HttpGet]
-        [Route("api/Classes")]
-        public HttpResponseMessage GetClasse([FromUri] ClassRequest classRequest)
+        [Route("api/Classes/{classId:int}")]
+        public IHttpActionResult GetClasse(int classId)
         {
-            Log.Information("Entered GetClasses method in ClassesController");
+            Log.Information($"Entered GetClasse method. ClassId: {classId}");
+
             try
             {
-                if (classRequest == null || classRequest.ClassId <= 0)
+                if (classId <= 0)
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid class request");
+                    return BadRequest("Invalid Class Id.");
                 }
 
+                var classRequest = new ClassRequest
+                {
+                    ClassId = classId
+                };
+
                 Classes classes = new ClassesDAL().GetClasses(classRequest);
+
                 if (classes == null)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Class not found");
+                    return NotFound();
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, classes);
+
+                return Ok(classes);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "GetClasse",
+                    _ClassesController,
+                    "Classes",
+                    ex.ToString(),
+                    DateTime.Now.ToString());
+
+                return InternalServerError(ex);
             }
         }
 

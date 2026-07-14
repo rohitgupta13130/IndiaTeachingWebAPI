@@ -45,76 +45,136 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //GET: api/Teacher?TeacherId=5
+        // GET: api/Teacher/5
         [HttpGet]
-        [Route("api/Teacher")]
-        public HttpResponseMessage GetTeacher([FromUri] TeacherRequest teacherRequest)
+        [Route("api/Teacher/{teacherId:int}")]
+        public IHttpActionResult GetTeacher(int teacherId)
         {
-            Log.Information("Entered GetTeacher method in TeacherController");
+            Log.Information($"Entered GetTeacher method. TeacherId: {teacherId}");
+
             try
             {
-                if (teacherRequest == null || teacherRequest.TeacherID <= 0)
+                if (teacherId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Teacher request");
+                    return BadRequest("Invalid Teacher Id.");
                 }
+
+                var teacherRequest = new TeacherRequest
+                {
+                    TeacherID = teacherId
+                };
 
                 Teacher teacher = new TeacherDAL().GetTeacher(teacherRequest);
 
                 if (teacher == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Teacher not found");
+                    return NotFound();
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, teacher);
 
+                return Ok(teacher);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "GetTeacher",
+                    _TeacherController,
+                    "Teacher",
+                    ex.ToString(),
+                    DateTime.Now.ToString());
+
+                return InternalServerError(ex);
             }
         }
 
 
         [HttpPost]
-        // POST: api/Teacher
-        public HttpResponseMessage SaveTeacher([FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
+        public HttpResponseMessage SaveTeacher()
         {
             Log.Information("Entered SaveTeacher method in TeacherController");
+
             try
             {
-                int Id = new TeacherDAL().SaveTeacherPost(teacher, file, videoFile);
-                return Request.CreateResponse(HttpStatusCode.OK, Id);
+                var request = HttpContext.Current.Request;
+
+                // Get JSON data
+                string teacherJson = request.Form["teacher"];
+
+                Teacher teacher = Newtonsoft.Json.JsonConvert
+                                        .DeserializeObject<Teacher>(teacherJson);
+
+                // Get uploaded files
+                HttpPostedFile profileFile = request.Files["profileFile"];
+                HttpPostedFile videoFile = request.Files["videoFile"];
+
+                int id = new TeacherDAL().SaveTeacherPost(teacher, profileFile, videoFile);
+
+                return Request.CreateResponse(HttpStatusCode.OK, id);
             }
             catch (Exception ex)
             {
+                Log.Error(ex, "Error in SaveTeacher");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
 
 
+        // PUT: api/Teacher
         [HttpPut]
-        [Route("api/Teacher")]
-        // PUT: api/Teacher?Id=5
-        public HttpResponseMessage Put(int id, [FromBody] Teacher teacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
+        public HttpResponseMessage UpdateTeacher()
         {
-            Log.Information("Entered (Update) method in TeacherController");
+            Log.Information("Entered Update method in TeacherController");
+
             try
             {
-                if (teacher == null || teacher.TeacherID <=0)
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid teacher data.");
-                }
-                int Id = new TeacherDAL().SaveTeacherPost(teacher, file, videoFile);
+                var request = HttpContext.Current.Request;
 
-                if (Id <= 0)
+                string teacherJson = request.Form["teacher"];
+
+                if (string.IsNullOrEmpty(teacherJson))
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update teacher");
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.BadRequest,
+                        "Teacher data is required.");
                 }
+
+                Teacher teacher = Newtonsoft.Json.JsonConvert
+                    .DeserializeObject<Teacher>(teacherJson);
+
+                if (teacher == null || teacher.TeacherID <= 0)
+                {
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.BadRequest,
+                        "Invalid teacher data. TeacherID is required.");
+                }
+
+                HttpPostedFile profileFile = request.Files["profileFile"];
+                HttpPostedFile videoFile = request.Files["videoFile"];
+
+                int teacherId = new TeacherDAL()
+                    .SaveTeacherPost(teacher, profileFile, videoFile);
+
+                if (teacherId <= 0)
+                {
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.InternalServerError,
+                        "Failed to update teacher.");
+                }
+
                 return Request.CreateResponse(HttpStatusCode.OK, teacher);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "UpdateTeacher",
+                    _TeacherController,
+                    "Teacher",
+                    ex.Message,
+                    DateTime.Now.ToString());
+
+                return Request.CreateErrorResponse(
+                    HttpStatusCode.InternalServerError,
+                    ex.Message);
             }
         }
 
@@ -122,8 +182,7 @@ namespace IndiaTeachingWebAPI.Controllers
 
 
         [HttpDelete]
-        [Route("api/Teacher")]
-        public HttpResponseMessage Delete([FromBody] TeacherRequest teacherRequest)
+        public HttpResponseMessage DeleteTeacher([FromBody] TeacherRequest teacherRequest)
         {
             Log.Information("Entered Delete method in TeacherController");
             try

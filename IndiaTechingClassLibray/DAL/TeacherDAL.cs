@@ -18,59 +18,89 @@ namespace India_Teaching.DAL
     public class TeacherDAL
     {
         string _TeacherDAL = "TeacherDAL";
-        public int SaveTeacherPost(Teacher argTeacher, HttpPostedFileBase file, HttpPostedFileBase videoFile)
+        public int SaveTeacherPost(
+    Teacher argTeacher,
+    HttpPostedFile profileFile,
+    HttpPostedFile videoFile)
         {
-            Log.Information("Entered SaveTeacherPost method in TeacherDAL.");
-
             int rs = 0;
-            SqlConnection connection = null;
-            SqlCommand sqlCommand = null;
+
             try
             {
-                using (connection = new SqlConnection(ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString))
+                // Save Profile Image
+                if (profileFile != null && profileFile.ContentLength > 0)
                 {
-                    sqlCommand = new SqlCommand("SaveTeacher", connection);
-                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                    sqlCommand.Parameters.AddWithValue("@TeacherID", argTeacher.TeacherID);
+                    string fileName = Guid.NewGuid() +
+                                      Path.GetExtension(profileFile.FileName);
+
+                    string filePath = HttpContext.Current.Server.MapPath(
+                        "~/Uploads/ProfileImages/" + fileName);
+
+                    profileFile.SaveAs(filePath);
+
+                    argTeacher.ProfileLink = "/Uploads/ProfileImages/" + fileName;
+                }
+
+                // Save Video
+                if (videoFile != null && videoFile.ContentLength > 0)
+                {
+                    string videoName = Guid.NewGuid() +
+                                       Path.GetExtension(videoFile.FileName);
+
+                    string videoPath = HttpContext.Current.Server.MapPath(
+                        "~/Uploads/Videos/" + videoName);
+
+                    videoFile.SaveAs(videoPath);
+
+                    argTeacher.VideoLink = "/Uploads/Videos/" + videoName;
+                }
+
+                using (SqlConnection connection = new SqlConnection(
+                    ConfigurationManager.ConnectionStrings["dbContext"].ConnectionString))
+                {
+                    SqlCommand sqlCommand = new SqlCommand("SaveTeacher", connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                    sqlCommand.Parameters.AddWithValue("@TeacherID",argTeacher.TeacherID == 0 ? 0 : argTeacher.TeacherID);
                     sqlCommand.Parameters.AddWithValue("@Fullname", argTeacher.Fullname);
                     sqlCommand.Parameters.AddWithValue("@DateofBirth", argTeacher.DateofBirth);
                     sqlCommand.Parameters.AddWithValue("@MobileNumber", argTeacher.MobileNumber);
                     sqlCommand.Parameters.AddWithValue("@Address", argTeacher.Address);
                     sqlCommand.Parameters.AddWithValue("@Qualification", argTeacher.Qualification);
-                    sqlCommand.Parameters.AddWithValue("@Married", argTeacher.Married ?? (object)DBNull.Value);
-                    sqlCommand.Parameters.AddWithValue("@ProfileLink", argTeacher.ProfileLink ?? (object)DBNull.Value);
-                    sqlCommand.Parameters.AddWithValue("@VideoLink", argTeacher.VideoLink);
+                    sqlCommand.Parameters.AddWithValue("@Married", (object)argTeacher.Married ?? DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@ProfileLink", (object)argTeacher.ProfileLink ?? DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@VideoLink", (object)argTeacher.VideoLink ?? DBNull.Value);
                     sqlCommand.Parameters.AddWithValue("@IsActive", argTeacher.IsActive);
                     sqlCommand.Parameters.AddWithValue("@Share_Percentage", argTeacher.SharePercentage);
-
-                    string selectedSkillIds = string.Empty;
-                    foreach (int i in argTeacher.SelectedSkillIds)
-                    {
-                        selectedSkillIds = selectedSkillIds + "," + i.ToString();
-
-                    }
-                    selectedSkillIds = selectedSkillIds.Substring(1);
-
+                    sqlCommand.Parameters.AddWithValue("@ClassTeacher", argTeacher.ClassTeacher);
+                    string selectedSkillIds = argTeacher.SelectedSkillIds != null
+                      ? string.Join(",", argTeacher.SelectedSkillIds) : "";
                     sqlCommand.Parameters.AddWithValue("@SkillId", selectedSkillIds);
 
-                    SqlParameter outputParam = sqlCommand.Parameters.Add("@TeacherIdToReturn", SqlDbType.Int);
+                    SqlParameter outputParam = sqlCommand.Parameters.Add(
+                        "@TeacherIdToReturn", SqlDbType.Int);
+
                     outputParam.Direction = ParameterDirection.Output;
+
                     connection.Open();
                     sqlCommand.ExecuteNonQuery();
-                    argTeacher.TeacherID = Convert.ToInt32(sqlCommand.Parameters["@TeacherIdToReturn"].Value);
-                    rs = argTeacher.TeacherID;
+
+                    rs = Convert.ToInt32(outputParam.Value);
                 }
             }
             catch (Exception ex)
             {
-                new LogsDAL().SaveLogs("SaveTeacher",_TeacherDAL,"Teacher",ex.Message,DateTime.Now.ToString());
+                new LogsDAL().SaveLogs(
+                    "SaveTeacher",
+                    "_TeacherDAL",
+                    "Teacher",
+                    ex.Message,
+                    DateTime.Now.ToString());
             }
-            finally
-            {
-                connection.Close();
-            }
+
             return rs;
         }
+
         public Teacher GetTeacher(TeacherRequest argTeacherRequest)
         {
             Log.Information("Entered GetTeacher method in TeacherDAL.");
@@ -101,10 +131,12 @@ namespace India_Teaching.DAL
                             teacher.Qualification = sqlDataReader["Qualification"].ToString();
                             //teacher.Married = ((EnumYesNo)Convert.ToInt32(sqlDataReader["Married"])).ToString();
                             teacher.Married = Convert.ToString(sqlDataReader["Married"]);
-                            teacher.ProfileLink = Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString();
+                            teacher.ProfileLink =  sqlDataReader["ProfileLink"].ToString();
                             //teacher.ProfileLink = sqlDataReader["ProfileLink"] != DBNull.Value ? Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString() : null;
-                            teacher.VideoLink = Constants.Constants.VideoLinkPath + sqlDataReader["VideoLink"].ToString();
+                            teacher.VideoLink =  sqlDataReader["VideoLink"].ToString();
                             teacher.SharePercentage = sqlDataReader["Share_Percentage"] is int sharePercentage ? sharePercentage : default;
+                            teacher.SkillNames = sqlDataReader["SkillNames"] != DBNull.Value ? sqlDataReader["SkillNames"].ToString()
+    : "";
                         }
                     }
 
@@ -154,10 +186,11 @@ namespace India_Teaching.DAL
                             teacher.Qualification = sqlDataReader["Qualification"].ToString();
                             //teacher.Married = ((EnumYesNo)Convert.ToInt32(sqlDataReader["Married"])).ToString();
                             teacher.Married = Convert.ToString(sqlDataReader["Married"]);
-                            teacher.ProfileLink = Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString();
+                            teacher.ProfileLink =  sqlDataReader["ProfileLink"].ToString();
                             //teacher.ProfileLink = sqlDataReader["ProfileLink"] != DBNull.Value ? Constants.Constants.ProfilePicPath + sqlDataReader["ProfileLink"].ToString() : null;
-                            teacher.VideoLink = Constants.Constants.VideoLinkPath + sqlDataReader["VideoLink"].ToString();
+                            teacher.VideoLink = sqlDataReader["VideoLink"].ToString();
                             teacher.SharePercentage = sqlDataReader["Share_Percentage"] is int sharePercentage ? sharePercentage : default;
+                            teacher.SkillNames = sqlDataReader["SkillNames"] != DBNull.Value ? sqlDataReader["SkillNames"].ToString(): "";
 
                             teacherList.Add(teacher);
                         }

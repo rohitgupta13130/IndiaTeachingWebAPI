@@ -43,30 +43,44 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Get : api/Student?Id=5
+        // GET: api/Student/5
         [HttpGet]
-        [Route("api/Student")]
-        public HttpResponseMessage GetStudent([FromUri] StudentRequest studentRequest)
+        [Route("api/Student/{id:int}")]
+        public IHttpActionResult GetStudent(int id)
         {
-            Log.Information("Entered GetStudent method in StudentController");
+            Log.Information($"Entered GetStudent method. Id: {id}");
+
             try
             {
-                if (studentRequest == null || studentRequest.Id <= 0)
+                if (id <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Student request");
+                    return BadRequest("Invalid Student Id.");
                 }
+
+                var studentRequest = new StudentRequest
+                {
+                    Id = id
+                };
 
                 Student student = new StudentDAL().GetStudent(studentRequest);
 
                 if (student == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Student not Found");
+                    return NotFound();
                 }
-                return Request.CreateResponse(HttpStatusCode.OK, student);
+
+                return Ok(student);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "GetStudent",
+                    _StudentController,
+                    "Student",
+                    ex.ToString(),
+                    DateTime.Now.ToString());
+
+                return InternalServerError(ex);
             }
         }
 
@@ -86,61 +100,89 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //PUT : api/Student?Id=5
+        // PUT: api/Student
         [HttpPut]
-        [Route("api/Student")]
-        public HttpResponseMessage Put([FromBody] Student student)
+        public HttpResponseMessage UpdateStudent([FromBody] Student student)
         {
-            Log.Information("Entered (Update) method in StudentController");
+            Log.Information("Entered Update method in StudentController");
+
             try
             {
-                if (student == null || student.Id <=0)
+                if (student == null || student.Id <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Student Data");
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.BadRequest,
+                        "Invalid student data. Id is required.");
                 }
+
                 int studentId = new StudentDAL().SaveStudent(student);
 
                 if (studentId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failde to update student");
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.InternalServerError,
+                        "Failed to update student.");
                 }
+
                 return Request.CreateResponse(HttpStatusCode.OK, student);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "PutStudent",
+                    _StudentController,
+                    "Student",
+                    ex.Message,
+                    DateTime.Now.ToString());
 
+                return Request.CreateErrorResponse(
+                    HttpStatusCode.InternalServerError,
+                    ex.Message);
             }
         }
 
-        // DELETE: api/Student?Id=5
+        // DELETE: api/Student
         [HttpDelete]
-        [Route("api/Student")]
-        public HttpResponseMessage Delete([FromBody] StudentRequest studentRequest)
+        public HttpResponseMessage DeleteStudent([FromBody] StudentRequest studentRequest)
         {
             Log.Information("Entered Delete method in StudentController");
+
             try
             {
                 if (studentRequest == null || studentRequest.Id <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Student request.");
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.BadRequest,
+                        "Invalid student request.");
                 }
 
-               
                 bool isDeleted = new StudentDAL().DeleteStudent(studentRequest);
 
                 if (isDeleted)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, "Student deleted successfully.");
+                    return Request.CreateResponse(
+                        HttpStatusCode.OK,
+                        "Student deleted successfully.");
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Student not found or could not be deleted.");
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.NotFound,
+                        "Student not found or could not be deleted.");
                 }
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "DeleteStudent",
+                    _StudentController,
+                    "Student",
+                    ex.Message,
+                    DateTime.Now.ToString());
+
+                return Request.CreateErrorResponse(
+                    HttpStatusCode.InternalServerError,
+                    ex.Message);
             }
         }
 

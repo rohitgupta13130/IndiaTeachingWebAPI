@@ -15,9 +15,9 @@ namespace IndiaTeachingWebAPI.Controllers
     [CustomAuthenticationFilter]
     public class SkillController : ApiController
     {
-        // GET: api/Skill
         string _SkillController = "SkillController";
 
+        // GET: api/Skill
         [HttpGet]
         public HttpResponseMessage GetSkills([FromUri] SkillRequest skillRequest)
         {
@@ -40,41 +40,49 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
-
-        // GET: api/Skill?SkillId=5
+        // GET: api/Skill/5
         [HttpGet]
-        [Route("api/Skill")]
-        public HttpResponseMessage GetSkill([FromUri] SkillRequest skillRequest)
+        [Route("api/Skill/{skillId:int}")]
+        public IHttpActionResult GetSkill(int skillId)
         {
-            Log.Information("Entered GetSkill method in SkillController");
+            Log.Information($"Entered GetSkill method. SkillId: {skillId}");
+
             try
             {
-                if (skillRequest == null || skillRequest.SkillId <= 0)
+                if (skillId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid skill request.");
+                    return BadRequest("Invalid Skill Id.");
                 }
+
+                var skillRequest = new SkillRequest
+                {
+                    SkillId = skillId
+                };
 
                 Skill skill = new SkillDAL().GetSkill(skillRequest);
 
                 if (skill == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Skill not found.");
+                    return NotFound();
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, skill);
+                return Ok(skill);
             }
             catch (Exception ex)
             {
-                new LogsDAL().SaveLogs("GetSkill", _SkillController, "Skill", ex.Message, DateTime.Now.ToString());
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "GetSkill",
+                    _SkillController,
+                    "Skill",
+                    ex.ToString(),
+                    DateTime.Now.ToString());
+
+                return InternalServerError(ex);
             }
         }
 
-
-
-        [HttpPost]
         // POST: api/Skill
+        [HttpPost]
         public HttpResponseMessage SaveSkill([FromBody] Skill skill)
         {
             Log.Information("Entered SaveSkill method in SkillController");
@@ -89,17 +97,16 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
+        // PUT: api/Skill
         [HttpPut]
-        [Route("api/Skill")]
-        public HttpResponseMessage Put([FromBody] Skill skill)
+        public HttpResponseMessage UpdateSkill([FromBody] Skill skill)
         {
-            Log.Information("Entered (Update) method in SkillController");
+            Log.Information("Entered Update method in SkillController");
             try
             {
                 if (skill == null || skill.SkillId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid skill data.");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid skill data. SkillId is required.");
                 }
 
                 int skillId = new SkillDAL().SaveSkill(skill);
@@ -118,11 +125,9 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-
         // DELETE: api/Skill
         [HttpDelete]
-        [Route("api/Skill")]
-        public HttpResponseMessage Delete([FromBody] SkillRequest skillRequest)
+        public HttpResponseMessage DeleteSkill([FromBody] SkillRequest skillRequest)
         {
             Log.Information("Entered Delete method");
             try
@@ -148,7 +153,5 @@ namespace IndiaTeachingWebAPI.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
-
     }
 }

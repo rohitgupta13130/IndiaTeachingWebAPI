@@ -25,7 +25,15 @@ namespace IndiaTeachingWebAPI
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
+            //EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
+            //config.EnableCors(cors);
+
+            EnableCorsAttribute cors = new EnableCorsAttribute(
+                "http://localhost,http://localhost:8100,http://192.168.1.6:8200",
+                "*",
+                "*"
+            );
+
             config.EnableCors(cors);
         }
     }

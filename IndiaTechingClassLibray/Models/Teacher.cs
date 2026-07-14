@@ -79,5 +79,7 @@ namespace India_Teaching.Models
 
         public int SharePercentage { get; set; }
 
+        public bool ClassTeacher { get; set; }
+
     }
 }

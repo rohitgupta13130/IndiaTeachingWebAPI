@@ -42,30 +42,44 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //Get : api/Subject?Id=5
+        // GET: api/Subject/5
         [HttpGet]
-        [Route("api/Subject")]
-        public HttpResponseMessage GetSubject([FromUri] SubjectRequest subjectRequest)
+        [Route("api/Subject/{subjectId:int}")]
+        public IHttpActionResult GetSubject(int subjectId)
         {
-            Log.Information("Entered GetSubject method in SubjectController");
+            Log.Information($"Entered GetSubject method. SubjectId: {subjectId}");
+
             try
             {
-                if (subjectRequest == null || subjectRequest.ID <= 0)
+                if (subjectId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Subject request.");
+                    return BadRequest("Invalid Subject Id.");
                 }
+
+                var subjectRequest = new SubjectRequest
+                {
+                    ID = subjectId
+                };
+
                 Subject subject = new SubjectDAL().GetSubject(subjectRequest);
 
                 if (subject == null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Subject not found");
+                    return NotFound();
                 }
 
-                return Request.CreateResponse(HttpStatusCode.OK, subject);
+                return Ok(subject);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "GetSubject",
+                    _SubjectController,
+                    "Subject",
+                    ex.ToString(),
+                    DateTime.Now.ToString());
+
+                return InternalServerError(ex);
             }
         }
 
@@ -85,36 +99,50 @@ namespace IndiaTeachingWebAPI.Controllers
             }
         }
 
-        //PUT : api/Subject/2
+        // PUT: api/Subject
         [HttpPut]
-        [Route("api/Subject")]
-        public HttpResponseMessage Put([FromBody] Subject subject)
+        public HttpResponseMessage UpdateSubject([FromBody] Subject subject)
         {
             Log.Information("Entered Update method in SubjectController");
+
             try
             {
-                if (subject == null || subject.ID <=0)
+                if (subject == null || subject.ID <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid Subject data.");
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.BadRequest,
+                        "Invalid subject data. Subject ID is required.");
                 }
+
                 int subjectId = new SubjectDAL().SaveSubject(subject);
 
                 if (subjectId <= 0)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Failed to update subject.");
+                    return Request.CreateErrorResponse(
+                        HttpStatusCode.InternalServerError,
+                        "Failed to update subject.");
                 }
+
                 return Request.CreateResponse(HttpStatusCode.OK, subject);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+                new LogsDAL().SaveLogs(
+                    "PutSubject",
+                    _SubjectController,
+                    "Subject",
+                    ex.Message,
+                    DateTime.Now.ToString());
+
+                return Request.CreateErrorResponse(
+                    HttpStatusCode.InternalServerError,
+                    ex.Message);
             }
         }
 
         //Delete : api/Subject?Id=5
         [HttpDelete]
-        [Route("api/Subject")]
-        public HttpResponseMessage Delete([FromBody] SubjectRequest subjectRequest)
+        public HttpResponseMessage DeleteSubject([FromBody] SubjectRequest subjectRequest)
         {
             Log.Information("Entered Delete method in SubjectController");
             try
